@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -13,40 +12,63 @@ import {
   exploreRoutes,
   exploreTrending,
 } from "@/constants/exploreLandingContent";
-import { gsap, ScrollTrigger } from "@/features/explore-landing/explore-gsap";
+import { ExploreReveal } from "@/features/explore-landing/explore-reveal";
 
 export function ExploreTrending() {
-  const reduced = useReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track || reduced) {
+    if (!track) {
       return;
     }
 
-    const tween = gsap.fromTo(
-      track.querySelectorAll("[data-card]"),
-      { y: 28, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.06,
-        duration: 0.55,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: track,
-          start: "top 85%",
-        },
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return;
+    }
+
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
+
+    void import("@/features/explore-landing/explore-gsap").then(
+      ({ gsap, ScrollTrigger }) => {
+        if (cancelled) {
+          return;
+        }
+
+        const tween = gsap.fromTo(
+          track.querySelectorAll("[data-card]"),
+          { y: 28, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.06,
+            duration: 0.55,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: track,
+              start: "top 85%",
+            },
+          },
+        );
+
+        dispose = () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+          ScrollTrigger.refresh();
+        };
       },
     );
 
     return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-      ScrollTrigger.refresh();
+      cancelled = true;
+      dispose?.();
     };
-  }, [reduced]);
+  }, []);
 
   return (
     <section id="explore" className="explore-section scroll-mt-24">
@@ -74,13 +96,14 @@ export function ExploreTrending() {
                   src={item.image.src}
                   alt={item.image.alt}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 768px) 70vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <h3 className="text-xl font-bold text-white">{item.name}</h3>
-                  <p className="mt-1 text-sm text-white/85">{item.fromPrice}</p>
+                  <p className="mt-1 text-sm text-white/90">{item.fromPrice}</p>
                 </div>
               </div>
             </Link>
@@ -92,8 +115,6 @@ export function ExploreTrending() {
 }
 
 export function ExploreMoods() {
-  const reduced = useReducedMotion();
-
   return (
     <section
       id="stays"
@@ -109,27 +130,25 @@ export function ExploreMoods() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {exploreMoods.map((mood, index) => (
-            <motion.a
-              key={mood.id}
-              href={`${exploreLandingPath}#search`}
-              className="group relative min-h-[200px] overflow-hidden rounded-[20px]"
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.45, delay: index * 0.05 }}
-            >
-              <Image
-                src={mood.image.src}
-                alt={mood.image.alt}
-                fill
-                sizes="(max-width: 1024px) 50vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-black/35 transition-colors group-hover:bg-black/45" />
-              <h3 className="absolute inset-x-0 bottom-0 p-5 text-xl font-bold text-white">
-                {mood.title}
-              </h3>
-            </motion.a>
+            <ExploreReveal key={mood.id} delay={Math.min(index * 0.05, 0.25)}>
+              <a
+                href={`${exploreLandingPath}#search`}
+                className="group relative block min-h-[200px] overflow-hidden rounded-[20px]"
+              >
+                <Image
+                  src={mood.image.src}
+                  alt={mood.image.alt}
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                />
+                <div className="absolute inset-0 bg-black/35 transition-colors group-hover:bg-black/45" />
+                <h3 className="absolute inset-x-0 bottom-0 p-5 text-xl font-bold text-white">
+                  {mood.title}
+                </h3>
+              </a>
+            </ExploreReveal>
           ))}
         </div>
       </div>
@@ -138,8 +157,6 @@ export function ExploreMoods() {
 }
 
 export function ExplorePrices() {
-  const reduced = useReducedMotion();
-
   return (
     <section className="explore-section">
       <div className="explore-container">
@@ -151,13 +168,7 @@ export function ExplorePrices() {
         </h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {exploreCheapFlights.map((item, index) => (
-            <motion.div
-              key={item.code}
-              initial={reduced ? false : { opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.4, delay: index * 0.04 }}
-            >
+            <ExploreReveal key={item.code} delay={Math.min(index * 0.04, 0.2)}>
               <Link
                 href={`${exploreLandingPath}?to=${item.code}#search`}
                 className="group flex overflow-hidden rounded-[16px] border border-[var(--explore-border)] bg-[var(--explore-surface)] transition-all hover:-translate-y-0.5 hover:border-[var(--explore-primary)] hover:shadow-[var(--explore-shadow-md)]"
@@ -167,6 +178,7 @@ export function ExplorePrices() {
                     src={item.image.src}
                     alt={item.image.alt}
                     fill
+                    loading="lazy"
                     sizes="112px"
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                   />
@@ -180,7 +192,7 @@ export function ExplorePrices() {
                   </p>
                 </div>
               </Link>
-            </motion.div>
+            </ExploreReveal>
           ))}
         </div>
       </div>

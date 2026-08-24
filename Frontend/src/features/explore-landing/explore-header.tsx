@@ -1,10 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
 import { brandAssets } from "@/constants/brandAssets";
 import {
   exploreLandingCopy,
@@ -92,15 +90,11 @@ export function ExploreHeader() {
       </div>
 
       {open ? (
-        <motion.nav
+        <nav
           id="explore-mobile-nav"
           aria-label="Mobile"
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
           className="border-t border-[var(--explore-border)] bg-[var(--explore-surface)] px-5 py-3 lg:hidden"
-        >
-          <ul className="space-y-1">
+        >          <ul className="space-y-1">
             {[
               ...exploreProductTabs,
               { id: "explore", label: exploreLandingCopy.navExplore },
@@ -135,8 +129,7 @@ export function ExploreHeader() {
               </Link>
             </li>
           </ul>
-        </motion.nav>
-      ) : null}
-    </header>
+        </nav>
+      ) : null}    </header>
   );
 }
