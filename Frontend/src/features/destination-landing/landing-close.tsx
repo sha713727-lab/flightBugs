@@ -13,7 +13,7 @@ export function LandingClose() {
           <h2 className="mx-auto max-w-2xl text-[clamp(36px,5vw,64px)] font-bold leading-[1.08] tracking-[-0.04em] text-white">
             {europeLandingCopy.ctaHeading}
           </h2>
-          <p className="mx-auto mt-5 max-w-md text-[15px] text-white/70">
+          <p className="mx-auto mt-5 max-w-md text-[15px] text-white/90">
             {europeLandingCopy.ctaBody}
           </p>
           <Link

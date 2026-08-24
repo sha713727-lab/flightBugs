@@ -27,6 +27,7 @@ export function LandingCities() {
                   src={city.image.src}
                   alt={city.image.alt}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />

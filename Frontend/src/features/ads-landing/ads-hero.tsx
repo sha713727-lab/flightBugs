@@ -4,9 +4,9 @@ import Image from "next/image";
 import { Suspense, useEffect, useRef } from "react";
 
 import { CallPhoneButton } from "@/components/call-phone-button";
+import { PosterVideo } from "@/components/poster-video";
 import { adsLandingCopy } from "@/constants/adsLandingContent";
 import { marketingImages } from "@/constants/brandAssets";
-import { AdsPosterVideo } from "@/features/ads-landing/ads-poster-video";
 import { AdsSearchPanel } from "@/features/ads-landing/ads-search-panel";
 import { cn } from "@/utils/cn";
 
@@ -136,7 +136,7 @@ export function AdsHero() {
               ref={mediaRef}
               className="absolute inset-0 origin-center will-change-transform"
             >
-              <AdsPosterVideo
+              <PosterVideo
                 poster={{
                   src: thoughtfulAirportVideo.poster,
                   alt: thoughtfulAirportVideo.alt,

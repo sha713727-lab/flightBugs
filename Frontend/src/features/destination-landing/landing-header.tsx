@@ -25,11 +25,9 @@ export function LandingHeader() {
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    document.documentElement.classList.add("destination-landing-active");
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      document.documentElement.classList.remove("destination-landing-active");
     };
   }, []);
 

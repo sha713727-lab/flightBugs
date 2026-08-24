@@ -1,9 +1,24 @@
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 import { CallPhoneButton } from "@/components/call-phone-button";
+import { PosterVideo } from "@/components/poster-video";
 import { brandAssets } from "@/constants/brandAssets";
 import { europeLandingCopy } from "@/constants/destinationLandingContent";
-import { LandingSearchPanel } from "@/features/destination-landing/landing-search-panel";
+
+const LandingSearchPanel = dynamic(
+  () =>
+    import("@/features/destination-landing/landing-search-panel").then(
+      (module) => ({
+        default: module.LandingSearchPanel,
+      }),
+    ),
+  {
+    loading: () => (
+      <div className="destination-search-panel min-h-[88px] animate-pulse rounded-[16px] border border-border bg-white" />
+    ),
+  },
+);
 
 export function LandingHero() {
   const { destinationLandingHeroVideo, destinationLandingHeroMobileVideo } =
@@ -12,30 +27,19 @@ export function LandingHero() {
   return (
     <section className="relative">
       <div className="relative min-h-[720px] overflow-hidden md:min-h-[680px] xl:min-h-[760px]">
-        <video
-          className="absolute inset-0 h-full w-full object-cover object-center md:hidden"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={destinationLandingHeroMobileVideo.poster}
-          aria-label={destinationLandingHeroMobileVideo.alt}
-        >
-          <source src={destinationLandingHeroMobileVideo.src} type="video/mp4" />
-        </video>
-        <video
-          className="absolute inset-0 hidden h-full w-full object-cover object-center md:block"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={destinationLandingHeroVideo.poster}
-          aria-label={destinationLandingHeroVideo.alt}
-        >
-          <source src={destinationLandingHeroVideo.src} type="video/mp4" />
-        </video>
+        <PosterVideo
+          poster={{
+            src: destinationLandingHeroMobileVideo.poster,
+            alt: destinationLandingHeroMobileVideo.alt,
+          }}
+          video={{
+            src: destinationLandingHeroVideo.src,
+            alt: destinationLandingHeroVideo.alt,
+          }}
+          className="absolute inset-0"
+          imageSizes="100vw"
+          priority
+        />
         <div className="destination-hero-overlay absolute inset-0" aria-hidden="true" />
 
         <div className="relative z-10 flex min-h-[720px] flex-col items-center justify-center px-5 pb-40 pt-16 text-center md:min-h-[680px] md:pb-36 xl:min-h-[760px] xl:pb-48 xl:pt-24">
@@ -61,7 +65,11 @@ export function LandingHero() {
         id="search"
         className="container-avion relative z-20 -mt-28 scroll-mt-28 pb-6 md:-mt-24 xl:-mt-28"
       >
-        <Suspense fallback={<div className="destination-search-panel min-h-[88px]" />}>
+        <Suspense
+          fallback={
+            <div className="destination-search-panel min-h-[88px] animate-pulse rounded-[16px] border border-border bg-white" />
+          }
+        >
           <LandingSearchPanel />
         </Suspense>
       </div>

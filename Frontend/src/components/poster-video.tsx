@@ -8,7 +8,7 @@ type MediaAsset = {
   readonly alt: string;
 };
 
-type AdsPosterVideoProps = {
+type PosterVideoProps = {
   readonly poster: MediaAsset;
   readonly video: MediaAsset;
   readonly className?: string;
@@ -16,13 +16,13 @@ type AdsPosterVideoProps = {
   readonly priority?: boolean;
 };
 
-export function AdsPosterVideo({
+export function PosterVideo({
   poster,
   video,
   className,
   imageSizes,
   priority = false,
-}: AdsPosterVideoProps) {
+}: PosterVideoProps) {
   const [useVideo, setUseVideo] = useState(false);
 
   useEffect(() => {

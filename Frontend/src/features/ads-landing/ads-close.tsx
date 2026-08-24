@@ -7,7 +7,7 @@ import { CallPhoneButton } from "@/components/call-phone-button";
 import { SitePageFooter } from "@/components/site-page-footer";
 import { adsLandingCopy, adsLandingPath } from "@/constants/adsLandingContent";
 import { marketingImages } from "@/constants/brandAssets";
-import { AdsPosterVideo } from "@/features/ads-landing/ads-poster-video";
+import { PosterVideo } from "@/components/poster-video";
 import { AdsReveal } from "@/features/ads-landing/ads-reveal";
 
 export function AdsClose() {
@@ -73,7 +73,7 @@ export function AdsClose() {
             ref={mediaRef}
             className="absolute inset-0 origin-center will-change-transform"
           >
-            <AdsPosterVideo
+            <PosterVideo
               poster={{
                 src: dealsVideo.poster,
                 alt: dealsVideo.alt,
