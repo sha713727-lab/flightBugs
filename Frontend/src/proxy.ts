@@ -13,6 +13,8 @@ function buildContentSecurityPolicy(nonce: string, isDev: boolean): string {
     "https://*.google-analytics.com",
     "https://*.analytics.google.com",
     "https://*.googletagmanager.com",
+    "https://*.clarity.ms",
+    "https://c.bing.com",
     ...(isDev ? ["ws:", "wss:", "http://127.0.0.1:*", "http://localhost:*"] : []),
   ].join(" ");
 
@@ -21,7 +23,7 @@ function buildContentSecurityPolicy(nonce: string, isDev: boolean): string {
     "base-uri 'self'",
     "frame-ancestors 'none'",
     "object-src 'none'",
-    "img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com",
+    "img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com",
     "font-src 'self' data:",
     `style-src-elem 'self' 'nonce-${nonce}'`,
     "style-src-attr 'unsafe-inline'",

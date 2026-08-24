@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import { siteBrand } from "@/constants/siteBrand";
 import { env } from "@/lib/env";
 import { GoogleAnalytics } from "@/lib/google-analytics/google-analytics";
+import { MicrosoftClarity } from "@/lib/microsoft-clarity/microsoft-clarity";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -40,6 +41,7 @@ export default async function RootLayout({
   const requestHeaders = await headers();
   const nonce = requestHeaders.get("x-nonce");
   const measurementId = env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const clarityProjectId = env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
 
   return (
     <html lang="en" className={`${plusJakarta.variable} h-full antialiased`}>
@@ -48,6 +50,9 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <GoogleAnalytics measurementId={measurementId} nonce={nonce} />
           </Suspense>
+        ) : null}
+        {clarityProjectId !== undefined && nonce !== null ? (
+          <MicrosoftClarity projectId={clarityProjectId} nonce={nonce} />
         ) : null}
         {children}
       </body>
