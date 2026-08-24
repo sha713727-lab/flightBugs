@@ -8,16 +8,20 @@ function buildContentSecurityPolicy(nonce: string, isDev: boolean): string {
     ...(isDev ? ["'unsafe-eval'"] : []),
   ].join(" ");
 
-  const connectSrc = isDev
-    ? "'self' ws: wss: http://127.0.0.1:* http://localhost:*"
-    : "'self'";
+  const connectSrc = [
+    "'self'",
+    "https://*.google-analytics.com",
+    "https://*.analytics.google.com",
+    "https://*.googletagmanager.com",
+    ...(isDev ? ["ws:", "wss:", "http://127.0.0.1:*", "http://localhost:*"] : []),
+  ].join(" ");
 
   return [
     "default-src 'self'",
     "base-uri 'self'",
     "frame-ancestors 'none'",
     "object-src 'none'",
-    "img-src 'self' data: blob:",
+    "img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com",
     "font-src 'self' data:",
     `style-src-elem 'self' 'nonce-${nonce}'`,
     "style-src-attr 'unsafe-inline'",
