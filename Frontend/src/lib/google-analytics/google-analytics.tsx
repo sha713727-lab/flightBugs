@@ -9,13 +9,6 @@ type GoogleAnalyticsProps = {
   nonce: string;
 };
 
-declare global {
-  interface Window {
-    dataLayer: unknown[];
-    gtag: (...args: unknown[]) => void;
-  }
-}
-
 export function GoogleAnalytics({
   measurementId,
   nonce,

@@ -28,6 +28,7 @@ import {
 } from "@/constants/flightSearchTripTypes";
 import { findDestinationPlaceByIata } from "@/constants/homeContent";
 import { LandingResultsModal } from "@/features/destination-landing/landing-results-modal";
+import { trackFlightSearch } from "@/lib/analytics/track-flight-search";
 import { searchFlightsAction } from "@/server/actions/search-flights";
 import type {
   FlightOfferSummary,
@@ -114,6 +115,14 @@ export function LandingSearchPanel() {
           tripType: includesReturn ? ("round_trip" as const) : ("one_way" as const),
           ...(includesReturn ? { returnDate } : {}),
         };
+
+        trackFlightSearch({
+          origin: payload.origin,
+          destination: payload.destination,
+          tripType: payload.tripType,
+          cabinClass: payload.cabinClass,
+          adults: payload.adults,
+        });
 
         const result = await searchFlightsAction(payload);
 
