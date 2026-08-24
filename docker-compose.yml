@@ -83,10 +83,14 @@ services:
       - ./deploy/nginx/avion.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - avion_internal
+      - edge_proxy
 
 networks:
   avion_internal:
     driver: bridge
+  edge_proxy:
+    name: aviosupportdesk_avion
+    external: true
 
 volumes:
   avion_pg_data:
