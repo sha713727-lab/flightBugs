@@ -19,9 +19,10 @@ export function TravelStatementSection() {
             <Image
               src={marketingImages.finalTravel.src}
               alt={marketingImages.finalTravel.alt}
-              fill
+              width={1470}
+              height={820}
               sizes="(max-width: 1240px) 100vw, 1240px"
-              className="object-cover object-center"
+              className="absolute inset-0 h-full w-full object-cover object-center"
             />
             <div
               className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-soft-section/80 to-transparent md:h-36"

@@ -216,9 +216,10 @@ function DestinationCard({
         <Image
           src={image.src}
           alt={image.alt}
-          fill
+          width={736}
+          height={981}
           sizes={sizes}
-          className="object-cover transition duration-700 group-hover:scale-105"
+          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
         <div
           className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-dark-navy/90 via-dark-navy/35 to-transparent"

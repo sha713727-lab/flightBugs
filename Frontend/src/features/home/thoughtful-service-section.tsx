@@ -46,9 +46,10 @@ export function ThoughtfulServiceSection() {
             <Image
               src={marketingImages.travelSuccess.src}
               alt={marketingImages.travelSuccess.alt}
-              fill
+              width={736}
+              height={1308}
               sizes="(max-width: 1024px) 100vw, 28vw"
-              className="object-cover object-center transition duration-700 group-hover:scale-105"
+              className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
             />
             <div
               className="absolute inset-0 bg-dark-navy/40"
@@ -68,9 +69,10 @@ export function ThoughtfulServiceSection() {
             <Image
               src={marketingImages.airportExperience.src}
               alt={marketingImages.airportExperience.alt}
-              fill
+              width={1470}
+              height={820}
               sizes="(max-width: 1024px) 100vw, 46vw"
-              className="object-cover object-center transition duration-700 group-hover:scale-105"
+              className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
             />
           </article>
 
