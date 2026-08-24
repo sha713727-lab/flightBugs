@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Delta">
+  <title>Delta</title>
+  <!-- Official red widget — bright face -->
+  <path fill="#C8102E" d="M12 2.2 3.2 20.8h8.3L12 15.4Z"/>
+  <!-- Official red widget — darker fold -->
+  <path fill="#8C0A22" d="M12 2.2 20.8 20.8H12.5L12 15.4Z"/>
+</svg>

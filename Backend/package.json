@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.15.0"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server/http/create-server.ts",
+    "start": "tsx src/server/http/create-server.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "tsx --test src/server/auth/hmac-crypto.test.ts src/server/http/json-limit.test.ts src/server/http/route-resolver.test.ts src/server/database/repositories/rate-limit/retry-after.test.ts src/server/middleware/read-body.test.ts",
+    "test:security": "tsx --test src/server/auth/hmac-crypto.test.ts",
+    "migrate": "tsx scripts/run-migrations.ts"
+  },
+  "dependencies": {
+    "pg": "8.23.0",
+    "pino": "10.3.1",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "24.12.0",
+    "@types/pg": "8.23.1",
+    "tsx": "4.23.12",
+    "typescript": "5.9.3"
+  }
+}

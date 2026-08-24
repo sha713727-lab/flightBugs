@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1.7
+
+FROM node:24.15.0-bookworm-slim AS deps
+WORKDIR /app/Backend
+COPY Backend/package.json Backend/package-lock.json ./
+RUN npm ci
+
+FROM node:24.15.0-bookworm-slim AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=deps /app/Backend/node_modules ./Backend/node_modules
+COPY Backend/package.json Backend/package-lock.json ./Backend/
+COPY Backend/tsconfig.json ./Backend/
+COPY Backend/src ./Backend/src
+COPY Backend/scripts ./Backend/scripts
+COPY Database ./Database
+WORKDIR /app/Backend
+EXPOSE 3001
+CMD ["npm", "run", "start"]

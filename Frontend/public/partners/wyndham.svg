@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 72" role="img" aria-label="Wyndham Rewards">
+  <title>Wyndham Rewards</title>
+  <!-- Official navy wordmark -->
+  <g fill="#2D325A">
+    <text
+      x="60"
+      y="28"
+      text-anchor="middle"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="18"
+      font-weight="700"
+      letter-spacing="1.6"
+    >WYNDHAM</text>
+    <path
+      d="M10 36.5 Q60 28 110 36.5"
+      fill="none"
+      stroke="#2D325A"
+      stroke-width="1.35"
+      stroke-linecap="round"
+    />
+    <text
+      x="60"
+      y="56"
+      text-anchor="middle"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="16"
+      font-weight="600"
+      letter-spacing="2.4"
+    >REWARDS</text>
+    <text
+      x="108"
+      y="48"
+      text-anchor="middle"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="7"
+      font-weight="400"
+    >®</text>
+  </g>
+</svg>

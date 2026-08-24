@@ -1,0 +1,24 @@
+---
+description: Locked production decisions for Backend/Database — apply only after phase unlock
+alwaysApply: true
+---
+
+# Deferred Backend/Database decisions (locked)
+
+Do not implement these during `FRONTEND_ONLY`. When the user unlocks Backend/Database, use these values without re-asking unless they override in writing.
+
+| Decision | Locked value |
+|---|---|
+| Default locale (Frontend) | `en` |
+| Supported locales | `en` until more are approved |
+| Migrations source of truth | `Database/migrations/` (numbered forward-only SQL) |
+| Backend migration path | Runner reads `Database/migrations/`; do not duplicate SQL |
+| PostgreSQL version | Pin in `Database/infrastructure/postgres.version` (`18.6`) |
+| Primary keys | UUID via `gen_random_uuid()` project-wide |
+| Structured logger | `pino` (exact pin, JSON, no secrets/PII) |
+| API ownership | Native HTTP API lives in `Backend/` |
+| Frontend `src/server/` | Next Server Actions / RSC glue only; no second HTTP framework; call Backend with native `fetch` after unlock |
+| Rate limit / nonces | PostgreSQL-backed only (no Redis, no in-memory) |
+| Auth | HMAC request signing (no Bearer unless later approved) |
+
+Frontend must stay production-ready and performant in isolation during `FRONTEND_ONLY` (budgets, strict TS, Server Components, streaming, no client-side initial fetches).

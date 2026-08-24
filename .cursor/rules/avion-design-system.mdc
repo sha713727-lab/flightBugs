@@ -1,0 +1,51 @@
+---
+description: Avion Frontend design system + asset lock (repo images only)
+globs: Frontend/**
+alwaysApply: true
+---
+
+# Avion design system
+
+Premium · Modern · Trustworthy · Smooth · Global · Aviation-focused.
+
+## Asset lock (P0)
+ONLY use files that currently exist under `Frontend/public/images/`, `Frontend/public/videos/`, and `Frontend/public/partners/`. Never use Unsplash, remote stock, or AI-generated images unless the user supplies new files. Prefer camelCase filenames.
+
+### Banned deleted assets (never restore, never reference)
+- `avionHeroBackground.png` / `avionHeroBackground.webp`
+- `flightBookingService.webp`
+- `baggageService.webp`
+- `flyWithUsBanner.png`
+- `flyWithUsLandmarks.jpg` (v1 only; `flyWithUsLandmarksV2.jpg` is allowed)
+- `earthGlobe.jpg`
+- `cancellationService.webp`, `flightChangeService.webp`, `rewardTravelService.webp`, `seatSelectionService.webp`, `tripPlanningService.webp`, `vacationPackageService.webp`
+- `thoughtfulService/flightDeals.png` (deleted; do not restore)
+
+Allowed imagery (only if the file exists on disk):
+- Brand/hero: `siteLogo` and `homeLogo` (same main mark: navy pin + orange arc + white plane, transparent PNG with white outline only; used site-wide), `heroAircraftPoster`, favicons (`favicon.ico`, `favicon32`/`48`/`192`, `appleTouchIcon`), hero/smart-traveler videos, `heroAircraftMobile.mp4` (mobile hero only)
+- Destinations: `Frontend/public/images/destinations/*`
+- Thoughtful service / fly-with-us: files under `thoughtfulService/`, `flyWithUsLandmarksV2.jpg`
+- Partners: `partners/*.svg`
+- User-supplied replacements only when explicitly provided in chat
+
+## Layout
+Container `1240px` + `24px` gutters. Section padding `80px`. Spacing scale 8–120.
+
+## Colors
+Page themes (scoped; do not mix):
+- `/en` homepage: dark canvas + yellow accent (`globals.css` `:root`)
+- `/en/europe`: white + aviation blue (`.destination-landing`)
+- `/en/live`: white + signal red (`.live-landing`)
+- `/en/book`: paper ivory + go green (`.ads-landing`)
+
+Legacy token names (`aviation-blue`, etc.) map to each page’s accent via scoped CSS variables.
+
+## Type
+Plus Jakarta Sans. Hero clamp 42–72 / 700. Section 36/700. Card 18/600. Body 15 / muted.
+
+## Sections (order) — main homepage `/en`
+Header pill → Hero + overlapping search → Destinations (Popular destinations slider, 4 cards at a time on desktop, 8 images total — Montreal, New York, Las Vegas, Miami, Cancun, London, Paris, Tokyo; no Domestic/International tabs) → Partner trust strip → Smart Traveler → Thoughtful service → FAQ → Support CTA → Testimonials → Fly with us → Footer → mobile sticky Call
+
+Shared across landings: partner trust, FAQ (where conversion/objection handling matters), mobile sticky Call. Other pages keep their own section models.
+## Radius / shadow / motion
+8 / 12 / 16 / 24 / 999. Soft shadows only. Hover lift 2px buttons, destination cards -6px + image scale 1.05. Respect reduced motion.

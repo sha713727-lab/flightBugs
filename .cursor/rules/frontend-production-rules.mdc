@@ -1,0 +1,240 @@
+﻿---
+description: PRODUCTION FRONTEND DEVELOPMENT RULES — STRICT, NON-NEGOTIABLE, binding for all Frontend work
+globs: Frontend/**
+alwaysApply: true
+---
+
+PRODUCTION FRONTEND DEVELOPMENT RULES
+STRICT · NON-NEGOTIABLE · ENFORCED IN CI
+0. HOW TO USE THIS DOCUMENT
+This file is a binding specification for any AI coding agent (including Cursor) and any human contributor working on this codebase.
+These rules override the agent's default conventions, training priors, and general best-practice instincts whenever they conflict.
+If a rule is ambiguous for the task at hand, the agent MUST stop and ask before writing code. Silent assumptions are treated as defects.
+Every rule below is mandatory unless it explicitly says "unless approved" — approval means the project owner has confirmed it in writing, not that the agent judged it reasonable.
+Violation of any “Never” rule is a P0 defect and must be fixed before the change is considered complete.
+1. CORE PRINCIPLES
+Never assume requirements, data shapes, edge cases, or intent — confirm explicitly.
+Never make an architectural decision unilaterally. Propose it, state trade-offs, wait for approval.
+If anything is unclear, stop and ask before writing code. Do not implement a “best guess” version.
+Every implementation decision must be justifiable in one sentence. If it can't be justified, remove it.
+Simplicity beats cleverness. The simplest implementation that satisfies all mandatory constraints wins.
+Code must be production-ready, enterprise-grade, secure, performant, scalable, and maintainable on first submission — not iterated into that state later.
+No unnecessary abstractions, wrappers, helper functions, indirection layers, or configuration options.
+No duplicated code, dead code, experimental code, temporary fixes, hacks, or shortcuts — ever, including in drafts.
+Shortest implementation that remains fully production-ready is the target — not the shortest implementation that merely works.
+2. TECHNOLOGY STACK — MANDATORY
+Frontend
+Next.js 16, App Router only. Pin the exact minor version in package.json; do not use “latest” ranges (^).
+React 19.
+TypeScript, strict mode, with tsconfig "strict": true, "noUncheckedIndexedAccess": true, "exactOptionalPropertyTypes": true.
+Server Components by default. Client Components only where interactivity strictly requires them.
+Tailwind CSS, latest stable, pinned version.
+Native Fetch API only for HTTP calls.
+React Server Actions for mutations where applicable, with input validation on every action.
+File-based routing only — no manual route tables.
+Frontend — Forbidden
+Pages Router.
+React Query, SWR (unless explicitly approved in writing for a specific documented use case).
+Redux.
+Zustand or any Context-based global state (unless explicitly approved and documented in ADR-style notes).
+Axios or any HTTP client wrapper library.
+Any deprecated, unmaintained, or unmaintained-in-practice (no release in 12+ months with open critical issues) package.
+Backend
+Native Node.js HTTP server. No Express, Fastify, Koa, NestJS, or any routing framework.
+Every endpoint is one file. One file, one responsibility, one HTTP verb.
+Stateless async handlers. No shared mutable module-level state.
+Modular architecture: handlers call services; services call data access; no layer is skipped.
+Required layout:
+src/server/api/users/get.ts, create.ts, update.ts, delete.ts
+src/server/api/products/list.ts, details.ts
+Never register routes imperatively. Never map routes in a central file.
+3. PROJECT STRUCTURE
+Enterprise Next.js layout, strictly enforced. No deviation without written approval.
+src/app/(public)/, src/app/(dashboard)/ — route groups, no logic in group folders.
+src/app/[locale]/home|products|users|settings — one folder per route, colocated page/layout/loading/error only.
+src/components/ — shared, generic, business-agnostic UI only.
+src/features/<feature>/ — all feature-specific components, hooks, and logic colocated under the feature.
+src/hooks/ — cross-feature reusable hooks only.
+src/lib/ — framework glue and third-party integration adapters only.
+src/server/api/, src/server/auth/, src/server/database/, src/server/middleware/, src/server/services/
+src/utils/, src/types/, src/constants/, src/schemas/, src/styles/
+Every feature is isolated: a feature folder must not import from another feature folder directly — shared logic moves to lib/hooks/utils first.
+No file may be placed outside its designated folder. No “misc”, “shared” catch-all, or “helpers” dumping folder is permitted.
+Every folder has exactly one responsibility, stated in a one-line README.md if the responsibility is not obvious from the name.
+4. ROUTING RULES
+App Router only. File-based routing only.
+Never create imperative routing, manual route registration, or manual route maps.
+Route segments map 1:1 to URL structure — no dynamic route construction outside Next.js conventions.
+5. SERVER / CLIENT COMPONENT RULES
+Default to Server Components. "use client" is added only when the component requires browser APIs, state, effects, or event handlers that cannot be lifted to a client boundary component.
+Client Components must be leaf nodes wherever possible — push the client boundary as low in the tree as it can go.
+Never fetch data inside a Client Component unless explicitly approved and documented with a reason.
+Never mark a component "use client" merely to use a third-party library — isolate the library usage to the smallest possible wrapper.
+6. DATA FETCHING
+Every GET request that renders initial page content must be fetched server-side, in the Server Component or a Server Action.
+Never fetch initial page data client-side.
+Never render a loading spinner for initial page data — use Suspense boundaries with skeletons or streaming instead.
+Never waterfall sequential requests where the data is independent — use Promise.all / parallel fetch.
+Streaming (loading.tsx, <Suspense>) is used only where a section's data is genuinely slower than the rest of the page — not by default.
+All fetches must set an explicit cache strategy (force-cache, no-store, or revalidate: N) — never rely on the implicit default.
+7. API DESIGN RULES
+Every API handler is stateless, async, independent of other endpoints, and idempotent for GET/PUT/DELETE.
+Every API handler must, in this order: authenticate → authorize → validate input → execute business logic → validate output → respond.
+Every response is typed end-to-end: the response shape is defined once in src/types/ and shared by the handler and any client consumer.
+HTTP status codes are exact: 200/201/204 for success, 400 invalid input, 401 unauthenticated, 403 unauthorized, 404 not found, 409 conflict, 413 payload too large, 422 semantically invalid, 429 rate limited, 500 unhandled server fault only (never for expected error paths).
+Every response body follows one fixed envelope shape for the whole project (e.g. { data } on success, { error: { code, message } } on failure) — never ad hoc shapes per endpoint.
+8. RESPONSE LIMITS
+Maximum JSON response size: 1 MB, enforced server-side before serialization completes, not just documented.
+Requests whose body or resulting response would exceed the limit return 413 Payload Too Large with no partial body.
+Paginate any collection endpoint that could plausibly exceed the limit — do not rely on the size check as the only control.
+9. RATE LIMITING
+Every endpoint is rate limited. No endpoint is exempt without a written, reviewed exception.
+Never use in-memory buckets — they do not survive restarts or work across instances.
+Never use Redis unless explicitly approved.
+Rate limiting is a database-backed token bucket: bucket key = identity (user/IP/API key), capacity, refill rate, and last-refill timestamp are persisted rows.
+Every request: (1) computes elapsed time and refills tokens accordingly, (2) atomically consumes one token inside the same transaction as the refill, (3) rejects with 429 and a Retry-After header if no token is available.
+Token consumption and refill must be a single atomic database operation (e.g. UPDATE ... WHERE tokens > 0 RETURNING) to prevent race conditions under concurrent requests.
+No exceptions, including for internal/admin/service-to-service calls — those get their own bucket, not a bypass.
+10. AUTHORIZATION
+Every API uses HMAC request signing. Bearer tokens are never used unless explicitly approved.
+Every authenticated request includes: a timestamp header, a single-use nonce, and an HMAC-SHA256 signature over method + path + timestamp + nonce + body hash.
+Requests with a timestamp outside a 300-second window are rejected as expired, regardless of signature validity.
+Nonces are persisted with a TTL and checked for reuse before business logic runs — a repeated nonce is rejected as a replay attack.
+Signature verification happens in shared middleware/utility, before the handler's business logic executes, and fails closed (any verification error → 401, never falls through).
+Signing secrets are never logged, never returned in any response, and are loaded only from environment variables validated at startup.
+11. SECURITY — MANDATORY CHECKLIST
+HMAC authentication on every protected endpoint (see §10).
+Content-Security-Policy set with no unsafe-inline / unsafe-eval; nonce-based script allowances only.
+CSRF protection on every state-changing request reachable from a browser session.
+Parameterized queries / ORM query builders only — zero string-concatenated SQL, ever.
+XSS prevention: React's default escaping is never bypassed; dangerouslySetInnerHTML requires a documented, approved sanitizer (e.g. DOMPurify) and a written justification.
+Secure headers on every response: Strict-Transport-Security, X-Content-Type-Options: nosniff, X-Frame-Options: DENY (or CSP frame-ancestors), Referrer-Policy: strict-origin-when-cross-origin, Permissions-Policy.
+Origin validation on every mutating request (Origin/Referer checked against an allowlist).
+Every request is schema-validated before touching business logic (see §12).
+Uploaded files: validate extension, real MIME type via content sniffing (not just the Content-Type header), and file size before storage; store outside the web root or behind signed URLs.
+Never trust any client-supplied data, including values previously written by the server (re-validate on read paths that matter).
+Dependencies are scanned for known vulnerabilities on every install and every CI run; no critical/high vulnerability ships to production.
+12. VALIDATION
+Every input (request body, query params, path params, headers relied on for logic) is schema-validated with a single validation library used consistently project-wide (e.g. Zod) — no hand-rolled if/typeof validation.
+Validation covers type, exact shape (reject unknown keys), length/range bounds, and format (email, UUID, enum, etc.).
+All string inputs are sanitized for the context they'll be used in (SQL is parameterized, HTML output is escaped, file paths are normalized and checked against traversal) before use.
+Validation failures return 400 with a machine-readable field-level error list — never a generic “invalid input” string alone.
+No exceptions to input validation, including for “trusted” internal callers.
+13. ERROR HANDLING
+Client-facing errors never include stack traces, internal exception messages, SQL error text, file paths, or environment details.
+Every error response uses the project's fixed error envelope with a stable machine-readable error code plus a safe human-readable message.
+Full error detail (stack trace, context, correlation ID) is captured server-side via the approved logging/observability pipeline, never dropped silently and never sent to the client.
+Every thrown/caught error is either handled meaningfully or re-thrown — empty catch blocks are forbidden.
+A single, shared error-handling boundary formats all API errors consistently; handlers do not each invent their own error response shape.
+14. LOGGING & OBSERVABILITY
+Never use console.log, console.error, console.warn, or any ad hoc/debug logging left in committed code.
+Production observability is mandatory: use the project's approved structured logger (JSON logs with level, timestamp, correlation ID, and no secrets/PII) instead of console statements — “no logs” does not mean “no observability,” it means no undisciplined logging.
+Every log line is intentional: it exists to support debugging, auditing, or alerting in production, not to trace development.
+Never log secrets, tokens, passwords, full request/response bodies containing PII, or HMAC signing material.
+Remove or convert every temporary/debug log before a change is considered complete — CI must fail the build if a raw console.* call is detected in src/.
+15. COMMENTS
+Never add comments. Code must be self-explanatory through naming and structure.
+Exception: a comment is permitted only to explain a non-obvious business rule, legal/compliance requirement, or a workaround for an external system's documented bug — and must state why, not what.
+16. FALLBACKS
+Never create fallback UI, fallback APIs, fallback logic, or backup implementations unless explicitly instructed for that specific case.
+Never silently substitute default/mock data when a real dependency fails — fail loudly and handle per §13, unless a fallback was explicitly requested.
+17. COMPONENT RULES
+One responsibility per component.
+Components are reusable only where reuse is real — do not generalize a one-off component speculatively.
+Every prop and return type is explicitly typed — no inferred `any` from untyped props.
+Files should not exceed ~300 lines; exceeding this requires a stated justification in the PR description.
+Never build a component that does data fetching, business logic, and presentation all at once — split by concern.
+18. STATE MANAGEMENT
+Preference order: Server Components > URL state (searchParams) > form state > local component state (useState/useReducer).
+Never introduce global client state (Context, Zustand, Redux, etc.) without written approval and a stated reason the preferred options are insufficient.
+19. DATABASE
+Every query selects only the fields actually used — never SELECT *.
+Every query that filters or sorts on a column relies on an index; add the index in the same change, not later.
+N+1 query patterns are forbidden — use joins, batching, or dataloader-style aggregation.
+Multi-step writes that must succeed or fail together use a database transaction.
+Every migration is reversible or explicitly documented as irreversible with a stated reason.
+20. PERFORMANCE
+Code splitting and tree shaking are default (App Router route-level splitting); do not add manual chunking unless a measured bottleneck justifies it.
+Lazy-load below-the-fold and non-critical components with next/dynamic.
+All images use next/image with explicit width/height (or fill with a sized container) and modern formats (AVIF/WebP).
+Fonts use next/font with self-hosting and no layout shift (font-display swap/optional as appropriate).
+Performance budgets, enforced in CI: LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 (mobile, throttled), initial JS payload per route ≤ 200KB gzipped.
+Never optimize prematurely against unmeasured code paths, but never ship a change that regresses a tracked budget above.
+21. TYPESCRIPT
+Strict mode only. tsconfig strict, noImplicitAny, noUncheckedIndexedAccess, exactOptionalPropertyTypes all enabled.
+Never use `any`. Use `unknown` plus a type guard/schema parse when the type is genuinely unknown at compile time.
+Never disable type checking (no @ts-ignore/@ts-expect-error/@ts-nocheck) without a linked issue and a one-line justification comment immediately above it.
+Never suppress a TypeScript error by casting through `as unknown as X` — fix the underlying type.
+Prefer readonly, const, exact/discriminated union types, and inference where the inferred type is already exact and intentional.
+22. IMPORT RULES
+Absolute imports only, via a configured path alias (e.g. @/*) — no deep relative ../../../ chains.
+Imports are sorted and grouped (external → internal alias → relative) and enforced by an import-sort ESLint rule, not by hand.
+No circular dependencies — enforced by an ESLint/dependency-cruiser rule in CI, not just convention.
+No duplicate imports from the same module.
+23. FILE RULES
+One responsibility per file. File name describes exactly what it contains.
+Meaningful, unabbreviated names — no `utils2.ts`, `helper.ts`, `misc.ts`, `temp.ts`.
+No general-purpose “utils dumping ground” file — each utility lives in a file named for its specific purpose.
+No miscellaneous/catch-all folders anywhere in the tree.
+24. ENVIRONMENT VARIABLES
+Never hardcode secrets, API keys, URLs, or tokens anywhere in source, including tests and fixtures.
+Every configurable value is sourced from environment variables, documented in a single .env.example with no real values.
+All environment variables are validated (presence, type, format) at process startup via a schema (e.g. Zod) — the process must fail fast and loudly if configuration is invalid, not fail later at first use.
+Server-only secrets are never exposed to client bundles — only NEXT_PUBLIC_-prefixed, explicitly non-sensitive values may reach the client.
+25. STYLING
+Tailwind CSS only, unless explicitly approved otherwise for a specific case.
+No inline style attributes.
+No duplicated utility class strings across components — extract into a component variant (e.g. class-variance-authority) or shared class constant once a pattern repeats.
+Design tokens (color, spacing, radius, type scale) are defined once in the Tailwind config — no magic hex values or arbitrary pixel values in class names outside the token scale, unless justified.
+26. ACCESSIBILITY
+Target WCAG 2.1 Level AA as the minimum acceptable standard.
+Every interactive element is reachable and operable by keyboard alone, with a visible focus state that meets contrast requirements.
+Semantic HTML elements are used for their intended purpose (button for actions, a for navigation, headings in order, landmark regions).
+ARIA attributes are added only when semantic HTML cannot express the pattern, and must not contradict the underlying semantics.
+Color is never the only means of conveying state or information; text/icon contrast meets AA ratios.
+27. TESTABILITY & TESTING
+Code is written for testability: pure functions where possible, side effects isolated at boundaries, dependencies passed in rather than imported as singletons where that meaningfully improves testability.
+Dependency injection is used only where it demonstrably improves testability/maintainability — not introduced speculatively.
+Every API handler and every non-trivial utility/service function has automated tests covering the success path, the primary failure paths, and edge/boundary conditions.
+Critical user flows have end-to-end coverage.
+CI blocks merge on any failing test and on coverage dropping below the project's agreed threshold.
+28. GIT & CI/CD
+Small, atomic commits — one logical change per commit, with a conventional-commit-style message.
+Never commit generated files, build artifacts, secrets, or node_modules — enforced via .gitignore and a pre-commit secret scan.
+Every PR passes, before merge: type check, lint, tests, dependency vulnerability scan, and a production build.
+Pre-commit hooks (e.g. Husky + lint-staged) run type check and lint on staged files before a commit is allowed.
+No direct pushes to the main/production branch — all changes go through a reviewed PR.
+29. CODE QUALITY
+DRY — no duplicated logic; extract only once a real second use case exists (rule of two, not speculative).
+KISS — the simplest design that satisfies the requirement, no more.
+SOLID applied where it reduces complexity, never as ceremony that adds indirection without benefit.
+Clear separation of concerns, single responsibility per module, high cohesion within modules, low coupling between them.
+30. DEVELOPMENT WORKFLOW
+Read the requirement completely before writing any code.
+Ask clarifying questions for anything unclear or missing — do not proceed on an assumption.
+Do not infer missing details from convention or “what's usually done” — confirm explicitly.
+Propose the minimal production-ready implementation before writing it, when the task is non-trivial.
+Wait for explicit approval before proceeding if the proposal changes architecture, adds a dependency, or introduces a new pattern.
+Implement exactly what was requested — nothing extra, nothing speculative.
+Before calling the task done, verify: type safety, security checklist (§11), performance budgets (§20), and code quality (§29) — explicitly, not by assumption.
+31. ABSOLUTE PROHIBITIONS
+Never, under any circumstance, without a documented written exception:
+Guess requirements.
+Change architecture without approval.
+Add a dependency without approval.
+Introduce a new pattern without approval.
+Use a deprecated API.
+Write code beyond what was requested.
+Leave TODOs, placeholders, or commented-out code.
+Add console statements or debug logging.
+Add comments outside the exception in §15.
+Add fallback logic without explicit instruction.
+Add mock or seed data without explicit request.
+Swallow an error silently.
+Ignore or suppress a TypeScript or lint error.
+Disable ESLint or type checking.
+Expose secrets, stack traces, or internal implementation details.
+Return an inconsistent API response shape.
+Break the agreed project structure.
+32. DECISION RULE
+If there is any ambiguity, uncertainty, missing requirement, conflicting instruction, or undefined architectural decision: stop implementation immediately, state exactly what is ambiguous and why, and ask for clarification. Never decide on the user's behalf, and never proceed on a “reasonable default” that was not explicitly approved.

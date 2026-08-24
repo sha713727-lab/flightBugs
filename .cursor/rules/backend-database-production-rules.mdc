@@ -1,0 +1,252 @@
+﻿---
+description: PRODUCTION BACKEND & DATABASE DEVELOPMENT RULES — STRICT; apply after Frontend phase unlock when editing Backend/Database
+globs: Backend/**,Database/**
+alwaysApply: false
+---
+
+PRODUCTION BACKEND & DATABASE DEVELOPMENT RULES
+Node.js (Native HTTP) · PostgreSQL
+STRICT · NON-NEGOTIABLE · ENFORCED IN CI
+0. HOW TO USE THIS DOCUMENT
+This file is a binding specification for any AI coding agent (including Cursor) and any human contributor working on the backend and database layer of this codebase.
+These rules override the agent's default conventions, training priors, and general best-practice instincts whenever they conflict.
+This document is the backend/database companion to the PRODUCTION FRONTEND DEVELOPMENT RULES document and inherits its Core Principles (§1), Security posture, and Decision Rule. Where the two documents overlap (e.g. HMAC auth, rate limiting, error envelope), this document is authoritative for backend implementation detail.
+If a rule is ambiguous for the task at hand, the agent MUST stop and ask before writing code. Silent assumptions are treated as defects.
+Every rule below is mandatory unless it explicitly says "unless approved" — approval means the project owner has confirmed it in writing, not that the agent judged it reasonable.
+Violation of any "Never" rule is a P0 defect and must be fixed before the change is considered complete.
+1. CORE PRINCIPLES
+Never assume requirements, data shapes, edge cases, or intent — confirm explicitly.
+Never make an architectural or schema decision unilaterally. Propose it, state trade-offs, wait for approval.
+If anything is unclear, stop and ask before writing code or a migration. Do not implement a "best guess" version.
+Every implementation decision must be justifiable in one sentence. If it can't be justified, remove it.
+Simplicity beats cleverness. The simplest implementation that satisfies all mandatory constraints wins.
+Code and schema must be production-ready, enterprise-grade, secure, performant, scalable, and maintainable on first submission — not iterated into that state later.
+No unnecessary abstractions, wrappers, helper functions, indirection layers, or configuration options.
+No duplicated code, dead code, experimental code, temporary fixes, hacks, or shortcuts — ever, including in drafts or migrations.
+Shortest implementation that remains fully production-ready is the target — not the shortest implementation that merely works.
+2. TECHNOLOGY STACK — MANDATORY
+Backend
+Node.js LTS, pinned exact version via .nvmrc and engines in package.json — no floating major/minor.
+TypeScript, strict mode, with tsconfig "strict": true, "noUncheckedIndexedAccess": true, "exactOptionalPropertyTypes": true.
+Native Node.js http/http2 module only. No Express, Fastify, Koa, NestJS, or any routing framework.
+Every endpoint is one file. One file, one responsibility, one HTTP verb.
+Stateless async handlers. No shared mutable module-level state.
+Modular architecture: handlers call services; services call repositories/data access; no layer is skipped.
+Native fetch for any outbound HTTP calls to third-party services. No Axios or HTTP client wrapper libraries.
+Required layout:
+src/server/api/users/get.ts, create.ts, update.ts, delete.ts
+src/server/api/products/list.ts, details.ts
+Never register routes imperatively. Never map routes in a central file — a lightweight path-to-file resolver reads the directory structure at startup; it contains no business logic.
+Database
+PostgreSQL, latest stable major version, pinned in infrastructure config.
+pg (node-postgres) as the sole driver. No ORM (Prisma, TypeORM, Sequelize, Drizzle) unless explicitly approved in writing for a specific documented use case.
+Parameterized queries only, written as plain SQL. Zero string-concatenated or template-interpolated SQL, ever.
+A single, project-wide connection pool (pg.Pool), configured once at startup, imported everywhere via src/server/database/pool.ts — no ad hoc new Client() calls in handlers.
+Schema-first design: every table, column, constraint, and index is defined in versioned SQL migration files, never created ad hoc or inferred from application code.
+Migrations are plain, numbered, forward-only SQL files (e.g. 0007_add_orders_status_index.sql) applied by a single approved migration runner — never hand-run against production.
+Backend & Database — Forbidden
+Any web framework (Express, Fastify, Koa, NestJS, Hapi).
+Any ORM or query builder (Prisma, TypeORM, Sequelize, Drizzle, Knex) unless explicitly approved and documented in ADR-style notes.
+Redis, or any external cache/queue, unless explicitly approved (see §20, §21).
+In-memory rate limiting, in-memory sessions, or any state that does not survive a process restart or work across instances.
+Any deprecated, unmaintained, or unmaintained-in-practice (no release in 12+ months with open critical issues) package.
+SELECT * anywhere in the codebase.
+Multiple database connection pools, or connections opened outside the shared pool.
+3. PROJECT STRUCTURE
+Enterprise Node.js backend layout, strictly enforced. No deviation without written approval.
+src/server/api/<resource>/<verb>.ts — one file per endpoint, colocated by resource.
+src/server/services/<domain>/ — business logic only; no direct SQL, no HTTP concerns.
+src/server/database/pool.ts — the single connection pool instance.
+src/server/database/repositories/<domain>/ — all raw SQL for a domain lives here and nowhere else.
+src/server/database/migrations/ — numbered, forward-only SQL migration files.
+src/server/auth/ — HMAC verification, nonce store, signing utilities.
+src/server/middleware/ — authentication, authorization, rate limiting, error boundary; composed explicitly per handler, never globally magic.
+src/schemas/ — all request/response validation schemas (e.g. Zod), one file per resource.
+src/types/ — shared TypeScript types, including the canonical API response envelope.
+src/utils/, src/constants/ — narrowly named, single-purpose files only.
+Every domain is isolated: a service or repository for one domain must not import another domain's repository directly — shared logic moves to a shared service first.
+No file may be placed outside its designated folder. No "misc", "shared" catch-all, or "helpers" dumping folder is permitted.
+Every folder has exactly one responsibility, stated in a one-line README.md if the responsibility is not obvious from the name.
+4. HTTP SERVER & ROUTING RULES
+A single native http.createServer instance boots the application; no framework instance is created.
+A minimal, explicit path resolver maps method + path to the corresponding handler file — implemented once, in one file, and never duplicated per feature.
+Never create imperative routing, manual route registration, or manual route maps outside the single resolver.
+Dynamic path segments (e.g. /users/:id) are matched by an explicit, tested pattern — no regex improvised per handler.
+Handlers never read from or write to global/module-level mutable state to pass data between requests.
+Graceful shutdown is mandatory: on SIGTERM/SIGINT, stop accepting new connections, drain the connection pool, then exit.
+5. API DESIGN RULES
+Every API handler is stateless, async, independent of other endpoints, and idempotent for GET/PUT/DELETE.
+Every API handler must, in this order: authenticate → authorize → validate input → execute business logic → validate output → respond.
+Every response is typed end-to-end: the response shape is defined once in src/types/ and shared by the handler and any client consumer.
+HTTP status codes are exact: 200/201/204 for success, 400 invalid input, 401 unauthenticated, 403 unauthorized, 404 not found, 409 conflict, 413 payload too large, 422 semantically invalid, 429 rate limited, 500 unhandled server fault only (never for expected error paths).
+Every response body follows one fixed envelope shape for the whole project ({ data } on success, { error: { code, message } } on failure) — never ad hoc shapes per endpoint.
+Handlers never talk to the database directly — they call a service, which calls a repository. No layer is skipped, ever.
+6. RESPONSE LIMITS
+Maximum JSON response size: 1 MB, enforced server-side before serialization completes, not just documented.
+Maximum request body size: 1 MB (or an explicitly approved, smaller/larger per-endpoint override for known exceptions such as file upload endpoints), enforced before the body is fully buffered.
+Requests whose body or resulting response would exceed the limit return 413 Payload Too Large with no partial body.
+Paginate any collection endpoint that could plausibly exceed the limit — do not rely on the size check as the only control. Cursor-based pagination is the default; offset pagination requires a stated reason.
+7. RATE LIMITING
+Every endpoint is rate limited. No endpoint is exempt without a written, reviewed exception.
+Never use in-memory buckets — they do not survive restarts or work across instances.
+Never use Redis unless explicitly approved.
+Rate limiting is a database-backed token bucket: bucket key = identity (user/IP/API key), capacity, refill rate, and last-refill timestamp are persisted rows in PostgreSQL.
+Every request: (1) computes elapsed time and refills tokens accordingly, (2) atomically consumes one token inside the same transaction as the refill, (3) rejects with 429 and a Retry-After header if no token is available.
+Token consumption and refill must be a single atomic database operation (e.g. UPDATE ... WHERE tokens > 0 RETURNING) to prevent race conditions under concurrent requests.
+No exceptions, including for internal/admin/service-to-service calls — those get their own bucket, not a bypass.
+8. AUTHENTICATION & AUTHORIZATION
+Every API uses HMAC request signing. Bearer tokens are never used unless explicitly approved.
+Every authenticated request includes: a timestamp header, a single-use nonce, and an HMAC-SHA256 signature over method + path + timestamp + nonce + body hash.
+Requests with a timestamp outside a 300-second window are rejected as expired, regardless of signature validity.
+Nonces are persisted in PostgreSQL with a TTL (indexed, pruned by a scheduled job) and checked for reuse before business logic runs — a repeated nonce is rejected as a replay attack.
+Signature verification happens in shared middleware/utility, before the handler's business logic executes, and fails closed (any verification error → 401, never falls through).
+Signing secrets are never logged, never returned in any response, and are loaded only from environment variables validated at startup.
+Authorization (what an authenticated identity may do) is checked explicitly per handler against the resource being accessed — never inferred, never skipped because "the frontend already checks it".
+Row-level ownership checks happen in the query itself (e.g. WHERE user_id = $1 AND id = $2), not only in application logic after a broader fetch.
+9. SECURITY — MANDATORY CHECKLIST
+HMAC authentication on every protected endpoint (see §8).
+Parameterized queries only, via pg's query parameters ($1, $2, ...) — zero string-concatenated or interpolated SQL, ever, including for column/table names (use an explicit allowlist if a name must be dynamic).
+Secure headers on every response: Strict-Transport-Security, X-Content-Type-Options: nosniff, X-Frame-Options: DENY, Referrer-Policy: strict-origin-when-cross-origin, Permissions-Policy.
+CSRF protection on every state-changing request reachable from a browser session (validated alongside HMAC, not instead of it).
+Origin validation on every mutating request (Origin/Referer checked against an allowlist).
+Every request is schema-validated before touching business logic (see §10).
+Uploaded files: validate extension, real MIME type via content sniffing (not just the Content-Type header), and file size before storage; store outside the web root or behind signed URLs; never stream an unvalidated upload straight to disk or the database.
+Never trust any client-supplied data, including values previously written by the server (re-validate on read paths that matter).
+Secrets (DB credentials, HMAC keys) are never logged, never included in error responses, and are loaded only from environment variables validated at startup.
+Database roles follow least privilege: the application's runtime role has no DROP, CREATE, or ALTER privileges — migrations run under a separate, more privileged role.
+Dependencies are scanned for known vulnerabilities on every install and every CI run; no critical/high vulnerability ships to production.
+10. VALIDATION
+Every input (request body, query params, path params, headers relied on for logic) is schema-validated with a single validation library used consistently project-wide (e.g. Zod) — no hand-rolled if/typeof validation.
+Validation covers type, exact shape (reject unknown keys), length/range bounds, and format (email, UUID, enum, etc.).
+All string inputs are sanitized for the context they'll be used in (SQL is parameterized, HTML output is escaped, file paths are normalized and checked against traversal) before use.
+Validation failures return 400 with a machine-readable field-level error list — never a generic "invalid input" string alone.
+No exceptions to input validation, including for "trusted" internal callers or service-to-service calls.
+Database constraints (NOT NULL, CHECK, UNIQUE, foreign keys) are the last line of defense, never the first — application-level validation must reject bad input before a query is issued.
+11. ERROR HANDLING
+Client-facing errors never include stack traces, internal exception messages, SQL error text, file paths, or environment details.
+Every error response uses the project's fixed error envelope with a stable machine-readable error code plus a safe human-readable message.
+Full error detail (stack trace, context, correlation ID, and for database errors the PostgreSQL error code) is captured server-side via the approved logging/observability pipeline, never dropped silently and never sent to the client.
+Every thrown/caught error is either handled meaningfully or re-thrown — empty catch blocks are forbidden.
+A single, shared error-handling boundary formats all API errors consistently; handlers do not each invent their own error response shape.
+PostgreSQL errors are mapped to a fixed set of application error codes (e.g. unique_violation → 409, foreign_key_violation → 422) in one shared mapping function — never pattern-matched ad hoc per handler.
+A transaction that fails mid-way is always rolled back before the error propagates — never left open.
+12. LOGGING & OBSERVABILITY
+Never use console.log, console.error, console.warn, or any ad hoc/debug logging left in committed code.
+Production observability is mandatory: use the project's approved structured logger (JSON logs with level, timestamp, correlation ID, and no secrets/PII) instead of console statements — "no logs" does not mean "no observability," it means no undisciplined logging.
+Every log line is intentional: it exists to support debugging, auditing, or alerting in production, not to trace development.
+Never log secrets, tokens, passwords, full request/response bodies containing PII, HMAC signing material, or raw SQL parameter values that contain user PII.
+Slow queries (above an agreed threshold, e.g. 200ms) are logged with the query name and duration, never the raw parameter values.
+Remove or convert every temporary/debug log before a change is considered complete — CI must fail the build if a raw console.* call is detected in src/.
+13. COMMENTS
+Never add comments. Code and SQL must be self-explanatory through naming and structure.
+Exception: a comment is permitted only to explain a non-obvious business rule, legal/compliance requirement, or a workaround for an external system's documented bug — and must state why, not what. The same exception applies to a migration file that encodes a non-obvious data-integrity decision.
+14. FALLBACKS
+Never create fallback APIs, fallback logic, or backup implementations unless explicitly instructed for that specific case.
+Never silently substitute default/mock data when a real dependency (database, third-party API) fails — fail loudly and handle per §11, unless a fallback was explicitly requested.
+Never retry a failed write silently without idempotency guarantees (see §19) — a blind retry that duplicates a write is a defect, not resilience.
+15. DATABASE — SCHEMA DESIGN
+Every table has a primary key. Prefer UUID (generated via gen_random_uuid()) or a BIGINT GENERATED ALWAYS AS IDENTITY — decided once per project and applied consistently, never mixed without reason.
+Every column is NOT NULL unless the absence of a value is a genuine, documented business state.
+Foreign keys are declared explicitly with an ON DELETE/ON UPDATE policy chosen deliberately (CASCADE, RESTRICT, SET NULL) — never left to the default without a stated reason.
+Every table has created_at and updated_at timestamptz columns; updated_at is maintained by a trigger, never by application code alone.
+Enumerated values use a CHECK constraint or a Postgres ENUM type, never a free-text column validated only in application code.
+Money/currency values use NUMERIC with an explicit precision/scale — never FLOAT/DOUBLE PRECISION.
+Table and column names are snake_case, singular-domain, unabbreviated, and describe exactly what they store — no tmp_, misc_, or data2 naming.
+16. DATABASE — MIGRATIONS & DATA INTEGRITY
+Every schema change is a forward-only, numbered SQL migration file, checked into version control — never a manual change applied directly to any environment.
+Every migration is reversible or explicitly documented as irreversible with a stated reason (e.g. destructive column drop after a verified backup).
+Migrations that add a NOT NULL column to a populated table do so in the documented, backward-compatible sequence (add nullable → backfill → add constraint) — never in a single blocking step against production.
+Every migration is tested against a copy of production-shaped data before being approved.
+Data integrity is enforced at the database level first (NOT NULL, CHECK, UNIQUE, foreign keys, exclusion constraints) — application-level validation is a second, not sole, line of defense.
+No migration is ever edited after it has been applied to a shared environment — a correction ships as a new migration.
+17. DATABASE — QUERY & TRANSACTION RULES
+Every query selects only the fields actually used — never SELECT *.
+Every query that filters or sorts on a column relies on an index; add the index in the same migration, not later.
+N+1 query patterns are forbidden — use joins, WHERE id = ANY($1) batching, or a single aggregated query.
+Multi-step writes that must succeed or fail together use a single database transaction (BEGIN / COMMIT / ROLLBACK), acquired from and released back to the shared pool correctly in a try/finally.
+Every transaction sets an explicit isolation level when the default (READ COMMITTED) is insufficient for the operation's correctness — chosen deliberately, not by default assumption.
+Row locking (SELECT ... FOR UPDATE) is used explicitly wherever a read-then-write sequence must prevent a concurrent conflict — never assumed safe without it.
+All raw SQL lives in the repository layer only; services and handlers never construct SQL strings.
+Every repository function has a single, explicit responsibility (one query or one clearly-scoped transaction) — never a repository function that silently issues an unbounded number of queries.
+18. DATABASE — CONNECTION POOL & PERFORMANCE
+A single pg.Pool is created at startup with explicit max, idleTimeoutMillis, and connectionTimeoutMillis values — never left at library defaults without a stated reason.
+Every checked-out client is released back to the pool in a finally block — a connection leak is a P0 defect.
+Pool exhaustion is monitored and alerted on, not discovered via production timeouts.
+Query timeouts are set explicitly (statement_timeout) so a runaway query cannot hold a connection indefinitely.
+EXPLAIN ANALYZE is run against any query touching a table expected to grow beyond a trivial row count before it ships.
+Bulk writes use a single batched INSERT ... VALUES (...), (...) or COPY, never a loop issuing one query per row.
+19. IDEMPOTENCY & CONCURRENCY
+Every POST that creates a resource as the result of a client action the client might retry (payments, orders) accepts an idempotency key, persisted and checked before the write executes.
+PUT and DELETE are naturally idempotent by design — a repeated identical request never produces a different result or a duplicate side effect.
+Optimistic concurrency (a version/updated_at check in the WHERE clause of an UPDATE) is used wherever concurrent edits to the same row are plausible; a losing writer receives 409 Conflict, never a silent overwrite.
+Background/async work triggered by a request is enqueued inside the same transaction as the triggering write (outbox pattern) where the two must be consistent — never fired as an untracked side effect.
+20. CACHING
+No caching layer (Redis, in-memory, CDN edge cache for API responses) is introduced without explicit written approval and a stated invalidation strategy.
+If approved, every cached value has an explicit TTL and an explicit invalidation path triggered by the write that changes the underlying data — never a cache with no invalidation story.
+Never cache a response containing per-user authorization-sensitive data under a shared cache key.
+21. BACKGROUND JOBS & SCHEDULED WORK
+Scheduled/background work (nonce pruning, token bucket cleanup, report generation) is implemented as an explicit, named job with its own file — never piggybacked inside a request handler.
+Every job is idempotent — running it twice for the same period produces the same end state, not duplicated effects.
+Job failures are logged with full context server-side (per §12) and retried with backoff per an explicit, bounded policy — never retried indefinitely without a limit.
+No job holds a database transaction open across a slow external call (e.g. a third-party API request).
+22. FILE UPLOADS & STORAGE
+Uploaded files are streamed to storage with a size limit enforced before the stream completes — never fully buffered in memory first.
+File metadata (owner, MIME type, size, storage key) is written to PostgreSQL in the same transaction as any related resource creation.
+Stored file keys are never derived from client-supplied file names — generate a server-side identifier and store the original name only as metadata.
+Access to a stored file is authorized per request (signed URL with expiry, or an authenticated proxy endpoint) — never served from a public, guessable path.
+23. TESTABILITY & TESTING
+Code is written for testability: pure functions where possible, side effects isolated at boundaries (repositories, HTTP calls), dependencies passed in rather than imported as singletons where that meaningfully improves testability.
+Every API handler and every non-trivial service/repository function has automated tests covering the success path, the primary failure paths, and edge/boundary conditions.
+Repository tests run against a real PostgreSQL instance (a disposable test database/schema) — never against a mocked query layer for logic that depends on constraints or transaction behavior.
+Every migration has a test verifying it applies cleanly to a representative dataset and, where reversible, that its rollback restores the prior state.
+Critical flows (auth, payment/order creation, rate limiting) have end-to-end coverage.
+CI blocks merge on any failing test and on coverage dropping below the project's agreed threshold.
+24. ENVIRONMENT VARIABLES & CONFIGURATION
+Never hardcode secrets, database credentials, API keys, URLs, or tokens anywhere in source, including tests and fixtures.
+Every configurable value (DB connection string, pool sizes, HMAC secret, timeouts) is sourced from environment variables, documented in a single .env.example with no real values.
+All environment variables are validated (presence, type, format) at process startup via a schema (e.g. Zod) — the process must fail fast and loudly if configuration is invalid, not fail later at first use.
+Database credentials used by the application at runtime are scoped to a least-privilege role, distinct from the role used to run migrations.
+25. GIT & CI/CD
+Small, atomic commits — one logical change per commit, with a conventional-commit-style message.
+Never commit generated files, build artifacts, secrets, .env files, or node_modules — enforced via .gitignore and a pre-commit secret scan.
+Every PR passes, before merge: type check, lint, tests (including migration tests), dependency vulnerability scan, and a production build.
+Every migration is reviewed as carefully as application code — a PR containing a migration must show the generated SQL, not just the tool invocation.
+Pre-commit hooks (e.g. Husky + lint-staged) run type check and lint on staged files before a commit is allowed.
+No direct pushes to the main/production branch — all changes go through a reviewed PR. Migrations are applied to production only via the CI/CD pipeline, never manually.
+26. CODE QUALITY
+DRY — no duplicated logic or duplicated SQL; extract only once a real second use case exists (rule of two, not speculative).
+KISS — the simplest design that satisfies the requirement, no more.
+SOLID applied where it reduces complexity, never as ceremony that adds indirection without benefit.
+Clear separation of concerns: handler (HTTP) → service (business logic) → repository (SQL). High cohesion within each layer, low coupling between them.
+Files should not exceed ~300 lines; exceeding this requires a stated justification in the PR description.
+27. DEVELOPMENT WORKFLOW
+Read the requirement completely before writing any code or migration.
+Ask clarifying questions for anything unclear or missing — do not proceed on an assumption, especially for schema decisions, which are expensive to reverse.
+Do not infer missing details from convention or "what's usually done" — confirm explicitly.
+Propose the minimal production-ready implementation (including the exact schema/migration) before writing it, when the task is non-trivial.
+Wait for explicit approval before proceeding if the proposal changes architecture, adds a dependency, alters an existing table in a breaking way, or introduces a new pattern.
+Implement exactly what was requested — nothing extra, nothing speculative.
+Before calling the task done, verify: type safety, security checklist (§9), query/index correctness (§17), transaction correctness, and code quality (§26) — explicitly, not by assumption.
+28. ABSOLUTE PROHIBITIONS
+Never, under any circumstance, without a documented written exception:
+Guess requirements or schema shape.
+Change architecture without approval.
+Add a dependency, ORM, or framework without approval.
+Introduce a new pattern without approval.
+Use a deprecated API.
+Write code or SQL beyond what was requested.
+Leave TODOs, placeholders, or commented-out code.
+Add console statements or debug logging.
+Add comments outside the exception in §13.
+Add fallback logic without explicit instruction.
+Add mock or seed data without explicit request.
+Swallow an error silently, or leave a transaction unrolled-back.
+Ignore or suppress a TypeScript or lint error.
+Disable ESLint or type checking.
+Expose secrets, stack traces, SQL error text, or internal implementation details.
+Return an inconsistent API response shape.
+Write or run a migration directly against a shared environment outside the CI/CD pipeline.
+Use SELECT *, string-concatenated SQL, or an unparameterized query.
+Break the agreed project structure.
+29. DECISION RULE
+If there is any ambiguity, uncertainty, missing requirement, conflicting instruction, or undefined schema/architectural decision: stop implementation immediately, state exactly what is ambiguous and why, and ask for clarification. Never decide on the user's behalf, and never proceed on a "reasonable default" that was not explicitly approved.

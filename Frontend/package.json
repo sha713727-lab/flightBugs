@@ -1,0 +1,48 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "24.15.0"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --import ./scripts/test-preload.mjs --test src/schemas/flights/search-flights.test.ts src/utils/default-flight-search-dates.test.ts",
+    "deps:cruise": "depcruise --config .dependency-cruiser.cjs src",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "dependencies": {
+    "class-variance-authority": "0.7.1",
+    "framer-motion": "13.1.1",
+    "gsap": "3.15.0",
+    "lenis": "1.3.26",
+    "next": "16.3.1",
+    "pino": "10.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "24.12.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "dependency-cruiser": "18.2.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.1",
+    "eslint-plugin-simple-import-sort": "14.0.0",
+    "husky": "9.1.7",
+    "lint-staged": "17.3.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3"
+  }
+}

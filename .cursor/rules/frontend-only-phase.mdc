@@ -1,0 +1,17 @@
+---
+description: STRICT phase lock — Frontend-only until user explicitly unlocks Backend/Database
+alwaysApply: true
+---
+
+# Phase lock: Frontend only
+
+## Active phase
+`BACKEND_AND_DATABASE_UNLOCKED`
+
+## Unlock record
+User approved the production-readiness plan including Backend/Database hardening ("go ahead" after the full-project audit that required Backend fixes).
+
+## Allowed work
+- `Frontend/`, `Backend/`, and `Database/`
+- Apply `.cursor/rules/deferred-backend-database-decisions.mdc` and backend/database production rules
+- Frontend production rules remain fully binding for Frontend work
