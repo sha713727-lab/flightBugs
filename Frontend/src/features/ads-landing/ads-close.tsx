@@ -7,7 +7,7 @@ import { CallPhoneButton } from "@/components/call-phone-button";
 import { SitePageFooter } from "@/components/site-page-footer";
 import { adsLandingCopy, adsLandingPath } from "@/constants/adsLandingContent";
 import { marketingImages } from "@/constants/brandAssets";
-import { gsap } from "@/features/ads-landing/ads-gsap";
+import { AdsPosterVideo } from "@/features/ads-landing/ads-poster-video";
 import { AdsReveal } from "@/features/ads-landing/ads-reveal";
 
 export function AdsClose() {
@@ -22,9 +22,22 @@ export function AdsClose() {
       return;
     }
 
-    const mm = gsap.matchMedia();
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return;
+    }
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
+
+    void import("@/features/ads-landing/ads-gsap").then(({ gsap }) => {
+      if (cancelled) {
+        return;
+      }
+
       const tween = gsap.fromTo(
         media,
         { scale: 1.12 },
@@ -40,14 +53,15 @@ export function AdsClose() {
         },
       );
 
-      return () => {
+      dispose = () => {
         tween.scrollTrigger?.kill();
         tween.kill();
       };
     });
 
     return () => {
-      mm.revert();
+      cancelled = true;
+      dispose?.();
     };
   }, []);
 
@@ -55,19 +69,22 @@ export function AdsClose() {
     <>
       <section ref={sectionRef} className="relative overflow-hidden">
         <div className="relative min-h-[520px] md:min-h-[640px]">
-          <div ref={mediaRef} className="absolute inset-0 origin-center will-change-transform">
-            <video
-              className="absolute inset-0 h-full w-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster={dealsVideo.poster}
-              aria-label={dealsVideo.alt}
-            >
-              <source src={dealsVideo.src} type="video/mp4" />
-            </video>
+          <div
+            ref={mediaRef}
+            className="absolute inset-0 origin-center will-change-transform"
+          >
+            <AdsPosterVideo
+              poster={{
+                src: dealsVideo.poster,
+                alt: dealsVideo.alt,
+              }}
+              video={{
+                src: dealsVideo.src,
+                alt: dealsVideo.alt,
+              }}
+              className="absolute inset-0"
+              imageSizes="100vw"
+            />
           </div>
           <div className="ads-close-overlay absolute inset-0" aria-hidden="true" />
 
@@ -77,7 +94,7 @@ export function AdsClose() {
                 <h2 className="max-w-2xl text-[clamp(36px,6vw,64px)] font-bold leading-[1.05] tracking-[-0.04em] text-white">
                   {adsLandingCopy.closeHeading}
                 </h2>
-                <p className="mt-5 max-w-lg text-[17px] text-white/80">
+                <p className="mt-5 max-w-lg text-[17px] text-white/90">
                   {adsLandingCopy.closeBody}
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

@@ -30,10 +30,10 @@ export function GoogleAnalytics({
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         nonce={nonce}
       />
-      <Script id="ga4-init" strategy="afterInteractive" nonce={nonce}>
+      <Script id="ga4-init" strategy="lazyOnload" nonce={nonce}>
         {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${measurementId}');`}
       </Script>
     </>

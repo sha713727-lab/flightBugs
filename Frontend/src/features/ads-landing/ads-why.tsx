@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 
 import { adsLandingCopy, adsLandingReasons } from "@/constants/adsLandingContent";
 import { marketingImages } from "@/constants/brandAssets";
-import { gsap } from "@/features/ads-landing/ads-gsap";
 import { AdsReveal } from "@/features/ads-landing/ads-reveal";
 
 export function AdsWhy() {
@@ -20,9 +19,22 @@ export function AdsWhy() {
       return;
     }
 
-    const mm = gsap.matchMedia();
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return;
+    }
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
+
+    void import("@/features/ads-landing/ads-gsap").then(({ gsap }) => {
+      if (cancelled) {
+        return;
+      }
+
       const tween = gsap.fromTo(
         image,
         { yPercent: -8 },
@@ -38,14 +50,15 @@ export function AdsWhy() {
         },
       );
 
-      return () => {
+      dispose = () => {
         tween.scrollTrigger?.kill();
         tween.kill();
       };
     });
 
     return () => {
-      mm.revert();
+      cancelled = true;
+      dispose?.();
     };
   }, []);
 
@@ -78,6 +91,7 @@ export function AdsWhy() {
                 alt={airportExperience.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
+                loading="lazy"
                 className="object-cover"
               />
             </div>
@@ -88,6 +102,7 @@ export function AdsWhy() {
               alt={cabin.alt}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
+              loading="lazy"
               className="object-cover"
             />
           </div>

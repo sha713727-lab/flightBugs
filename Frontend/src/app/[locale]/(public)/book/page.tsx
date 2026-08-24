@@ -2,6 +2,7 @@ import { adsLandingCopy, adsLandingPath } from "@/constants/adsLandingContent";
 import { siteBrand } from "@/constants/siteBrand";
 import { supportPhone } from "@/constants/supportContact";
 import { AdsLandingPage } from "@/features/ads-landing/ads-landing-page";
+import { ThemeDocumentClass } from "@/features/site-pages/theme-document-class";
 import { buildLandingMetadata } from "@/lib/site-metadata";
 
 export const metadata = buildLandingMetadata({
@@ -11,5 +12,10 @@ export const metadata = buildLandingMetadata({
 });
 
 export default function AdsLandingRoute() {
-  return <AdsLandingPage />;
+  return (
+    <>
+      <ThemeDocumentClass themeId="book" />
+      <AdsLandingPage />
+    </>
+  );
 }

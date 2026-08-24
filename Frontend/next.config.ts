@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
     root: projectRoot,
   },
   poweredByHeader: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+  experimental: {
+    optimizePackageImports: ["framer-motion", "gsap"],
+  },
 };
 
 export default nextConfig;

@@ -2,26 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 
-import { adsLandingPath } from "@/constants/adsLandingContent";
-import { brandAssets } from "@/constants/brandAssets";
+import { adsLandingPath } from "@/constants/adsLandingContent";import { brandAssets } from "@/constants/brandAssets";
 import { siteBrand } from "@/constants/siteBrand";
 import { sitePageHref } from "@/constants/sitePages";
 
 export function AdsHeader() {
   const { siteLogo } = brandAssets;
 
-  useEffect(() => {
-    document.documentElement.classList.add("ads-landing-active");
-
-    return () => {
-      document.documentElement.classList.remove("ads-landing-active");
-    };
-  }, []);
-
-  return (
-    <header className="sticky top-0 z-40 border-b border-border bg-main-bg/95 backdrop-blur-[8px]">
+  return (    <header className="sticky top-0 z-40 border-b border-border bg-main-bg/95 backdrop-blur-[8px]">
       <div className="container-avion flex h-14 items-center justify-between gap-4">
         <Link href={adsLandingPath} className="flex shrink-0 items-center gap-2">
           <Image
