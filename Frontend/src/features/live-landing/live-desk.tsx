@@ -1,7 +1,19 @@
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 import { liveLandingCopy } from "@/constants/liveLandingContent";
-import { LiveSearchPanel } from "@/features/live-landing/live-search-panel";
+
+const LiveSearchPanel = dynamic(
+  () =>
+    import("@/features/live-landing/live-search-panel").then((module) => ({
+      default: module.LiveSearchPanel,
+    })),
+  {
+    loading: () => (
+      <div className="live-search-panel min-h-[88px] animate-pulse rounded-[24px] border border-border bg-white" />
+    ),
+  },
+);
 
 export function LiveDesk() {
   return (
@@ -17,7 +29,11 @@ export function LiveDesk() {
           {liveLandingCopy.deskBody}
         </p>
         <div className="mt-10">
-          <Suspense fallback={<div className="live-search-panel min-h-[88px]" />}>
+          <Suspense
+            fallback={
+              <div className="live-search-panel min-h-[88px] animate-pulse rounded-[24px] border border-border bg-white" />
+            }
+          >
             <LiveSearchPanel />
           </Suspense>
         </div>

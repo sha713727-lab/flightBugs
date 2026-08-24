@@ -1,12 +1,50 @@
-import { LiveClose } from "@/features/live-landing/live-close";
-import { LiveDesk } from "@/features/live-landing/live-desk";
-import { LiveFaq } from "@/features/live-landing/live-faq";
-import { LiveFilmstrip } from "@/features/live-landing/live-filmstrip";
+import dynamic from "next/dynamic";
+
 import { LiveHeader } from "@/features/live-landing/live-header";
 import { LiveMotionRoot } from "@/features/live-landing/live-motion-root";
 import { LiveOpening } from "@/features/live-landing/live-opening";
-import { LiveProof } from "@/features/live-landing/live-proof";
-import { LiveRitual } from "@/features/live-landing/live-ritual";
+
+const LiveRitual = dynamic(
+  () =>
+    import("@/features/live-landing/live-ritual").then((module) => ({
+      default: module.LiveRitual,
+    })),
+);
+
+const LiveFilmstrip = dynamic(
+  () =>
+    import("@/features/live-landing/live-filmstrip").then((module) => ({
+      default: module.LiveFilmstrip,
+    })),
+);
+
+const LiveDesk = dynamic(
+  () =>
+    import("@/features/live-landing/live-desk").then((module) => ({
+      default: module.LiveDesk,
+    })),
+);
+
+const LiveProof = dynamic(
+  () =>
+    import("@/features/live-landing/live-proof").then((module) => ({
+      default: module.LiveProof,
+    })),
+);
+
+const LiveFaq = dynamic(
+  () =>
+    import("@/features/live-landing/live-faq").then((module) => ({
+      default: module.LiveFaq,
+    })),
+);
+
+const LiveClose = dynamic(
+  () =>
+    import("@/features/live-landing/live-close").then((module) => ({
+      default: module.LiveClose,
+    })),
+);
 
 export function LiveLandingPage() {
   return (

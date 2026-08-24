@@ -3,43 +3,62 @@
 import { useEffect, useRef } from "react";
 
 import { CallPhoneButton } from "@/components/call-phone-button";
+import { PosterVideo } from "@/components/poster-video";
 import { marketingImages } from "@/constants/brandAssets";
 import { liveLandingCopy } from "@/constants/liveLandingContent";
-import { gsap, ScrollTrigger } from "@/features/live-landing/live-gsap";
+import { cn } from "@/utils/cn";
 
 export function LiveOpening() {
   const sectionRef = useRef<HTMLElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
-  const lineOneRef = useRef<HTMLSpanElement>(null);
-  const lineTwoRef = useRef<HTMLSpanElement>(null);
-  const restRef = useRef<HTMLDivElement>(null);
+  const { smartTravelerAircraftVideo, smartTravelerCabinVideo } = marketingImages;
 
   useEffect(() => {
     const section = sectionRef.current;
     const media = mediaRef.current;
-    const lineOne = lineOneRef.current;
-    const lineTwo = lineTwoRef.current;
-    const rest = restRef.current;
 
-    if (!section || !media || !lineOne || !lineTwo || !rest) {
+    if (!section || !media) {
       return;
     }
 
-    const mm = gsap.matchMedia();
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return;
+    }
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
+
+    void import("@/features/live-landing/live-gsap").then(({ gsap, ScrollTrigger }) => {
+      if (cancelled) {
+        return;
+      }
+
+      const lineOne = section.querySelector("[data-live-line-one]");
+      const lineTwo = section.querySelector("[data-live-line-two]");
+      const rest = section.querySelector("[data-live-rest]");
+
       const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
-      intro.fromTo(
-        [lineOne, lineTwo],
-        { y: 28, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 },
-      );
-      intro.fromTo(
-        rest,
-        { y: 14, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7 },
-        "-=0.4",
-      );
+
+      if (lineOne && lineTwo) {
+        intro.fromTo(
+          [lineOne, lineTwo],
+          { y: 28, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 },
+        );
+      }
+
+      if (rest) {
+        intro.fromTo(
+          rest,
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 },
+          "-=0.4",
+        );
+      }
 
       const tween = gsap.fromTo(
         media,
@@ -50,7 +69,7 @@ export function LiveOpening() {
           scrollTrigger: {
             trigger: section,
             start: "top 56px",
-            end: () => (window.innerWidth < 768 ? "+=45%" : "+=55%"),
+            end: "+=55%",
             pin: true,
             scrub: true,
             anticipatePin: 1,
@@ -59,67 +78,68 @@ export function LiveOpening() {
         },
       );
 
-      return () => {
+      dispose = () => {
         intro.kill();
         tween.scrollTrigger?.kill();
         tween.kill();
+        ScrollTrigger.refresh();
       };
     });
 
     return () => {
-      mm.revert();
-      ScrollTrigger.refresh();
+      cancelled = true;
+      dispose?.();
     };
   }, []);
-
-  const { smartTravelerAircraftVideo, smartTravelerCabinVideo } = marketingImages;
 
   return (
     <section ref={sectionRef} className="relative bg-black">
       <div className="relative min-h-[calc(100svh-56px)] overflow-hidden">
-        <div ref={mediaRef} className="absolute inset-0 origin-center will-change-transform">
-          <video
-            className="absolute inset-0 h-full w-full object-cover object-center md:hidden"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster={smartTravelerCabinVideo.poster}
-            aria-label={smartTravelerCabinVideo.alt}
-          >
-            <source src={smartTravelerCabinVideo.src} type="video/mp4" />
-          </video>
-          <video
-            className="absolute inset-0 hidden h-full w-full object-cover object-center md:block"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster={smartTravelerAircraftVideo.poster}
-            aria-label={smartTravelerAircraftVideo.alt}
-          >
-            <source src={smartTravelerAircraftVideo.src} type="video/mp4" />
-          </video>
+        <div
+          ref={mediaRef}
+          className="absolute inset-0 origin-center will-change-transform md:will-change-transform"
+        >
+          <PosterVideo
+            poster={{
+              src: smartTravelerCabinVideo.poster,
+              alt: smartTravelerCabinVideo.alt,
+            }}
+            video={{
+              src: smartTravelerAircraftVideo.src,
+              alt: smartTravelerAircraftVideo.alt,
+            }}
+            className="absolute inset-0"
+            imageSizes="100vw"
+            priority
+          />
         </div>
         <div className="live-opening-overlay absolute inset-0" aria-hidden="true" />
 
         <div className="relative z-10 flex min-h-[calc(100svh-56px)] flex-col justify-end pb-16 pt-20 md:justify-center md:pb-24">
           <div className="container-avion">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80">
+            <p
+              className={cn(
+                "live-fade-in text-[11px] font-semibold uppercase tracking-[0.16em] text-white/90",
+              )}
+            >
               {liveLandingCopy.eyebrow}
             </p>
             <h1 className="mt-4 max-w-[16ch] text-[clamp(42px,8vw,88px)] font-bold leading-[0.98] tracking-[-0.045em] text-white">
-              <span ref={lineOneRef} className="block">
+              <span
+                data-live-line-one
+                className={cn("live-fade-in live-fade-in-delay-1 block")}
+              >
                 {liveLandingCopy.headingLineOne}
               </span>
-              <span ref={lineTwoRef} className="block">
+              <span
+                data-live-line-two
+                className={cn("live-fade-in live-fade-in-delay-2 block")}
+              >
                 {liveLandingCopy.headingLineTwo}
               </span>
             </h1>
-            <div ref={restRef}>
-              <p className="mt-5 max-w-md text-[15px] text-white/80">
+            <div data-live-rest className={cn("live-fade-in live-fade-in-delay-3")}>
+              <p className="mt-5 max-w-md text-[15px] text-white/90">
                 {liveLandingCopy.availability}
               </p>
               <CallPhoneButton

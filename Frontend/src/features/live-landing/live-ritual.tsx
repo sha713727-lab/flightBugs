@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 
 import { liveLandingCopy, liveLandingRitual } from "@/constants/liveLandingContent";
-import { gsap, ScrollTrigger } from "@/features/live-landing/live-gsap";
 
 export function LiveRitual() {
   const pinRef = useRef<HTMLDivElement>(null);
@@ -15,17 +14,31 @@ export function LiveRitual() {
     const pin = pinRef.current;
     const fillX = fillXRef.current;
     const fillY = fillYRef.current;
+
     if (!pin || !fillX || !fillY) {
       return;
     }
 
-    const mm = gsap.matchMedia();
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return;
+    }
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
+
+    void import("@/features/live-landing/live-gsap").then(({ gsap, ScrollTrigger }) => {
+      if (cancelled) {
+        return;
+      }
+
       const trigger = ScrollTrigger.create({
         trigger: pin,
         start: "top 56px",
-        end: () => (window.innerWidth < 768 ? "+=180%" : "+=220%"),
+        end: "+=220%",
         pin: true,
         scrub: true,
         anticipatePin: 1,
@@ -41,13 +54,14 @@ export function LiveRitual() {
         },
       });
 
-      return () => {
+      dispose = () => {
         trigger.kill();
       };
     });
 
     return () => {
-      mm.revert();
+      cancelled = true;
+      dispose?.();
     };
   }, []);
 
@@ -78,7 +92,7 @@ export function LiveRitual() {
 
       <div ref={pinRef} className="live-ritual-pin">
         <div className="container-avion flex min-h-[calc(100svh-56px)] flex-col justify-center gap-8 py-12 md:grid md:grid-cols-[auto_minmax(0,1fr)_12px] md:items-center md:gap-10 md:py-16">
-          <p className="text-[11px] font-semibold tracking-[0.16em] text-secondary-text">
+          <p className="text-[11px] font-semibold tracking-[0.14em] text-secondary-text">
             {current.index} / 03
           </p>
           <div>

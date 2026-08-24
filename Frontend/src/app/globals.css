@@ -423,7 +423,7 @@ html.ads-landing-active .flight-search-menu {
     --color-search-blue: #c8102e;
     --color-dark-navy: #111111;
     --color-primary-text: #111111;
-    --color-secondary-text: #6b6b6b;
+    --color-secondary-text: #52525b;
     --color-border: #e8e8e8;
     --color-main-bg: #ffffff;
     --color-soft-section: #f8e9eb;
@@ -444,7 +444,7 @@ html.ads-landing-active .flight-search-menu {
     --color-search-blue: #c8102e;
     --color-on-accent: #ffffff;
     --color-primary-text: #111111;
-    --color-secondary-text: #6b6b6b;
+    --color-secondary-text: #52525b;
     --color-border: #e8e8e8;
     --color-soft-section: #f8e9eb;
     background: #ffffff;
@@ -517,7 +517,7 @@ html.ads-landing-active .flight-search-menu {
     --color-aviation-blue: #c8102e;
     --color-medium-blue: #a50d24;
     --color-primary-text: #111111;
-    --color-secondary-text: #6b6b6b;
+    --color-secondary-text: #52525b;
     --color-border: #e8e8e8;
     --color-soft-section: #f8e9eb;
     --color-on-accent: #ffffff;
@@ -558,6 +558,49 @@ html.ads-landing-active .flight-search-menu {
       scroll-snap-type: x mandatory;
       touch-action: pan-x pan-y;
     }
+
+    .live-fade-in,
+    .live-fade-in-delay-1,
+    .live-fade-in-delay-2,
+    .live-fade-in-delay-3 {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .live-ritual-stack {
+      display: block;
+    }
+
+    .live-ritual-pin {
+      display: none;
+    }
+
+    .live-filmstrip-frame {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      touch-action: pan-x pan-y;
+    }
+
+    .live-filmstrip-slide {
+      scroll-snap-align: start;
+    }
+  }
+
+  .live-fade-in {
+    animation: live-fade-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .live-fade-in-delay-1 {
+    animation-delay: 80ms;
+  }
+
+  .live-fade-in-delay-2 {
+    animation-delay: 160ms;
+  }
+
+  .live-fade-in-delay-3 {
+    animation-delay: 240ms;
   }
 
   .ads-landing {
@@ -881,6 +924,18 @@ html.ads-landing-active .flight-search-menu {
   }
   70% {
     box-shadow: 0 0 0 10px transparent;
+  }
+}
+
+@keyframes live-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

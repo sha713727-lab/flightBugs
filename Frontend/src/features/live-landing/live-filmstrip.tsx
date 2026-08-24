@@ -9,7 +9,6 @@ import {
   liveLandingCopy,
   liveLandingPath,
 } from "@/constants/liveLandingContent";
-import { gsap } from "@/features/live-landing/live-gsap";
 
 export function LiveFilmstrip() {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -18,13 +17,27 @@ export function LiveFilmstrip() {
   useEffect(() => {
     const frame = frameRef.current;
     const track = trackRef.current;
+
     if (!frame || !track) {
       return;
     }
 
-    const mm = gsap.matchMedia();
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return;
+    }
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
+
+    void import("@/features/live-landing/live-gsap").then(({ gsap }) => {
+      if (cancelled) {
+        return;
+      }
+
       const tween = gsap.to(track, {
         x: () => -(track.scrollWidth - frame.clientWidth),
         ease: "none",
@@ -40,14 +53,15 @@ export function LiveFilmstrip() {
         },
       });
 
-      return () => {
+      dispose = () => {
         tween.scrollTrigger?.kill();
         tween.kill();
       };
     });
 
     return () => {
-      mm.revert();
+      cancelled = true;
+      dispose?.();
     };
   }, []);
 
@@ -68,23 +82,23 @@ export function LiveFilmstrip() {
                 src={city.image.src}
                 alt={city.image.alt}
                 fill
+                loading="lazy"
                 sizes="100vw"
                 className="object-cover"
-                priority={index === 0}
               />
               <div
                 className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/10"
                 aria-hidden="true"
               />
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-14">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/90">
                   {String(index + 1).padStart(2, "0")} /{" "}
                   {String(liveLandingCities.length).padStart(2, "0")}
                 </p>
                 <h2 className="mt-3 text-[clamp(36px,12vw,80px)] font-bold leading-[0.95] tracking-[-0.04em] text-white">
                   {city.name}
                 </h2>
-                <p className="mt-3 text-[15px] text-white/80">{city.line}</p>
+                <p className="mt-3 text-[15px] text-white/90">{city.line}</p>
               </div>
             </Link>
           ))}
