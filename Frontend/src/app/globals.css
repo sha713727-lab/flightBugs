@@ -305,6 +305,16 @@ html.ads-landing-active .flight-search-menu {
     box-shadow: var(--shadow-float);
   }
 
+  .flight-search-menu-input {
+    color-scheme: light;
+    background-color: #ffffff;
+    color: #111111;
+  }
+
+  .flight-search-menu-input::placeholder {
+    color: #6b6b6b;
+  }
+
   .flight-results-dialog {
     position: fixed;
     inset: 0;

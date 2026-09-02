@@ -5,13 +5,15 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 type GoogleAnalyticsProps = {
-  measurementId: string;
-  nonce: string;
+  readonly measurementId: string;
+  readonly nonce: string;
+  readonly loadGtagScript?: boolean;
 };
 
 export function GoogleAnalytics({
   measurementId,
   nonce,
+  loadGtagScript = true,
 }: GoogleAnalyticsProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,13 +30,21 @@ export function GoogleAnalytics({
 
   return (
     <>
+      {loadGtagScript ? (
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+          strategy="lazyOnload"
+          nonce={nonce}
+        />
+      ) : null}
       <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+        id={`ga4-init-${measurementId}`}
         strategy="lazyOnload"
         nonce={nonce}
-      />
-      <Script id="ga4-init" strategy="lazyOnload" nonce={nonce}>
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${measurementId}');`}
+      >
+        {loadGtagScript
+          ? `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${measurementId}');`
+          : `gtag('config','${measurementId}');`}
       </Script>
     </>
   );

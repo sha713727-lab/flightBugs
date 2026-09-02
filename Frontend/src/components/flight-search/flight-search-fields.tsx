@@ -77,6 +77,9 @@ const travelerOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
 const placeSearchDebounceMs = 300;
 
+const dropdownFieldInputClassName =
+  "flight-search-menu-input min-h-11 w-full rounded-[12px] border border-border px-3 text-sm font-semibold";
+
 export function AirportSearchField({
   label,
   value,
@@ -188,7 +191,7 @@ export function AirportSearchField({
             onChange={(event) => setQuery(event.target.value)}
             placeholder="City, airport, or code"
             autoComplete="off"
-            className="min-h-11 w-full rounded-[12px] border border-border bg-soft-section px-3 text-sm font-semibold text-primary-text placeholder:text-secondary-text [color-scheme:dark]"
+            className={dropdownFieldInputClassName}
           />
           <p className="mt-2 text-xs text-secondary-text">
             Search airports and cities worldwide
@@ -327,7 +330,7 @@ export function DateSearchField({
               onChange(event.target.value);
               close();
             }}
-            className="min-h-11 w-full rounded-[12px] border border-border bg-soft-section px-3 text-sm font-semibold text-primary-text [color-scheme:dark]"
+            className={dropdownFieldInputClassName}
           />
         </label>
       </DropdownMenu>

@@ -42,19 +42,38 @@ export default async function RootLayout({
 }>) {
   const requestHeaders = await headers();
   const nonce = requestHeaders.get("x-nonce");
-  const measurementId = env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const gaMeasurementIds = [
+    env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+    env.NEXT_PUBLIC_GA_SECONDARY_MEASUREMENT_ID,
+  ].filter((measurementId): measurementId is string => measurementId !== undefined);
   const clarityProjectId = env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
-  const gtmId = env.NEXT_PUBLIC_GTM_ID;
+  const gtmContainerIds = [
+    env.NEXT_PUBLIC_GTM_ID,
+    env.NEXT_PUBLIC_GTM_SECONDARY_ID,
+  ].filter((containerId): containerId is string => containerId !== undefined);
 
   return (
     <html lang="en" className={`${plusJakarta.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
-        {gtmId !== undefined && nonce !== null ? (
-          <GoogleTagManager containerId={gtmId} nonce={nonce} />
-        ) : null}
-        {measurementId !== undefined && nonce !== null ? (
+        {nonce !== null
+          ? gtmContainerIds.map((containerId) => (
+              <GoogleTagManager
+                key={containerId}
+                containerId={containerId}
+                nonce={nonce}
+              />
+            ))
+          : null}
+        {nonce !== null && gaMeasurementIds.length > 0 ? (
           <Suspense fallback={null}>
-            <GoogleAnalytics measurementId={measurementId} nonce={nonce} />
+            {gaMeasurementIds.map((measurementId, index) => (
+              <GoogleAnalytics
+                key={measurementId}
+                measurementId={measurementId}
+                nonce={nonce}
+                loadGtagScript={index === 0}
+              />
+            ))}
           </Suspense>
         ) : null}
         {clarityProjectId !== undefined && nonce !== null ? (
