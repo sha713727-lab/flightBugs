@@ -35,7 +35,6 @@ const envSchema = z
     NEXT_PUBLIC_APP_URL: z.string().url(),
     NEXT_PUBLIC_CLARITY_PROJECT_ID: clarityProjectIdSchema,
     NEXT_PUBLIC_GTM_ID: gtmContainerIdSchema,
-    NEXT_PUBLIC_GTM_SECONDARY_ID: gtmContainerIdSchema,
     NEXT_PUBLIC_GOOGLE_ADS_ID: googleAdsConversionIdSchema,
   })
   .strict();
@@ -45,7 +44,6 @@ const parsed = envSchema.safeParse({
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   NEXT_PUBLIC_CLARITY_PROJECT_ID: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID,
   NEXT_PUBLIC_GTM_ID: process.env.NEXT_PUBLIC_GTM_ID,
-  NEXT_PUBLIC_GTM_SECONDARY_ID: process.env.NEXT_PUBLIC_GTM_SECONDARY_ID,
   NEXT_PUBLIC_GOOGLE_ADS_ID: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID,
 });
 

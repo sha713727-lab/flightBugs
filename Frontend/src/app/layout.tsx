@@ -42,24 +42,15 @@ export default async function RootLayout({
   const requestHeaders = await headers();
   const nonce = requestHeaders.get("x-nonce");
   const clarityProjectId = env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
-  const gtmContainerIds = [
-    env.NEXT_PUBLIC_GTM_ID,
-    env.NEXT_PUBLIC_GTM_SECONDARY_ID,
-  ].filter((containerId): containerId is string => containerId !== undefined);
+  const gtmId = env.NEXT_PUBLIC_GTM_ID;
   const googleAdsId = env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 
   return (
     <html lang="en" className={`${plusJakarta.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
-        {nonce !== null
-          ? gtmContainerIds.map((containerId) => (
-              <GoogleTagManager
-                key={containerId}
-                containerId={containerId}
-                nonce={nonce}
-              />
-            ))
-          : null}
+        {gtmId !== undefined && nonce !== null ? (
+          <GoogleTagManager containerId={gtmId} nonce={nonce} />
+        ) : null}
         {googleAdsId !== undefined && nonce !== null ? (
           <GoogleAds conversionId={googleAdsId} nonce={nonce} />
         ) : null}
