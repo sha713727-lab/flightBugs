@@ -5,14 +5,6 @@ const optionalTrimmed = (value: unknown) =>
     ? value.trim()
     : undefined;
 
-const gaMeasurementIdSchema = z.preprocess(
-  optionalTrimmed,
-  z
-    .string()
-    .regex(/^G-[A-Z0-9]+$/, "must be a GA4 Measurement ID (G-…)")
-    .optional(),
-);
-
 const clarityProjectIdSchema = z.preprocess(
   optionalTrimmed,
   z
@@ -29,27 +21,32 @@ const gtmContainerIdSchema = z.preprocess(
     .optional(),
 );
 
+const googleAdsConversionIdSchema = z.preprocess(
+  optionalTrimmed,
+  z
+    .string()
+    .regex(/^AW-[0-9]+$/, "must be a Google Ads conversion ID (AW-…)")
+    .optional(),
+);
+
 const envSchema = z
   .object({
     NODE_ENV: z.enum(["development", "test", "production"]),
     NEXT_PUBLIC_APP_URL: z.string().url(),
-    NEXT_PUBLIC_GA_MEASUREMENT_ID: gaMeasurementIdSchema,
-    NEXT_PUBLIC_GA_SECONDARY_MEASUREMENT_ID: gaMeasurementIdSchema,
     NEXT_PUBLIC_CLARITY_PROJECT_ID: clarityProjectIdSchema,
     NEXT_PUBLIC_GTM_ID: gtmContainerIdSchema,
     NEXT_PUBLIC_GTM_SECONDARY_ID: gtmContainerIdSchema,
+    NEXT_PUBLIC_GOOGLE_ADS_ID: googleAdsConversionIdSchema,
   })
   .strict();
 
 const parsed = envSchema.safeParse({
   NODE_ENV: process.env.NODE_ENV,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-  NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
-  NEXT_PUBLIC_GA_SECONDARY_MEASUREMENT_ID:
-    process.env.NEXT_PUBLIC_GA_SECONDARY_MEASUREMENT_ID,
   NEXT_PUBLIC_CLARITY_PROJECT_ID: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID,
   NEXT_PUBLIC_GTM_ID: process.env.NEXT_PUBLIC_GTM_ID,
   NEXT_PUBLIC_GTM_SECONDARY_ID: process.env.NEXT_PUBLIC_GTM_SECONDARY_ID,
+  NEXT_PUBLIC_GOOGLE_ADS_ID: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID,
 });
 
 if (!parsed.success) {
