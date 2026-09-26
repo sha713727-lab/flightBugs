@@ -1,6 +1,6 @@
 export const supportPhone = {
-  display: "+1 877 702 9887",
-  href: "tel:+18777029887",
+  display: "+1 888 904 8001",
+  href: "tel:+18889048001",
 } as const;
 
 export const supportEmail = {
