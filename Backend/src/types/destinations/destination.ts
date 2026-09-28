@@ -45,6 +45,23 @@ export type DestinationGalleryImage = {
   readonly sortOrder: number;
 };
 
+export type DestinationSummary = {
+  readonly id: string;
+  readonly destinationName: string;
+  readonly slug: string;
+  readonly state: string;
+  readonly country: string;
+  readonly shortDescription: string;
+  readonly published: boolean;
+  readonly featured: boolean;
+  readonly showInNavigation: boolean;
+  readonly navigationOrder: number;
+  readonly heroImage: DestinationMediaRef | null;
+  readonly heroImageAlt: string;
+  readonly metaTitle: string;
+  readonly metaDescription: string;
+};
+
 export type DestinationRecord = {
   readonly id: string;
   readonly destinationName: string;

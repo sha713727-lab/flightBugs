@@ -11,6 +11,8 @@ import {
   fetchDestinationNav,
 } from "@/lib/destinations/fetch-destinations";
 
+export const dynamic = "force-dynamic";
+
 type DestinationSlugPageProps = {
   readonly params: Promise<{ readonly locale: string; readonly slug: string }>;
 };

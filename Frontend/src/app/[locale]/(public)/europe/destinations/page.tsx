@@ -4,6 +4,8 @@ import { DestinationIndexView } from "@/features/usa-destinations/destination-in
 import { destinationIndexMetadata } from "@/features/usa-destinations/destination-metadata";
 import { loadDestinationPublicData } from "@/lib/destinations/fetch-destinations";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = destinationIndexMetadata("europe");
 
 export default async function EuropeDestinationsIndexRoute() {

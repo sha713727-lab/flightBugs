@@ -22,7 +22,7 @@ export function createSignedBackendHeaders(
 
   return {
     "Content-Type": "application/json",
-    Origin: env.NEXT_PUBLIC_APP_URL,
+    Origin: new URL(env.NEXT_PUBLIC_APP_URL).origin,
     "X-Timestamp": timestamp,
     "X-Nonce": nonce,
     "X-Signature": signature,

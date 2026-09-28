@@ -40,6 +40,14 @@ export async function fetchPublishedDestinations(): Promise<
   }>("/destinations/list");
 
   if (!result.ok) {
+    if (
+      result.status === 401 ||
+      result.status === 503 ||
+      result.status === 429 ||
+      result.status === 413
+    ) {
+      return [];
+    }
     throw new DestinationFetchError(result.message, result.status);
   }
 
@@ -55,6 +63,14 @@ export async function fetchDestinationBySlug(
 
   if (!result.ok) {
     if (result.status === 404) {
+      return null;
+    }
+    if (
+      result.status === 401 ||
+      result.status === 503 ||
+      result.status === 429 ||
+      result.status === 413
+    ) {
       return null;
     }
     throw new DestinationFetchError(result.message, result.status);

@@ -9,7 +9,10 @@ import type {
   DestinationNavItem,
   DestinationRecord,
   DestinationSeason,
+  DestinationSummary,
 } from "../../../../types/destinations/destination.js";
+
+type TimestampValue = Date | string;
 
 type DestinationRow = {
   id: string;
@@ -41,9 +44,33 @@ type DestinationRow = {
   og_media_asset_id: string | null;
   primary_keyword: string | null;
   secondary_keywords: string | null;
-  created_at: Date;
-  updated_at: Date;
+  created_at: TimestampValue;
+  updated_at: TimestampValue;
 };
+
+type DestinationSummaryRow = {
+  id: string;
+  destination_name: string;
+  slug: string;
+  state: string;
+  country: string;
+  short_description: string;
+  published: boolean;
+  featured: boolean;
+  show_in_navigation: boolean;
+  navigation_order: number;
+  hero_media_asset_id: string | null;
+  hero_image_alt: string;
+  meta_title: string;
+  meta_description: string;
+};
+
+function toIso(value: TimestampValue): string {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+  return new Date(value).toISOString();
+}
 
 function mediaRef(
   mediaAssetId: string | null,
@@ -90,8 +117,27 @@ function mapDestination(row: DestinationRow): DestinationRecord {
     ogImage: mediaRef(row.og_media_asset_id, row.hero_image_alt),
     primaryKeyword: row.primary_keyword,
     secondaryKeywords: row.secondary_keywords,
-    createdAt: row.created_at.toISOString(),
-    updatedAt: row.updated_at.toISOString(),
+    createdAt: toIso(row.created_at),
+    updatedAt: toIso(row.updated_at),
+  };
+}
+
+function mapDestinationSummary(row: DestinationSummaryRow): DestinationSummary {
+  return {
+    id: row.id,
+    destinationName: row.destination_name,
+    slug: row.slug,
+    state: row.state,
+    country: row.country,
+    shortDescription: row.short_description,
+    published: row.published,
+    featured: row.featured,
+    showInNavigation: row.show_in_navigation,
+    navigationOrder: row.navigation_order,
+    heroImage: mediaRef(row.hero_media_asset_id, row.hero_image_alt),
+    heroImageAlt: row.hero_image_alt,
+    metaTitle: row.meta_title,
+    metaDescription: row.meta_description,
   };
 }
 
@@ -104,23 +150,29 @@ const destinationSelect = `
   primary_keyword, secondary_keywords, created_at, updated_at
 `;
 
+const destinationSummarySelect = `
+  id, destination_name, slug, state, country, short_description,
+  published, featured, show_in_navigation, navigation_order,
+  hero_media_asset_id, hero_image_alt, meta_title, meta_description
+`;
+
 export async function listDestinations(options: {
   readonly publishedOnly: boolean;
-}): Promise<ReadonlyArray<DestinationRecord>> {
+}): Promise<ReadonlyArray<DestinationSummary>> {
   const result = options.publishedOnly
-    ? await pool.query<DestinationRow>(
-        `SELECT ${destinationSelect}
+    ? await pool.query<DestinationSummaryRow>(
+        `SELECT ${destinationSummarySelect}
          FROM destinations
          WHERE published = TRUE
          ORDER BY navigation_order ASC, destination_name ASC`,
       )
-    : await pool.query<DestinationRow>(
-        `SELECT ${destinationSelect}
+    : await pool.query<DestinationSummaryRow>(
+        `SELECT ${destinationSummarySelect}
          FROM destinations
          ORDER BY navigation_order ASC, destination_name ASC`,
       );
 
-  return result.rows.map(mapDestination);
+  return result.rows.map(mapDestinationSummary);
 }
 
 export async function listNavDestinations(): Promise<
