@@ -23,6 +23,9 @@ export async function fetchDestinationNav(): Promise<
   }>("/destinations/nav");
 
   if (!result.ok) {
+    if (result.status === 401 || result.status === 503 || result.status === 429) {
+      return [];
+    }
     throw new DestinationFetchError(result.message, result.status);
   }
 

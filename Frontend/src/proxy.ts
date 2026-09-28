@@ -21,9 +21,7 @@ function buildContentSecurityPolicy(nonce: string, isDev: boolean): string {
     ...(isDev ? ["ws:", "wss:", "http://127.0.0.1:*", "http://localhost:*"] : []),
   ].join(" ");
 
-  const styleSrcElem = isDev
-    ? "style-src-elem 'self' 'unsafe-inline'"
-    : `style-src-elem 'self' 'nonce-${nonce}'`;
+  const styleSrcElem = "style-src-elem 'self' 'unsafe-inline'";
 
   return [
     "default-src 'self'",
