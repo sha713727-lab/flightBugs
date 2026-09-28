@@ -8,7 +8,12 @@ export type DestinationImageKey =
   | "cancun"
   | "london"
   | "paris"
-  | "tokyo";
+  | "tokyo"
+  | "honolulu"
+  | "nashville"
+  | "phoenix"
+  | "miamiBeach"
+  | "newYorkCity";
 
 export type DestinationItem = {
   readonly id: string;
@@ -136,6 +141,76 @@ export const destinations: ReadonlyArray<DestinationItem> = [
       city: "Las Vegas",
       iata: "LAS",
       name: "Harry Reid International Airport",
+      countryCode: "US",
+      kind: "airport",
+    },
+  },
+  {
+    id: "honolulu",
+    name: "Honolulu, Hawaii",
+    scope: "domestic",
+    imageKey: "honolulu",
+    place: {
+      id: "arp_hnl_us",
+      city: "Honolulu",
+      iata: "HNL",
+      name: "Daniel K. Inouye International Airport",
+      countryCode: "US",
+      kind: "airport",
+    },
+  },
+  {
+    id: "nashville",
+    name: "Nashville, Tennessee",
+    scope: "domestic",
+    imageKey: "nashville",
+    place: {
+      id: "arp_bna_us",
+      city: "Nashville",
+      iata: "BNA",
+      name: "Nashville International Airport",
+      countryCode: "US",
+      kind: "airport",
+    },
+  },
+  {
+    id: "phoenix",
+    name: "Phoenix, Arizona",
+    scope: "domestic",
+    imageKey: "phoenix",
+    place: {
+      id: "arp_phx_us",
+      city: "Phoenix",
+      iata: "PHX",
+      name: "Phoenix Sky Harbor International Airport",
+      countryCode: "US",
+      kind: "airport",
+    },
+  },
+  {
+    id: "miami-beach",
+    name: "Miami Beach, Florida",
+    scope: "domestic",
+    imageKey: "miamiBeach",
+    place: {
+      id: "arp_mia_us",
+      city: "Miami Beach",
+      iata: "MIA",
+      name: "Miami International Airport",
+      countryCode: "US",
+      kind: "airport",
+    },
+  },
+  {
+    id: "new-york-city",
+    name: "New York City",
+    scope: "domestic",
+    imageKey: "newYorkCity",
+    place: {
+      id: "arp_jfk_us",
+      city: "New York",
+      iata: "JFK",
+      name: "John F. Kennedy International Airport",
       countryCode: "US",
       kind: "airport",
     },

@@ -20,6 +20,9 @@ const envSchema = z
     DUFFEL_API_VERSION: z.string().min(1),
     DUFFEL_API_BASE_URL: z.string().url(),
     DUFFEL_SUPPLIER_TIMEOUT_MS: z.coerce.number().int().min(2000).max(60000),
+    UPLOAD_ROOT: z.string().min(1),
+    ADMIN_BOOTSTRAP_EMAIL: z.string().email(),
+    ADMIN_BOOTSTRAP_PASSWORD: z.string().min(12),
   })
   .strict();
 
@@ -38,6 +41,9 @@ const parsed = envSchema.safeParse({
   DUFFEL_API_VERSION: process.env.DUFFEL_API_VERSION,
   DUFFEL_API_BASE_URL: process.env.DUFFEL_API_BASE_URL,
   DUFFEL_SUPPLIER_TIMEOUT_MS: process.env.DUFFEL_SUPPLIER_TIMEOUT_MS,
+  UPLOAD_ROOT: process.env.UPLOAD_ROOT,
+  ADMIN_BOOTSTRAP_EMAIL: process.env.ADMIN_BOOTSTRAP_EMAIL,
+  ADMIN_BOOTSTRAP_PASSWORD: process.env.ADMIN_BOOTSTRAP_PASSWORD,
 });
 
 if (!parsed.success) {

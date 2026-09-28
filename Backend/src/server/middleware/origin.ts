@@ -49,9 +49,12 @@ export function assertAllowedOrigin(
     response.setHeader("Vary", "Origin");
     response.setHeader(
       "Access-Control-Allow-Headers",
-      "Content-Type, X-Timestamp, X-Nonce, X-Signature",
+      "Content-Type, X-Timestamp, X-Nonce, X-Signature, X-Admin-Session",
     );
-    response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS",
+    );
   }
 
   return { ok: true, origin };

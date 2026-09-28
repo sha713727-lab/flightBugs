@@ -25,6 +25,11 @@ const liveCityLines: Record<string, string> = {
   london: "History, then takeoff.",
   paris: "Arrive before evening.",
   tokyo: "A city unlike any other.",
+  honolulu: "Palms, then landing.",
+  nashville: "Music after landing.",
+  phoenix: "Desert light on arrival.",
+  "miami-beach": "Sand, then the skyline.",
+  "new-york-city": "Liberty on the harbor.",
 };
 
 export const liveLandingCopy = {

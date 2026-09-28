@@ -1,0 +1,1630 @@
+{
+  "source": "flightbugs_us_domestic_seo_aeo_geo_content_master.md",
+  "generatedAt": "2026-09-28T18:51:26.781Z",
+  "hubNote": "Hub page /en/domestic-flights is not imported: no hub CMS model exists. Destinations index remains /en/destinations.",
+  "warnings": [],
+  "destinations": [
+    {
+      "destinationName": "New York",
+      "slug": "new-york",
+      "state": "New York",
+      "country": "United States",
+      "shortDescription": "Looking for flights to New York? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers New York City's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to New York, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to New York? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers New York City's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to New York, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": true,
+      "showInNavigation": true,
+      "navigationOrder": 1,
+      "heroHeading": "Flights To New York",
+      "heroSubheading": "flights to New York",
+      "heroDescription": "Looking for flights to New York? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers New York City's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to New York, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/newYork.png",
+      "heroImageAlt": "New York City skyline and major landmarks",
+      "heroCtaText": "Search flights to New York",
+      "whyVisitHeading": "Why Visit New York City?",
+      "whyVisitDescription": "New York City works for quick weekends, family breaks, business travel and longer city vacations because so much is concentrated into five boroughs. First-time visitors can build a trip around Manhattan icons, while repeat travelers can spend more time in Brooklyn, Queens, the Bronx and Staten Island. Fall brings comfortable city-walking weather and seasonal color, while the holiday period draws travelers for lights, shopping, shows and celebrations.\n\nFor travelers comparing flights to NYC or broader New York City travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit New York City",
+      "bestTimeSummary": "For comfortable walking and broad sightseeing, spring and fall are popular. October and November are especially useful for city breaks before the deepest winter weather arrives. December is a major holiday-travel period. Winter can bring colder temperatures and occasional snow, while summer is warm and busy. Travelers focused on airfare should compare flexible dates because fares can shift sharply around weekends, Thanksgiving, Christmas and New Year's.",
+      "metaTitle": "Flights to New York (NYC) – Compare Domestic Flight Options | FlightBugs",
+      "metaDescription": "Compare flights to New York City and plan your trip around JFK, LaGuardia and Newark. Explore top attractions, travel seasons, local food and useful NYC flight information with FlightBugs.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/new-york",
+      "ogTitle": "Flights to New York (NYC) – Compare Domestic Flight Options | FlightBugs",
+      "ogDescription": "Compare flights to New York City and plan your trip around JFK, LaGuardia and Newark. Explore top attractions, travel seasons, local food and useful NYC flight information with FlightBugs.",
+      "ogImageUrl": "/images/destinations/newYork.png",
+      "primaryKeyword": "flights to New York",
+      "secondaryKeywords": "cheap flights to New York, flights to NYC, New York flights, flight to New York, airfare to New York",
+      "thingsToDo": [
+        {
+          "title": "Central Park",
+          "description": "Walk, cycle or simply slow the pace between sightseeing stops in Manhattan's best-known green space.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Times Square & Broadway",
+          "description": "See the bright Midtown theater district and pair an evening performance with nearby dining.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Statue of Liberty & Lower Manhattan",
+          "description": "Combine harbor views with the Financial District, Battery Park and the 9/11 Memorial area.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Brooklyn Bridge & DUMBO",
+          "description": "Cross on foot for skyline views, waterfront parks and one of the city's most photographed neighborhoods.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Museums & Culture",
+          "description": "Choose from major art, history and science museums, then explore smaller neighborhood galleries and cultural institutions.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Broadway and live performance",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Observation decks and skyline views",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Neighborhood food walks",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Holiday shopping and seasonal events",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Museums and cultural attractions",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Brooklyn waterfront experiences",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "New York-style pizza",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Bagels with classic deli toppings",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Pastrami sandwiches",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "New York cheesecake",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Street carts and neighborhood food halls",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "John F. Kennedy International Airport",
+          "airportCode": "JFK",
+          "description": "When comparing New York City flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        },
+        {
+          "airportName": "LaGuardia Airport",
+          "airportCode": "LGA",
+          "description": "When comparing New York City flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 2
+        },
+        {
+          "airportName": "Newark Liberty International Airport",
+          "airportCode": "EWR",
+          "description": "When comparing New York City flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 3
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "Which airport should I use for New York City?",
+          "answer": "JFK, LaGuardia (LGA) and Newark Liberty (EWR) all serve the New York metropolitan area. The best option depends on your origin, fare, airline, schedule and where you are staying.",
+          "sortOrder": 1
+        },
+        {
+          "question": "How can I find cheap flights to New York?",
+          "answer": "Compare multiple travel dates, nearby airports and departure times. Midweek or less convenient departure times can sometimes produce better options, but pricing changes continuously.",
+          "sortOrder": 2
+        },
+        {
+          "question": "Are there direct domestic flights to New York?",
+          "answer": "Yes. New York is connected nonstop with many major U.S. cities through JFK, LGA and EWR, though availability depends on the city and airline.",
+          "sortOrder": 3
+        },
+        {
+          "question": "When should I book a flight to New York?",
+          "answer": "There is no single guaranteed cheapest booking day. Compare fares early, watch your preferred dates, and allow more lead time around major holidays and peak travel periods.",
+          "sortOrder": 4
+        },
+        {
+          "question": "Is New York good for a weekend trip?",
+          "answer": "Yes. A short trip can focus on one or two neighborhoods, while a longer stay makes it easier to explore beyond Midtown Manhattan.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "Atlanta to New York flights",
+        "Chicago to New York flights",
+        "New York to Miami flights",
+        "New York to Orlando flights",
+        "Dallas to New York airfare",
+        "Houston to New York flights"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to New York City**."
+      ]
+    },
+    {
+      "destinationName": "Orlando",
+      "slug": "orlando",
+      "state": "Florida",
+      "country": "United States",
+      "shortDescription": "Looking for flights to Orlando? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Orlando's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to Orlando, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to Orlando? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Orlando's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to Orlando, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": false,
+      "showInNavigation": true,
+      "navigationOrder": 2,
+      "heroHeading": "Flights To Orlando",
+      "heroSubheading": "flights to Orlando",
+      "heroDescription": "Looking for flights to Orlando? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Orlando's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to Orlando, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/miami.png",
+      "heroImageAlt": "Orlando Florida travel destination view",
+      "heroCtaText": "Search flights to Orlando",
+      "whyVisitHeading": "Why Visit Orlando?",
+      "whyVisitDescription": "Orlando is one of the strongest family and leisure destinations in the United States, but the city offers more than theme parks. Travelers can mix major attractions with dining districts, performing arts, shopping, outdoor recreation and day trips across Central Florida. The fall and holiday seasons are especially active, with Halloween programming, seasonal events and winter escapes drawing visitors from colder states.\n\nFor travelers comparing flights to Orlando Florida or broader Orlando travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit Orlando",
+      "bestTimeSummary": "Orlando is a year-round destination. Fall combines seasonal theme-park events with warm weather, while November through early spring can be appealing for travelers who prefer milder temperatures. Holiday weeks are popular and can be busy. Summer is hot, humid and storm-prone, so travelers often plan indoor breaks and flexible schedules.",
+      "metaTitle": "Flights to Orlando, Florida (MCO) – Domestic Flight Guide | FlightBugs",
+      "metaDescription": "Explore flights to Orlando, Florida and plan a trip around theme parks, neighborhoods, food and family attractions. Compare domestic flight options to MCO with FlightBugs.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/orlando",
+      "ogTitle": "Flights to Orlando, Florida (MCO) – Domestic Flight Guide | FlightBugs",
+      "ogDescription": "Explore flights to Orlando, Florida and plan a trip around theme parks, neighborhoods, food and family attractions. Compare domestic flight options to MCO with FlightBugs.",
+      "ogImageUrl": "/images/destinations/miami.png",
+      "primaryKeyword": "flights to Orlando",
+      "secondaryKeywords": "cheap flights to Orlando, flights to Orlando Florida, Orlando flights, flight to Orlando, flight deals to Orlando",
+      "thingsToDo": [
+        {
+          "title": "Walt Disney World Resort",
+          "description": "Plan park days carefully and leave buffer time for transportation, dining and rest.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Universal Orlando Resort",
+          "description": "Build a day around themed attractions, entertainment and dining, with options for both families and adults.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "International Drive",
+          "description": "Use the corridor for attractions, restaurants, entertainment and easy access to multiple visitor areas.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Downtown Orlando",
+          "description": "Explore local neighborhoods, dining, arts and events beyond the main resort districts.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Outdoor Central Florida",
+          "description": "Add springs, gardens, lakes or a day trip for a different side of the region.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Theme-park vacations",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Family getaways",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Couples' trips",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Food and entertainment districts",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Shopping weekends",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Outdoor day trips",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "Florida citrus-inspired dishes",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Cuban and Caribbean-influenced food",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Southern comfort food",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Modern food halls",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Theme-park signature dining",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "Orlando International Airport",
+          "airportCode": "MCO",
+          "description": "When comparing Orlando flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "What airport should I fly into for Orlando?",
+          "answer": "Orlando International Airport (MCO) is the primary airport for most visitors and provides broad domestic connectivity.",
+          "sortOrder": 1
+        },
+        {
+          "question": "How can I find cheap flights to Orlando?",
+          "answer": "Search flexible travel dates, compare early-morning and late-evening departures, and look at fare differences outside school-break and holiday peaks.",
+          "sortOrder": 2
+        },
+        {
+          "question": "Are there nonstop flights to Orlando?",
+          "answer": "Many U.S. cities have nonstop service to Orlando, but routes and frequencies vary by airline and season.",
+          "sortOrder": 3
+        },
+        {
+          "question": "When is Orlando busiest?",
+          "answer": "School vacations, major holiday periods and popular theme-park event weeks can draw higher visitor demand.",
+          "sortOrder": 4
+        },
+        {
+          "question": "Is Orlando only for families?",
+          "answer": "No. Orlando also has nightlife, restaurants, arts, shopping, golf, sports and adult-focused resort experiences.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "New York to Orlando flights",
+        "Orlando to New York flights",
+        "Philadelphia to Orlando flights",
+        "Cincinnati to Orlando flights"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to Orlando**."
+      ]
+    },
+    {
+      "destinationName": "Las Vegas",
+      "slug": "las-vegas",
+      "state": "Nevada",
+      "country": "United States",
+      "shortDescription": "Looking for flights to Las Vegas? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Las Vegas's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Vegas, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to Las Vegas? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Las Vegas's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Vegas, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": false,
+      "showInNavigation": true,
+      "navigationOrder": 3,
+      "heroHeading": "Flights To Las Vegas",
+      "heroSubheading": "flights to Las Vegas",
+      "heroDescription": "Looking for flights to Las Vegas? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Las Vegas's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Vegas, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/lasVegas.png",
+      "heroImageAlt": "Las Vegas skyline and major landmarks",
+      "heroCtaText": "Search flights to Las Vegas",
+      "whyVisitHeading": "Why Visit Las Vegas?",
+      "whyVisitDescription": "Las Vegas is built for short trips as well as longer entertainment-focused vacations. The Strip brings together resorts, live shows, dining, nightlife and major sports, while Downtown offers a different atmosphere around Fremont Street. Travelers can also use the city as a base for outdoor and desert experiences such as Red Rock Canyon and Hoover Dam day trips.\n\nFor travelers comparing cheap flights to Vegas or broader Las Vegas travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit Las Vegas",
+      "bestTimeSummary": "Fall through spring is popular for travelers who prefer cooler desert weather. October and November are strong for outdoor time and events, while December adds holiday celebrations and major entertainment. Summer can be extremely hot, so many activities center on indoor resorts and pools. Event dates can influence both airfare and room demand.",
+      "metaTitle": "Flights to Las Vegas (LAS) – Compare Domestic Flight Options | FlightBugs",
+      "metaDescription": "Compare flights to Las Vegas and plan a Nevada getaway with information on LAS airport, attractions, dining, events, best travel seasons and popular domestic routes.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/las-vegas",
+      "ogTitle": "Flights to Las Vegas (LAS) – Compare Domestic Flight Options | FlightBugs",
+      "ogDescription": "Compare flights to Las Vegas and plan a Nevada getaway with information on LAS airport, attractions, dining, events, best travel seasons and popular domestic routes.",
+      "ogImageUrl": "/images/destinations/lasVegas.png",
+      "primaryKeyword": "flights to Las Vegas",
+      "secondaryKeywords": "flights to Vegas, cheap flights to Vegas, cheap flights to Las Vegas, Las Vegas flights, plane tickets to Las Vegas",
+      "thingsToDo": [
+        {
+          "title": "Las Vegas Strip",
+          "description": "Walk or ride between major resorts, attractions, shows and restaurants.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Fremont Street Experience",
+          "description": "See Downtown Las Vegas for live entertainment, lights and a more compact casino district.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Sphere and Live Entertainment",
+          "description": "Check current calendars for concerts, residencies, sporting events and immersive productions.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Red Rock Canyon",
+          "description": "Trade neon for desert landscapes and scenic drives just outside the urban core.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "High Roller & Skyline Views",
+          "description": "See the Strip from above and time the visit around sunset or evening lights.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Weekend getaways",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Live shows and concerts",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Sports trips",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Food-focused vacations",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Nightlife",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Desert day trips",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "Celebrity-chef dining",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Steakhouses",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Buffets",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Tacos and late-night food",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Modern tasting menus",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "Harry Reid International Airport",
+          "airportCode": "LAS",
+          "description": "When comparing Las Vegas flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "What airport serves Las Vegas?",
+          "answer": "Harry Reid International Airport (LAS) is the main commercial airport serving Las Vegas and is close to the Strip.",
+          "sortOrder": 1
+        },
+        {
+          "question": "How do I search for cheap flights to Vegas?",
+          "answer": "Compare multiple departure days, airports and flight times. Weekend demand can be high, so shifting the trip by a day may change available fares.",
+          "sortOrder": 2
+        },
+        {
+          "question": "Is Las Vegas good for a short trip?",
+          "answer": "Yes. Its concentrated resort corridor makes two- or three-night trips common, although longer stays work well if you include outdoor excursions.",
+          "sortOrder": 3
+        },
+        {
+          "question": "When is the best time to visit Las Vegas?",
+          "answer": "Many travelers prefer fall through spring because daytime temperatures are generally more comfortable for walking and outdoor activities.",
+          "sortOrder": 4
+        },
+        {
+          "question": "Can families visit Las Vegas?",
+          "answer": "Yes. Beyond casinos, the city offers shows, pools, observation attractions, museums and family-friendly entertainment, though individual venues have their own age rules.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "Chicago to Las Vegas flights",
+        "New York to Las Vegas airfare",
+        "Los Angeles to Las Vegas flights",
+        "Minneapolis to Las Vegas flights",
+        "Las Vegas to Seattle flights"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to Las Vegas**."
+      ]
+    },
+    {
+      "destinationName": "Miami",
+      "slug": "miami",
+      "state": "Florida",
+      "country": "United States",
+      "shortDescription": "Looking for flights to Miami? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Miami's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to Miami, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to Miami? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Miami's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to Miami, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": false,
+      "showInNavigation": true,
+      "navigationOrder": 4,
+      "heroHeading": "Flights To Miami",
+      "heroSubheading": "flights to Miami",
+      "heroDescription": "Looking for flights to Miami? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Miami's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare cheap flights to Miami, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/miami.png",
+      "heroImageAlt": "Miami beach and skyline travel destination view",
+      "heroCtaText": "Search flights to Miami",
+      "whyVisitHeading": "Why Visit Miami?",
+      "whyVisitDescription": "Miami combines a major U.S. city with beaches, warm weather, nightlife and strong Caribbean and Latin American cultural influences. A trip can shift from South Beach to Little Havana, Wynwood, museums, waterfront dining and national-park excursions. From late fall through winter, Miami is especially appealing to travelers looking for warmer weather.\n\nFor travelers comparing flight to Miami or broader Miami travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit Miami",
+      "bestTimeSummary": "Late fall through spring is popular because temperatures are generally milder than the hot, humid summer months. October and November can still be warm, while December begins a high-demand winter escape period. Travelers should also keep Atlantic hurricane season in mind when planning early-fall trips and should monitor weather forecasts and airline policies.",
+      "metaTitle": "Flights to Miami, Florida (MIA) – Domestic Flight Guide | FlightBugs",
+      "metaDescription": "Compare flights to Miami and explore beaches, neighborhoods, food, MIA airport information and the best times to visit South Florida with FlightBugs.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/miami",
+      "ogTitle": "Flights to Miami, Florida (MIA) – Domestic Flight Guide | FlightBugs",
+      "ogDescription": "Compare flights to Miami and explore beaches, neighborhoods, food, MIA airport information and the best times to visit South Florida with FlightBugs.",
+      "ogImageUrl": "/images/destinations/miami.png",
+      "primaryKeyword": "flights to Miami",
+      "secondaryKeywords": "cheap flights to Miami, flight to Miami, Miami flights, flights to Miami Florida, airfare to Miami",
+      "thingsToDo": [
+        {
+          "title": "South Beach",
+          "description": "Spend time on the beach, walk the Art Deco district and explore Ocean Drive and nearby neighborhoods.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Little Havana",
+          "description": "Experience Cuban-influenced food, music, cafés and street life around Calle Ocho.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Wynwood",
+          "description": "Explore murals, galleries, restaurants and design-focused spaces.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Biscayne Bay",
+          "description": "Use boat tours, water activities or waterfront parks to see Miami from the water.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Everglades & Biscayne National Parks",
+          "description": "Add nature-focused day trips when your schedule allows.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Beach trips",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Nightlife weekends",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Cultural neighborhoods",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Food-focused travel",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Art and design",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Water activities",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "Cuban sandwiches",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Cafecito and pastelitos",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Stone crab in season",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Caribbean seafood",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Latin American dining",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "Miami International Airport",
+          "airportCode": "MIA",
+          "description": "When comparing Miami flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "Which airport is best for Miami?",
+          "answer": "Miami International Airport (MIA) is the primary airport for the city. Fort Lauderdale-Hollywood International Airport (FLL) can also be useful depending on fare, schedule and where you are staying.",
+          "sortOrder": 1
+        },
+        {
+          "question": "How can I find cheap flights to Miami?",
+          "answer": "Compare MIA and FLL when practical, use flexible dates, and check different departure times. Holiday and winter demand can affect pricing.",
+          "sortOrder": 2
+        },
+        {
+          "question": "When is the best time to visit Miami?",
+          "answer": "Many visitors prefer late fall through spring for warm weather with less summer humidity.",
+          "sortOrder": 3
+        },
+        {
+          "question": "Is Miami only a beach destination?",
+          "answer": "No. Miami has major dining, arts, cultural, nightlife, shopping and outdoor experiences well beyond the beach.",
+          "sortOrder": 4
+        },
+        {
+          "question": "Are there nonstop domestic flights to Miami?",
+          "answer": "Yes. Miami has nonstop service from many U.S. markets, with schedules varying by airline and season.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "Atlanta to Miami flights",
+        "New York to Miami flights",
+        "Boston to Miami plane tickets",
+        "Charlotte to Miami flights",
+        "Miami to Denver flights"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to Miami**."
+      ]
+    },
+    {
+      "destinationName": "Los Angeles",
+      "slug": "los-angeles",
+      "state": "California",
+      "country": "United States",
+      "shortDescription": "Looking for flights to Los Angeles? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Los Angeles's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to LAX, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to Los Angeles? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Los Angeles's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to LAX, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": false,
+      "showInNavigation": true,
+      "navigationOrder": 5,
+      "heroHeading": "Flights To Los Angeles",
+      "heroSubheading": "flights to Los Angeles",
+      "heroDescription": "Looking for flights to Los Angeles? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Los Angeles's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to LAX, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/cancun.png",
+      "heroImageAlt": "Los Angeles travel destination view",
+      "heroCtaText": "Search flights to Los Angeles",
+      "whyVisitHeading": "Why Visit Los Angeles?",
+      "whyVisitDescription": "Los Angeles is a collection of distinct neighborhoods linked by entertainment, beaches, food, arts and outdoor experiences. Travelers can build one trip around Hollywood and studios, another around museums and architecture, or spend most of the time near the coast. The region rewards planning because distances can be significant and traffic can influence how much fits into a single day.\n\nFor travelers comparing flights to LA or broader Los Angeles travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit Los Angeles",
+      "bestTimeSummary": "Los Angeles can be visited year-round. Fall often brings warm days with fewer summer-vacation crowds, while winter is mild compared with much of the country and can be appealing for city sightseeing. Coastal and inland conditions can differ, so pack for temperature changes. Major events, holidays and school breaks can increase demand.",
+      "metaTitle": "Flights to Los Angeles (LAX) – Domestic Flight Guide | FlightBugs",
+      "metaDescription": "Explore flights to Los Angeles, California with guidance on LAX, attractions, beaches, food, travel seasons and popular domestic routes. Compare options with FlightBugs.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/los-angeles",
+      "ogTitle": "Flights to Los Angeles (LAX) – Domestic Flight Guide | FlightBugs",
+      "ogDescription": "Explore flights to Los Angeles, California with guidance on LAX, attractions, beaches, food, travel seasons and popular domestic routes. Compare options with FlightBugs.",
+      "ogImageUrl": "/images/destinations/cancun.png",
+      "primaryKeyword": "flights to Los Angeles",
+      "secondaryKeywords": "flights to LAX, flights to LA, Los Angeles flights, cheap flights to Los Angeles, airfare to Los Angeles",
+      "thingsToDo": [
+        {
+          "title": "Hollywood & Studio Experiences",
+          "description": "See major entertainment landmarks or take a studio tour for a behind-the-scenes look at film and television.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Griffith Observatory",
+          "description": "Pair city views with Griffith Park trails and a classic view toward the Hollywood Sign.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Santa Monica & Venice",
+          "description": "Spend a coastal day around the beach, pier, boardwalk and nearby dining.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "The Getty Center",
+          "description": "Combine art, architecture, gardens and broad city views.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Downtown Los Angeles",
+          "description": "Explore museums, dining, historic districts, sports and cultural venues.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Film and studio tours",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Beach days",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Museums and galleries",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Food neighborhoods",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Hiking and scenic viewpoints",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Live sports and entertainment",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "Tacos and regional Mexican food",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Korean barbecue",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Food trucks",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Sushi",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "California produce-driven dining",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "Los Angeles International Airport",
+          "airportCode": "LAX",
+          "description": "When comparing Los Angeles flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "What is the main airport for Los Angeles?",
+          "answer": "Los Angeles International Airport (LAX) is the region's largest airport, with extensive domestic service.",
+          "sortOrder": 1
+        },
+        {
+          "question": "Are there alternatives to LAX?",
+          "answer": "Depending on your destination within Southern California, airports such as Burbank, Long Beach, Ontario and Orange County may be worth comparing.",
+          "sortOrder": 2
+        },
+        {
+          "question": "How can I find cheap flights to Los Angeles?",
+          "answer": "Compare LAX with practical nearby airports, search flexible dates and check different departure times.",
+          "sortOrder": 3
+        },
+        {
+          "question": "How many days do I need in Los Angeles?",
+          "answer": "Three to five days gives more flexibility, but even a short trip can work if you focus on one or two geographic areas.",
+          "sortOrder": 4
+        },
+        {
+          "question": "Do I need a car in Los Angeles?",
+          "answer": "It depends on your itinerary. Public transit and rideshare can work for some areas, while a car may be more convenient for spread-out destinations.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "Seattle to Los Angeles flights",
+        "LAX to Las Vegas airfare",
+        "LAX to JFK airline tickets"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to Los Angeles**."
+      ]
+    },
+    {
+      "destinationName": "Honolulu",
+      "slug": "honolulu",
+      "state": "Hawaii",
+      "country": "United States",
+      "shortDescription": "Looking for flights to Honolulu? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Honolulu's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Hawaii, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to Honolulu? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Honolulu's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Hawaii, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": false,
+      "showInNavigation": true,
+      "navigationOrder": 6,
+      "heroHeading": "Flights To Honolulu",
+      "heroSubheading": "flights to Honolulu",
+      "heroDescription": "Looking for flights to Honolulu? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Honolulu's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Hawaii, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/cancun.png",
+      "heroImageAlt": "Honolulu and Oahu coastal travel destination view",
+      "heroCtaText": "Search flights to Honolulu",
+      "whyVisitHeading": "Why Visit Honolulu?",
+      "whyVisitDescription": "Honolulu gives travelers city convenience and easy access to many of Oahu's best-known beaches, cultural sites and outdoor experiences. Waikiki offers a walkable resort base, while the wider island adds the North Shore, Pearl Harbor, hiking, snorkeling and local food. For mainland U.S. travelers, Honolulu is one of the most connected gateways to Hawaii.\n\nFor travelers comparing cheap flights to Hawaii or broader Honolulu travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit Honolulu",
+      "bestTimeSummary": "Honolulu is a year-round destination. Winter attracts travelers escaping colder mainland weather and also brings larger surf to Oahu's North Shore. Fall can be appealing before the year-end holiday rush. Weather is generally warm, but short rain showers and localized conditions are normal. Holiday periods can bring stronger demand, so compare flights well ahead of fixed dates.",
+      "metaTitle": "Flights to Honolulu, Hawaii (HNL) – Domestic Travel Guide | FlightBugs",
+      "metaDescription": "Compare flights to Honolulu and plan an Oahu trip around HNL airport, Waikiki, beaches, culture, food and seasonal travel information with FlightBugs.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/honolulu",
+      "ogTitle": "Flights to Honolulu, Hawaii (HNL) – Domestic Travel Guide | FlightBugs",
+      "ogDescription": "Compare flights to Honolulu and plan an Oahu trip around HNL airport, Waikiki, beaches, culture, food and seasonal travel information with FlightBugs.",
+      "ogImageUrl": "/images/destinations/cancun.png",
+      "primaryKeyword": "flights to Honolulu",
+      "secondaryKeywords": "flights to Hawaii, cheap flights to Hawaii, cheap flights to Honolulu, Hawaii flights, airline tickets to Hawaii",
+      "thingsToDo": [
+        {
+          "title": "Waikiki Beach",
+          "description": "Use Waikiki as an easy base for beach time, surfing lessons, dining and evening walks.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Diamond Head / Leahi",
+          "description": "Plan an early hike for views across Honolulu and the coast, following local reservation requirements where applicable.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Pearl Harbor",
+          "description": "Allow sufficient time for historic sites and timed-entry experiences.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "North Shore",
+          "description": "Explore famous surf beaches, food trucks and a more relaxed side of Oahu.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Hanauma Bay & Coastal Experiences",
+          "description": "Add snorkeling or scenic coastal stops while respecting local conservation rules and access requirements.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Beach vacations",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Surfing and snorkeling",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Cultural and historic sites",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Island drives",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Hiking",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Local food experiences",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "Poke",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Plate lunch",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Shave ice",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Malasadas",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Native Hawaiian and local fusion cuisine",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "Daniel K. Inouye International Airport",
+          "airportCode": "HNL",
+          "description": "When comparing Honolulu flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "What airport do I fly into for Honolulu?",
+          "answer": "Daniel K. Inouye International Airport (HNL) is the main airport serving Honolulu and Oahu.",
+          "sortOrder": 1
+        },
+        {
+          "question": "How can I find cheap flights to Hawaii?",
+          "answer": "Compare departure airports, flexible dates and different trip lengths. West Coast gateways can offer a larger selection of nonstop options.",
+          "sortOrder": 2
+        },
+        {
+          "question": "Is Honolulu on the same island as Waikiki?",
+          "answer": "Yes. Honolulu and Waikiki are on Oahu.",
+          "sortOrder": 3
+        },
+        {
+          "question": "When is a good time to visit Honolulu?",
+          "answer": "Honolulu works year-round. Fall can be attractive before peak holiday travel, while winter is popular with travelers seeking warm weather.",
+          "sortOrder": 4
+        },
+        {
+          "question": "How long should I stay on Oahu?",
+          "answer": "A stay of several days allows time for Waikiki plus other parts of the island, but the ideal length depends on whether you are visiting only Oahu or combining islands.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "Los Angeles to Honolulu flights",
+        "San Francisco to Honolulu flights",
+        "Seattle to Honolulu flights",
+        "Las Vegas to Honolulu flights"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to Honolulu**."
+      ]
+    },
+    {
+      "destinationName": "Denver",
+      "slug": "denver",
+      "state": "Colorado",
+      "country": "United States",
+      "shortDescription": "Looking for flights to Denver? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Denver's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Denver Colorado, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to Denver? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Denver's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Denver Colorado, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": false,
+      "showInNavigation": true,
+      "navigationOrder": 7,
+      "heroHeading": "Flights To Denver",
+      "heroSubheading": "flights to Denver",
+      "heroDescription": "Looking for flights to Denver? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Denver's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flights to Denver Colorado, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/montreal.png",
+      "heroImageAlt": "Denver Colorado travel destination view",
+      "heroCtaText": "Search flights to Denver",
+      "whyVisitHeading": "Why Visit Denver?",
+      "whyVisitDescription": "Denver works both as a destination and as a gateway to the Colorado Rockies. In the city, travelers can combine museums, neighborhoods, breweries, sports and live music. With more time, the trip can expand toward mountain towns, scenic drives and outdoor recreation. Fall brings changing leaves and comfortable city days, while winter increases interest from ski and snowboard travelers.\n\nFor travelers comparing flight tickets to Denver or broader Denver travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit Denver",
+      "bestTimeSummary": "September and October can be excellent for city sightseeing and fall-color trips, though mountain conditions change quickly. From late fall through winter, Denver becomes an important gateway for ski travel. Spring weather can be variable, while summer brings festivals and outdoor recreation. Travelers heading into the mountains should monitor forecasts and road conditions separately from Denver city weather.",
+      "metaTitle": "Flights to Denver, Colorado (DEN) – Domestic Flight Guide | FlightBugs",
+      "metaDescription": "Compare flights to Denver and plan a Colorado city or mountain trip with information on DEN airport, attractions, seasons and popular domestic routes.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/denver",
+      "ogTitle": "Flights to Denver, Colorado (DEN) – Domestic Flight Guide | FlightBugs",
+      "ogDescription": "Compare flights to Denver and plan a Colorado city or mountain trip with information on DEN airport, attractions, seasons and popular domestic routes.",
+      "ogImageUrl": "/images/destinations/montreal.png",
+      "primaryKeyword": "flights to Denver",
+      "secondaryKeywords": "flights to Denver Colorado, flight tickets to Denver, flight to Denver Colorado, Denver flights, cheap flights to Denver",
+      "thingsToDo": [
+        {
+          "title": "Red Rocks Park & Amphitheatre",
+          "description": "Visit for concerts when scheduled or explore the dramatic rock formations and views outside event times.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Denver Art Museum & Civic Center",
+          "description": "Build a downtown culture day around museums, architecture and nearby public spaces.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "RiNo Art District",
+          "description": "Explore murals, independent businesses, food and nightlife.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Union Station & Downtown",
+          "description": "Use the central area for dining, transit connections and easy access to several neighborhoods.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Rocky Mountain Day Trips",
+          "description": "Allow extra travel time and check weather and road conditions before heading into the mountains.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Mountain getaways",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Ski and snowboard trips",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Craft beer and food",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Live music",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Museums and culture",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Outdoor recreation",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "Green chile",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Colorado-raised beef and bison",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Craft beer",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Southwestern-inspired dishes",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Modern mountain cuisine",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "Denver International Airport",
+          "airportCode": "DEN",
+          "description": "When comparing Denver flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "What airport serves Denver?",
+          "answer": "Denver International Airport (DEN) is the primary airport for Denver and a major U.S. hub.",
+          "sortOrder": 1
+        },
+        {
+          "question": "How do I find cheap flights to Denver?",
+          "answer": "Compare flexible dates and departure times, and consider whether your trip overlaps a major ski weekend or holiday period.",
+          "sortOrder": 2
+        },
+        {
+          "question": "Is Denver a good base for ski trips?",
+          "answer": "Yes. Many travelers fly into DEN before continuing to mountain resorts, but transfer times and road conditions vary.",
+          "sortOrder": 3
+        },
+        {
+          "question": "When is the best time to visit Denver?",
+          "answer": "It depends on the trip: fall for city weather and foliage, winter for ski access, and summer for outdoor events and mountain recreation.",
+          "sortOrder": 4
+        },
+        {
+          "question": "How far is the airport from downtown Denver?",
+          "answer": "DEN is outside the city center; travelers should allow transfer time and can use rail, rideshare, taxis or rental cars depending on their plans.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "Miami to Denver flights",
+        "Minneapolis to Denver flights",
+        "Denver to Phoenix flights",
+        "Denver to Austin flights",
+        "Denver to Jackson Hole flights"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to Denver**."
+      ]
+    },
+    {
+      "destinationName": "Chicago",
+      "slug": "chicago",
+      "state": "Illinois",
+      "country": "United States",
+      "shortDescription": "Looking for flights to Chicago? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Chicago's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flight to Chicago, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "fullDescription": "Looking for flights to Chicago? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Chicago's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flight to Chicago, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.\n\nHow to compare\n\nStart with your preferred dates, then compare nearby dates if your schedule allows. Review whether the fare includes the baggage and seat options you need. If multiple airports serve the region, compare total ground-transfer time as well. For peak holidays, major events and fixed-date trips, monitor options earlier rather than relying on a last-minute price drop.",
+      "published": true,
+      "featured": false,
+      "showInNavigation": true,
+      "navigationOrder": 8,
+      "heroHeading": "Flights To Chicago",
+      "heroSubheading": "flights to Chicago",
+      "heroDescription": "Looking for flights to Chicago? Use FlightBugs to explore domestic flight options and plan the trip around the details that matter after you land. This guide covers Chicago's main airport options, popular experiences, local food, seasonal planning and useful route ideas. If your goal is to compare flight to Chicago, start with flexible dates and consider the airport and schedule that best fit your itinerary rather than choosing on headline fare alone.",
+      "heroImageUrl": "/images/destinations/newYork.png",
+      "heroImageAlt": "Chicago skyline and major landmarks",
+      "heroCtaText": "Search flights to Chicago",
+      "whyVisitHeading": "Why Visit Chicago?",
+      "whyVisitDescription": "Chicago is a major domestic-flight hub and a strong city-break destination. Visitors can combine architecture, museums, food, live music, sports and lakefront neighborhoods without leaving the city. Fall offers crisp weather and seasonal color, while the holiday period brings lights, markets, indoor attractions and winter events.\n\nFor travelers comparing Chicago flights or broader Chicago travel options, the destination is strongest when the flight plan and on-the-ground itinerary are considered together. Airport choice, arrival time and trip length can affect how much of the destination you can realistically experience.",
+      "bestTimeHeading": "Best Time to Visit Chicago",
+      "bestTimeSummary": "September and October are often comfortable for walking and lakefront sightseeing. November transitions toward colder weather and holiday programming, while December brings winter conditions and seasonal events. Spring can be changeable, and summer is popular for festivals, beaches and outdoor dining. Travelers using Chicago as a connecting or origin city should compare both O'Hare and Midway when practical.",
+      "metaTitle": "Flights to Chicago (ORD & MDW) – Domestic Flight Guide | FlightBugs",
+      "metaDescription": "Compare flights to Chicago and plan around O'Hare or Midway with guidance on attractions, food, best seasons and popular domestic routes.",
+      "canonicalUrl": "https://flightbugs.com/en/destinations/chicago",
+      "ogTitle": "Flights to Chicago (ORD & MDW) – Domestic Flight Guide | FlightBugs",
+      "ogDescription": "Compare flights to Chicago and plan around O'Hare or Midway with guidance on attractions, food, best seasons and popular domestic routes.",
+      "ogImageUrl": "/images/destinations/newYork.png",
+      "primaryKeyword": "flights to Chicago",
+      "secondaryKeywords": "flight to Chicago, Chicago flights, flight tickets to Chicago, cheap flights Chicago, flights to Chicago Illinois",
+      "thingsToDo": [
+        {
+          "title": "Millennium Park",
+          "description": "Start with Cloud Gate, nearby cultural sites and easy access to downtown attractions.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Chicago River Architecture Cruise",
+          "description": "See the city's architectural history from the river while moving through the heart of downtown.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Museum Campus",
+          "description": "Choose from major science, history and aquarium attractions along the lakefront.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Navy Pier & Lakefront",
+          "description": "Walk the waterfront, take in skyline views and connect to nearby Streeterville attractions.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Neighborhoods",
+          "description": "Explore areas such as Pilsen, Wicker Park, Hyde Park, Chinatown or Logan Square for food and local character.",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "experiences": [
+        {
+          "title": "Architecture tours",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Museum trips",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Food weekends",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Sports travel",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Live music and theatre",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        },
+        {
+          "title": "Holiday city breaks",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 6
+        }
+      ],
+      "culinaryItems": [
+        {
+          "title": "Deep-dish pizza",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 1
+        },
+        {
+          "title": "Chicago-style hot dogs",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 2
+        },
+        {
+          "title": "Italian beef",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 3
+        },
+        {
+          "title": "Jibaritos",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 4
+        },
+        {
+          "title": "Steakhouses and modern Midwest dining",
+          "description": "",
+          "imageUrl": null,
+          "imageAlt": "",
+          "sortOrder": 5
+        }
+      ],
+      "airports": [
+        {
+          "airportName": "O'Hare International Airport",
+          "airportCode": "ORD",
+          "description": "When comparing Chicago flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 1
+        },
+        {
+          "airportName": "Chicago Midway International Airport",
+          "airportCode": "MDW",
+          "description": "When comparing Chicago flights, look at the total journey rather than airfare alone. Consider ground transportation, arrival time, baggage rules, the location of your accommodation and whether another practical airport creates a better schedule. Airport availability and nonstop service vary by origin and airline.",
+          "distanceOrArea": "",
+          "airportLink": null,
+          "sortOrder": 2
+        }
+      ],
+      "seasons": [],
+      "faqs": [
+        {
+          "question": "Which Chicago airport should I use?",
+          "answer": "Chicago O'Hare (ORD) and Midway (MDW) both serve the city. The better option depends on airline, origin, fare, schedule and where you are staying.",
+          "sortOrder": 1
+        },
+        {
+          "question": "How can I find cheap flights to Chicago?",
+          "answer": "Compare ORD and MDW, use flexible dates and check different departure times. Major events and holidays can affect demand.",
+          "sortOrder": 2
+        },
+        {
+          "question": "Is Chicago good for a weekend trip?",
+          "answer": "Yes. Downtown attractions are concentrated enough for a short trip, while longer stays make it easier to explore neighborhoods.",
+          "sortOrder": 3
+        },
+        {
+          "question": "When is the best time to visit Chicago?",
+          "answer": "Fall is popular for comfortable sightseeing; summer is best for lakefront activities and festivals; winter offers holiday events and indoor cultural attractions.",
+          "sortOrder": 4
+        },
+        {
+          "question": "Are there nonstop flights to Chicago from many U.S. cities?",
+          "answer": "Yes. Chicago is one of the country's largest aviation markets and has broad domestic connectivity through ORD and MDW.",
+          "sortOrder": 5
+        }
+      ],
+      "galleryImages": [],
+      "relatedRouteIdeas": [
+        "Houston to Chicago flights",
+        "Boston to Chicago flights",
+        "Chicago to New York flights",
+        "Chicago to Las Vegas flights",
+        "Chicago to Tampa flights",
+        "New York to Chicago flights"
+      ],
+      "internalLinkNotes": [
+        "Link back to `/en/domestic-flights` with a natural anchor such as **U.S. domestic flights**.",
+        "Link to the most relevant future route pages listed above.",
+        "Link to related destination pages where there is genuine traveler overlap.",
+        "Link to the live FlightBugs flight search/booking flow with CTA text such as **Search flights to Chicago**."
+      ]
+    }
+  ]
+}

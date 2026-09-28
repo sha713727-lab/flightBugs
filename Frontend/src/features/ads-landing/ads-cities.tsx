@@ -8,7 +8,9 @@ import {
   adsLandingCopy,
   adsLandingPath,
 } from "@/constants/adsLandingContent";
+import { destinationImages } from "@/constants/brandAssets";
 import { AdsReveal } from "@/features/ads-landing/ads-reveal";
+import { cn } from "@/utils/cn";
 
 export function AdsCities() {
   return (
@@ -34,7 +36,11 @@ export function AdsCities() {
                       alt={city.image.alt}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      className={cn(
+                        "object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+                        city.image.src === destinationImages.newYorkCity.src &&
+                          "object-[80%_center]",
+                      )}
                     />
                     <div
                       className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"

@@ -1,6 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
+import {
+  DestinationsMobileList,
+  DestinationsNavMenu,
+} from "@/components/destinations-nav-menu";
 import { brandAssets } from "@/constants/brandAssets";
 import {
   liveLandingCopy,
@@ -8,9 +15,15 @@ import {
 } from "@/constants/liveLandingContent";
 import { siteBrand } from "@/constants/siteBrand";
 import { sitePageHref } from "@/constants/sitePages";
+import type { DestinationNavItem } from "@/types/destinations";
 
-export function LiveHeader() {
+type LiveHeaderProps = {
+  readonly destinationNav: ReadonlyArray<DestinationNavItem>;
+};
+
+export function LiveHeader({ destinationNav }: LiveHeaderProps) {
   const { siteLogo } = brandAssets;
+  const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-white">
@@ -29,6 +42,7 @@ export function LiveHeader() {
         </Link>
 
         <nav aria-label="Company" className="hidden items-center gap-1 md:flex">
+          <DestinationsNavMenu items={destinationNav} themeId="live" />
           <Link
             href={sitePageHref("about", "live")}
             className="rounded-[10px] px-3 py-2 text-sm font-medium text-secondary-text transition-colors hover:text-aviation-blue"
@@ -50,7 +64,52 @@ export function LiveHeader() {
           />
           {liveLandingCopy.badge}
         </p>
+
+        <button
+          type="button"
+          className="inline-flex size-11 items-center justify-center rounded-[12px] border border-border text-primary-text md:hidden"
+          aria-expanded={open}
+          aria-controls="live-mobile-nav"
+          aria-label={open ? "Close menu" : "Open menu"}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span aria-hidden="true">{open ? "✕" : "☰"}</span>
+        </button>
       </div>
+
+      {open ? (
+        <nav
+          id="live-mobile-nav"
+          aria-label="Mobile"
+          className="border-t border-border bg-white px-5 py-3 md:hidden"
+        >
+          <ul className="space-y-1">
+            <DestinationsMobileList
+              items={destinationNav}
+              themeId="live"
+              onNavigate={() => setOpen(false)}
+            />
+            <li>
+              <Link
+                href={sitePageHref("about", "live")}
+                onClick={() => setOpen(false)}
+                className="block rounded-[10px] px-3 py-2.5 text-sm font-medium text-primary-text hover:bg-soft-section"
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={sitePageHref("contact", "live")}
+                onClick={() => setOpen(false)}
+                className="block rounded-[10px] px-3 py-2.5 text-sm font-medium text-primary-text hover:bg-soft-section"
+              >
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      ) : null}
     </header>
   );
 }

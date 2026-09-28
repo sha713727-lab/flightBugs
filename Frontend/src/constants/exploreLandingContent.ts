@@ -132,6 +132,51 @@ export const exploreTrending = [
     image: destinationImages.montreal,
     place: defaultFromPlace,
   },
+  {
+    id: "honolulu",
+    name: "Honolulu, Hawaii",
+    fromPrice: "Hawaii",
+    image: destinationImages.honolulu,
+    place:
+      destinations.find((item) => item.place.iata === "HNL")?.place ??
+      defaultToPlace,
+  },
+  {
+    id: "nashville",
+    name: "Nashville, Tennessee",
+    fromPrice: "Tennessee",
+    image: destinationImages.nashville,
+    place:
+      destinations.find((item) => item.place.iata === "BNA")?.place ??
+      defaultToPlace,
+  },
+  {
+    id: "phoenix",
+    name: "Phoenix, Arizona",
+    fromPrice: "Arizona",
+    image: destinationImages.phoenix,
+    place:
+      destinations.find((item) => item.place.iata === "PHX")?.place ??
+      defaultToPlace,
+  },
+  {
+    id: "miami-beach",
+    name: "Miami Beach, Florida",
+    fromPrice: "Florida",
+    image: destinationImages.miamiBeach,
+    place:
+      destinations.find((item) => item.id === "miami-beach")?.place ??
+      defaultToPlace,
+  },
+  {
+    id: "new-york-city",
+    name: "New York City",
+    fromPrice: "New York",
+    image: destinationImages.newYorkCity,
+    place:
+      destinations.find((item) => item.id === "new-york-city")?.place ??
+      defaultToPlace,
+  },
 ] as const;
 
 export const exploreMoods = [

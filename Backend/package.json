@@ -13,7 +13,10 @@
     "lint": "tsc --noEmit",
     "test": "tsx --test src/server/auth/hmac-crypto.test.ts src/server/http/json-limit.test.ts src/server/http/route-resolver.test.ts src/server/database/repositories/rate-limit/retry-after.test.ts src/server/middleware/read-body.test.ts",
     "test:security": "tsx --test src/server/auth/hmac-crypto.test.ts",
-    "migrate": "tsx scripts/run-migrations.ts"
+    "migrate": "tsx scripts/run-migrations.ts",
+    "seed:admin": "tsx scripts/seed-admin.ts",
+    "parse:destination-content": "tsx scripts/parse-destination-content-master.ts",
+    "import:destination-content": "tsx scripts/import-destination-content.ts"
   },
   "dependencies": {
     "pg": "8.23.0",

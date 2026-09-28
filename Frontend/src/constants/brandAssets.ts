@@ -87,6 +87,26 @@ export const destinationImages = {
     src: "/images/destinations/tokyo.png",
     alt: "Flights to Tokyo",
   },
+  honolulu: {
+    src: "/images/destinations/honolulu.jpg",
+    alt: "Flights to Honolulu, Hawaii",
+  },
+  nashville: {
+    src: "/images/destinations/nashville.jpg",
+    alt: "Flights to Nashville, Tennessee",
+  },
+  phoenix: {
+    src: "/images/destinations/phoenix.jpg",
+    alt: "Flights to Phoenix, Arizona",
+  },
+  miamiBeach: {
+    src: "/images/destinations/miamiBeach.jpg",
+    alt: "Flights to Miami Beach, Florida",
+  },
+  newYorkCity: {
+    src: "/images/destinations/newYorkCity.jpg",
+    alt: "Flights to New York City",
+  },
 } as const;
 
 export const marketingImages = {

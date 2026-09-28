@@ -3,6 +3,7 @@ import { siteBrand } from "@/constants/siteBrand";
 import { supportPhone } from "@/constants/supportContact";
 import { AdsLandingPage } from "@/features/ads-landing/ads-landing-page";
 import { ThemeDocumentClass } from "@/features/site-pages/theme-document-class";
+import { fetchDestinationNav } from "@/lib/destinations/fetch-destinations";
 import { buildLandingMetadata } from "@/lib/site-metadata";
 
 export const metadata = buildLandingMetadata({
@@ -11,11 +12,13 @@ export const metadata = buildLandingMetadata({
   path: adsLandingPath,
 });
 
-export default function AdsLandingRoute() {
+export default async function AdsLandingRoute() {
+  const destinationNav = await fetchDestinationNav();
+
   return (
     <>
       <ThemeDocumentClass themeId="book" />
-      <AdsLandingPage />
+      <AdsLandingPage destinationNav={destinationNav} />
     </>
   );
 }

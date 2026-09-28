@@ -3,6 +3,10 @@ import { createHash, createHmac, randomUUID } from "node:crypto";
 import { env } from "@/lib/env";
 import { serverEnv } from "@/lib/server-env";
 
+type BackendResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; status: number; message: string };
+
 export function createSignedBackendHeaders(
   method: string,
   path: string,
@@ -25,25 +29,21 @@ export function createSignedBackendHeaders(
   };
 }
 
-export async function postSignedBackend<T>(
-  path: string,
-  body: unknown,
-): Promise<
-  | { ok: true; data: T }
-  | { ok: false; status: number; message: string }
-> {
-  const rawBody = JSON.stringify(body);
-  const headers = createSignedBackendHeaders("POST", path, rawBody);
-  const response = await fetch(`${serverEnv.BACKEND_URL}${path}`, {
-    method: "POST",
-    headers,
-    body: rawBody,
-    cache: "no-store",
-  });
-
-  const payload = (await response.json()) as
-    | { data: T }
-    | { error: { message: string } };
+async function parseBackendResponse<T>(
+  response: Response,
+): Promise<BackendResult<T>> {
+  let payload: { data: T } | { error: { message: string } };
+  try {
+    payload = (await response.json()) as
+      | { data: T }
+      | { error: { message: string } };
+  } catch {
+    return {
+      ok: false,
+      status: response.status,
+      message: "Invalid response",
+    };
+  }
 
   if (!response.ok) {
     const message =
@@ -58,32 +58,123 @@ export async function postSignedBackend<T>(
   return { ok: true, data: payload.data };
 }
 
+async function signedBackendFetch<T>(
+  method: "GET" | "POST" | "PUT" | "DELETE",
+  path: string,
+  rawBody: string,
+  extraHeaders?: Record<string, string>,
+  requestBody?: Buffer,
+): Promise<BackendResult<T>> {
+  const signPath = path.split("?")[0] ?? path;
+  const headers = {
+    ...createSignedBackendHeaders(method, signPath, rawBody),
+    ...extraHeaders,
+  };
+
+  try {
+    const response = await fetch(`${serverEnv.BACKEND_URL}${path}`, {
+      method,
+      headers,
+      ...(method === "GET"
+        ? {}
+        : { body: requestBody ? new Uint8Array(requestBody) : rawBody }),
+      cache: "no-store",
+    });
+    return await parseBackendResponse<T>(response);
+  } catch {
+    return {
+      ok: false,
+      status: 503,
+      message: "Backend unavailable",
+    };
+  }
+}
+
+export async function postSignedBackend<T>(
+  path: string,
+  body: unknown,
+): Promise<BackendResult<T>> {
+  return signedBackendFetch<T>("POST", path, JSON.stringify(body));
+}
+
 export async function getSignedBackend<T>(
   path: string,
-): Promise<
-  | { ok: true; data: T }
-  | { ok: false; status: number; message: string }
-> {
-  const headers = createSignedBackendHeaders("GET", path, "");
-  const response = await fetch(`${serverEnv.BACKEND_URL}${path}`, {
-    method: "GET",
-    headers,
-    cache: "no-store",
-  });
-
-  const payload = (await response.json()) as
-    | { data: T }
-    | { error: { message: string } };
-
-  if (!response.ok) {
-    const message =
-      "error" in payload ? payload.error.message : "Request failed";
-    return { ok: false, status: response.status, message };
+  options?: {
+    readonly adminSessionToken?: string;
+  },
+): Promise<BackendResult<T>> {
+  const extraHeaders: Record<string, string> = {};
+  if (options?.adminSessionToken) {
+    extraHeaders["X-Admin-Session"] = options.adminSessionToken;
   }
+  return signedBackendFetch<T>("GET", path, "", extraHeaders);
+}
 
-  if (!("data" in payload)) {
-    return { ok: false, status: response.status, message: "Invalid response" };
+export async function putSignedBackend<T>(
+  path: string,
+  body: unknown,
+  options?: {
+    readonly adminSessionToken?: string;
+  },
+): Promise<BackendResult<T>> {
+  const extraHeaders: Record<string, string> = {};
+  if (options?.adminSessionToken) {
+    extraHeaders["X-Admin-Session"] = options.adminSessionToken;
   }
+  return signedBackendFetch<T>(
+    "PUT",
+    path,
+    JSON.stringify(body),
+    extraHeaders,
+  );
+}
 
-  return { ok: true, data: payload.data };
+export async function deleteSignedBackend<T>(
+  path: string,
+  body: unknown,
+  options?: {
+    readonly adminSessionToken?: string;
+  },
+): Promise<BackendResult<T>> {
+  const extraHeaders: Record<string, string> = {};
+  if (options?.adminSessionToken) {
+    extraHeaders["X-Admin-Session"] = options.adminSessionToken;
+  }
+  return signedBackendFetch<T>(
+    "DELETE",
+    path,
+    JSON.stringify(body),
+    extraHeaders,
+  );
+}
+
+export async function postSignedBackendWithSession<T>(
+  path: string,
+  body: unknown,
+  adminSessionToken?: string,
+): Promise<BackendResult<T>> {
+  const extraHeaders: Record<string, string> = {};
+  if (adminSessionToken) {
+    extraHeaders["X-Admin-Session"] = adminSessionToken;
+  }
+  return signedBackendFetch<T>(
+    "POST",
+    path,
+    JSON.stringify(body),
+    extraHeaders,
+  );
+}
+
+export async function postSignedBackendBuffer<T>(
+  path: string,
+  buffer: Buffer,
+  extraHeaders: Record<string, string>,
+): Promise<BackendResult<T>> {
+  return signedBackendFetch<T>(
+    "POST",
+    path,
+    buffer.toString("latin1"),
+    extraHeaders,
+    buffer,
+  );
 }

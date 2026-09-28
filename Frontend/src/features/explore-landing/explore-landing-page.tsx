@@ -67,10 +67,16 @@ const ExploreClose = dynamic(
     })),
 );
 
-export function ExploreLandingPage() {
+import type { DestinationNavItem } from "@/types/destinations";
+
+export function ExploreLandingPage({
+  destinationNav,
+}: {
+  readonly destinationNav: ReadonlyArray<DestinationNavItem>;
+}) {
   return (
     <ExploreMotionRoot>
-      <ExploreHeader />
+      <ExploreHeader destinationNav={destinationNav} />
       <main>
         <ExploreHero />
         <ExploreTrending />

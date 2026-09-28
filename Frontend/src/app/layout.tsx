@@ -41,20 +41,26 @@ export default async function RootLayout({
 }>) {
   const requestHeaders = await headers();
   const nonce = requestHeaders.get("x-nonce");
+  const pathname = requestHeaders.get("x-pathname") ?? "";
+  const isAdminRoute = /(?:^|\/)admin(?:\/|$)/.test(pathname);
   const clarityProjectId = env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
   const gtmId = env.NEXT_PUBLIC_GTM_ID;
   const googleAdsId = env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 
   return (
-    <html lang="en" className={`${plusJakarta.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${plusJakarta.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col font-sans">
-        {gtmId !== undefined && nonce !== null ? (
+        {!isAdminRoute && gtmId !== undefined && nonce !== null ? (
           <GoogleTagManager containerId={gtmId} nonce={nonce} />
         ) : null}
-        {googleAdsId !== undefined && nonce !== null ? (
+        {!isAdminRoute && googleAdsId !== undefined && nonce !== null ? (
           <GoogleAds conversionId={googleAdsId} nonce={nonce} />
         ) : null}
-        {clarityProjectId !== undefined && nonce !== null ? (
+        {!isAdminRoute && clarityProjectId !== undefined && nonce !== null ? (
           <MicrosoftClarity projectId={clarityProjectId} nonce={nonce} />
         ) : null}
         <MarketingClickTracker />

@@ -3,6 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+
+import {
+  DestinationsMobileList,
+  DestinationsNavMenu,
+} from "@/components/destinations-nav-menu";
 import { brandAssets } from "@/constants/brandAssets";
 import {
   exploreLandingCopy,
@@ -11,9 +16,14 @@ import {
 } from "@/constants/exploreLandingContent";
 import { siteBrand } from "@/constants/siteBrand";
 import { sitePageHref } from "@/constants/sitePages";
+import type { DestinationNavItem } from "@/types/destinations";
 import { cn } from "@/utils/cn";
 
-export function ExploreHeader() {
+type ExploreHeaderProps = {
+  readonly destinationNav: ReadonlyArray<DestinationNavItem>;
+};
+
+export function ExploreHeader({ destinationNav }: ExploreHeaderProps) {
   const [open, setOpen] = useState(false);
   const { siteLogo } = brandAssets;
 
@@ -63,6 +73,12 @@ export function ExploreHeader() {
           >
             {exploreLandingCopy.navAi}
           </a>
+          <DestinationsNavMenu
+            items={destinationNav}
+            themeId="explore"
+            linkClassName="rounded-[10px] text-[var(--explore-text-muted)] hover:text-[var(--explore-text)]"
+            panelClassName="border-[var(--explore-border)] bg-[var(--explore-surface)] shadow-[var(--explore-shadow-md)]"
+          />
           <Link
             href={sitePageHref("about", "explore")}
             className="rounded-[10px] px-3 py-2 text-sm font-medium text-[var(--explore-text-muted)] hover:text-[var(--explore-text)]"
@@ -110,6 +126,12 @@ export function ExploreHeader() {
                 </a>
               </li>
             ))}
+            <DestinationsMobileList
+              items={destinationNav}
+              themeId="explore"
+              onNavigate={() => setOpen(false)}
+              linkClassName="text-[var(--explore-text)] hover:bg-[var(--explore-primary-soft)]"
+            />
             <li>
               <Link
                 href={sitePageHref("about", "explore")}

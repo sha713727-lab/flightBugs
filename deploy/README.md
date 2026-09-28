@@ -55,11 +55,14 @@ Required production values:
 - `ALLOWED_ORIGINS=https://flightbugs.com,https://www.flightbugs.com`
 - Strong `POSTGRES_PASSWORD` / `HMAC_SIGNING_SECRET`
 - Real `DUFFEL_API_TOKEN`
+- `ADMIN_BOOTSTRAP_EMAIL` / `ADMIN_BOOTSTRAP_PASSWORD` in the **root** `.env` (same values in `Backend/.env`)
 
 ## 4) Go live (Avion only — does not wipe other sites)
 
 ```bash
-cd /opt/avion   # or your clone path
+ssh root@2.25.83.90
+cd /opt/avion
+git pull origin main
 docker compose up -d --build
 docker compose ps
 curl -I http://127.0.0.1:8080/en

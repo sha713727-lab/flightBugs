@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 import { CallPhoneButton } from "@/components/call-phone-button";
+import { PosterVideo } from "@/components/poster-video";
 import { SitePageFooter } from "@/components/site-page-footer";
 import { adsLandingCopy, adsLandingPath } from "@/constants/adsLandingContent";
 import { marketingImages } from "@/constants/brandAssets";
-import { PosterVideo } from "@/components/poster-video";
 import { AdsReveal } from "@/features/ads-landing/ads-reveal";
 
 export function AdsClose() {

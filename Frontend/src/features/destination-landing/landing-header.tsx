@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { DestinationsMobileList, DestinationsNavMenu } from "@/components/destinations-nav-menu";
 import { brandAssets } from "@/constants/brandAssets";
 import {
   europeLandingCopy,
@@ -11,9 +12,14 @@ import {
   europeLandingPath,
 } from "@/constants/destinationLandingContent";
 import { siteBrand } from "@/constants/siteBrand";
+import type { DestinationNavItem } from "@/types/destinations";
 import { cn } from "@/utils/cn";
 
-export function LandingHeader() {
+type LandingHeaderProps = {
+  readonly destinationNav: ReadonlyArray<DestinationNavItem>;
+};
+
+export function LandingHeader({ destinationNav }: LandingHeaderProps) {
   const { siteLogo } = brandAssets;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -69,15 +75,23 @@ export function LandingHeader() {
             aria-label="Primary"
             className="hidden items-center gap-1 lg:flex"
           >
-            {europeLandingNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-[10px] px-3 py-2 text-sm font-medium text-primary-text transition-colors duration-200 hover:text-aviation-blue"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {europeLandingNav.map((item) =>
+              item.label === "Destinations" ? (
+                <DestinationsNavMenu
+                  key="destinations-menu"
+                  items={destinationNav}
+                  themeId="europe"
+                />
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-[10px] px-3 py-2 text-sm font-medium text-primary-text transition-colors duration-200 hover:text-aviation-blue"
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
           </nav>
 
           <div className="flex items-center gap-2 lg:hidden">
@@ -101,17 +115,26 @@ export function LandingHeader() {
             className="border-t border-border bg-white px-5 py-3 lg:hidden"
           >
             <ul className="space-y-1">
-              {europeLandingNav.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-[10px] px-3 py-2.5 text-sm font-medium text-primary-text hover:bg-soft-section"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {europeLandingNav.map((item) =>
+                item.label === "Destinations" ? (
+                  <DestinationsMobileList
+                    key="destinations-mobile"
+                    items={destinationNav}
+                    themeId="europe"
+                    onNavigate={() => setOpen(false)}
+                  />
+                ) : (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="block rounded-[10px] px-3 py-2.5 text-sm font-medium text-primary-text hover:bg-soft-section"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </nav>
         ) : null}

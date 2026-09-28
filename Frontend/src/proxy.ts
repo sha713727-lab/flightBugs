@@ -12,6 +12,7 @@ function buildContentSecurityPolicy(nonce: string, isDev: boolean): string {
     "'self'",
     "https://*.googletagmanager.com",
     "https://*.google.com",
+    "https://*.google.com.pk",
     "https://*.googleadservices.com",
     "https://*.doubleclick.net",
     "https://*.googlesyndication.com",
@@ -20,18 +21,22 @@ function buildContentSecurityPolicy(nonce: string, isDev: boolean): string {
     ...(isDev ? ["ws:", "wss:", "http://127.0.0.1:*", "http://localhost:*"] : []),
   ].join(" ");
 
+  const styleSrcElem = isDev
+    ? "style-src-elem 'self' 'unsafe-inline'"
+    : `style-src-elem 'self' 'nonce-${nonce}'`;
+
   return [
     "default-src 'self'",
     "base-uri 'self'",
     "frame-ancestors 'none'",
     "object-src 'none'",
-    "img-src 'self' data: blob: https://*.googletagmanager.com https://*.google.com https://*.googleadservices.com https://*.doubleclick.net https://*.googlesyndication.com https://*.clarity.ms https://c.bing.com",
+    "img-src 'self' data: blob: https://*.googletagmanager.com https://*.google.com https://*.google.com.pk https://*.googleadservices.com https://*.doubleclick.net https://*.googlesyndication.com https://*.clarity.ms https://c.bing.com",
     "font-src 'self' data:",
-    `style-src-elem 'self' 'nonce-${nonce}'`,
+    styleSrcElem,
     "style-src-attr 'unsafe-inline'",
     `script-src ${scriptSrc}`,
     `connect-src ${connectSrc}`,
-    "frame-src 'self' https://*.googletagmanager.com https://*.google.com https://*.googleadservices.com https://*.doubleclick.net",
+    "frame-src 'self' https://*.googletagmanager.com https://*.google.com https://*.google.com.pk https://*.googleadservices.com https://*.doubleclick.net",
     "media-src 'self'",
     "form-action 'self'",
     ...(isDev ? [] : ["upgrade-insecure-requests"]),
@@ -45,6 +50,7 @@ export function proxy(request: NextRequest) {
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set("x-pathname", request.nextUrl.pathname);
   requestHeaders.set("Content-Security-Policy", contentSecurityPolicy);
 
   const response = NextResponse.next({

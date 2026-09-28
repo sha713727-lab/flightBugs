@@ -17,6 +17,7 @@ import { SupportCtaSection } from "@/features/home/support-cta-section";
 import { TestimonialsSection } from "@/features/home/testimonials-section";
 import { ThoughtfulServiceSection } from "@/features/home/thoughtful-service-section";
 import { TravelStatementSection } from "@/features/home/travel-statement-section";
+import { fetchDestinationNav } from "@/lib/destinations/fetch-destinations";
 import { buildLandingMetadata } from "@/lib/site-metadata";
 
 export const metadata = buildLandingMetadata({
@@ -25,12 +26,14 @@ export const metadata = buildLandingMetadata({
   path: `/${DEFAULT_LOCALE}`,
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  const destinationNav = await fetchDestinationNav();
+
   return (
     <main className="flex min-h-full flex-1 flex-col bg-main-bg">
       <HomeStructuredData />
       <div className="relative">
-        <SiteHeader />
+        <SiteHeader destinationNav={destinationNav} />
         <HeroSection />
       </div>
       <PopularDestinationsSection />

@@ -56,7 +56,7 @@ type AirportFieldProps = {
 type DateFieldProps = {
   readonly label: string;
   readonly value: string;
-  readonly min?: string;
+  readonly min?: string | undefined;
   readonly onChange: (isoDate: string) => void;
   readonly className?: string;
 };
@@ -589,6 +589,10 @@ function useDismissOnOutside(
 }
 
 function formatDisplayDate(isoDate: string): string {
+  if (!isoDate) {
+    return "Select date";
+  }
+
   const parsed = new Date(`${isoDate}T12:00:00`);
   if (Number.isNaN(parsed.getTime())) {
     return isoDate;

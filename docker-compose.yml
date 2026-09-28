@@ -41,6 +41,11 @@ services:
       HOST: 0.0.0.0
       PORT: 3001
       DATABASE_URL: postgresql://${POSTGRES_USER:-avion}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-avion}
+      UPLOAD_ROOT: ${UPLOAD_ROOT:-/var/avion/uploads}
+      ADMIN_BOOTSTRAP_EMAIL: ${ADMIN_BOOTSTRAP_EMAIL:?set ADMIN_BOOTSTRAP_EMAIL}
+      ADMIN_BOOTSTRAP_PASSWORD: ${ADMIN_BOOTSTRAP_PASSWORD:?set ADMIN_BOOTSTRAP_PASSWORD}
+    volumes:
+      - avion_uploads:${UPLOAD_ROOT:-/var/avion/uploads}
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -102,3 +107,4 @@ networks:
 
 volumes:
   avion_pg_data:
+  avion_uploads:

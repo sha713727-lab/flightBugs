@@ -29,6 +29,7 @@ import {
 } from "@/constants/flightSearchTripTypes";
 import { findDestinationPlaceByIata } from "@/constants/homeContent";
 import { ExploreResultsModal } from "@/features/explore-landing/explore-results-modal";
+import { useClientFlightSearchDates } from "@/hooks/use-client-flight-search-dates";
 import { trackFlightSearch } from "@/lib/analytics/track-flight-search";
 import { searchFlightsAction } from "@/server/actions/search-flights";
 import type {
@@ -36,16 +37,22 @@ import type {
   FlightSearchContext,
 } from "@/types/flights/search-response";
 import { cn } from "@/utils/cn";
-import { defaultFlightSearchDates } from "@/utils/default-flight-search-dates";
-
-const defaultDates = defaultFlightSearchDates();
 
 export function ExploreSearchPanel() {
+  const clientDates = useClientFlightSearchDates();
   const [tripType, setTripType] = useState<FlightSearchTripType>("round_trip");
   const [from, setFrom] = useState<FlightSearchPlace>(exploreDefaultFrom);
   const [to, setTo] = useState<FlightSearchPlace>(exploreDefaultTo);
-  const [departDate, setDepartDate] = useState(defaultDates.departDate);
-  const [returnDate, setReturnDate] = useState(defaultDates.returnDate);
+  const [departDateOverride, setDepartDateOverride] = useState<string | null>(
+    null,
+  );
+  const [returnDateOverride, setReturnDateOverride] = useState<string | null>(
+    null,
+  );
+  const departDate = departDateOverride ?? clientDates.departDate;
+  const returnDate = returnDateOverride ?? clientDates.returnDate;
+  const setDepartDate = (value: string) => setDepartDateOverride(value);
+  const setReturnDate = (value: string) => setReturnDateOverride(value);
   const [adults, setAdults] = useState(1);
   const [cabinClass, setCabinClass] =
     useState<FlightSearchCabinClass>("economy");
@@ -228,7 +235,7 @@ export function ExploreSearchPanel() {
               <DateSearchField
                 label="Departure"
                 value={departDate}
-                min={new Date().toISOString().slice(0, 10)}
+                min={clientDates.todayIso || undefined}
                 onChange={(isoDate) => {
                   setDepartDate(isoDate);
                   if (returnDate < isoDate) {
@@ -241,7 +248,7 @@ export function ExploreSearchPanel() {
                 <DateSearchField
                   label="Return"
                   value={returnDate}
-                  min={departDate}
+                  min={departDate || undefined}
                   onChange={setReturnDate}
                   className="min-w-0 w-full"
                 />

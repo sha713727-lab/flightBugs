@@ -68,10 +68,16 @@ const LandingClose = dynamic(
     })),
 );
 
-export function DestinationLandingPage() {
+import type { DestinationNavItem } from "@/types/destinations";
+
+export function DestinationLandingPage({
+  destinationNav,
+}: {
+  readonly destinationNav: ReadonlyArray<DestinationNavItem>;
+}) {
   return (
     <div className="destination-landing flex min-h-full flex-1 flex-col bg-white">
-      <LandingHeader />
+      <LandingHeader destinationNav={destinationNav} />
       <main>
         <LandingHero />
         <LandingIntro />

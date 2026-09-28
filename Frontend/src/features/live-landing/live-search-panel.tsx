@@ -29,6 +29,7 @@ import {
   liveLandingDefaultTo,
 } from "@/constants/liveLandingContent";
 import { LiveResultsModal } from "@/features/live-landing/live-results-modal";
+import { useClientFlightSearchDates } from "@/hooks/use-client-flight-search-dates";
 import { trackFlightSearch } from "@/lib/analytics/track-flight-search";
 import { searchFlightsAction } from "@/server/actions/search-flights";
 import type {
@@ -36,16 +37,22 @@ import type {
   FlightSearchContext,
 } from "@/types/flights/search-response";
 import { cn } from "@/utils/cn";
-import { defaultFlightSearchDates } from "@/utils/default-flight-search-dates";
-
-const defaultDates = defaultFlightSearchDates();
 
 export function LiveSearchPanel() {
+  const clientDates = useClientFlightSearchDates();
   const [tripType, setTripType] = useState<FlightSearchTripType>("round_trip");
   const [from, setFrom] = useState<FlightSearchPlace>(liveLandingDefaultFrom);
   const [to, setTo] = useState<FlightSearchPlace>(liveLandingDefaultTo);
-  const [departDate, setDepartDate] = useState(defaultDates.departDate);
-  const [returnDate, setReturnDate] = useState(defaultDates.returnDate);
+  const [departDateOverride, setDepartDateOverride] = useState<string | null>(
+    null,
+  );
+  const [returnDateOverride, setReturnDateOverride] = useState<string | null>(
+    null,
+  );
+  const departDate = departDateOverride ?? clientDates.departDate;
+  const returnDate = returnDateOverride ?? clientDates.returnDate;
+  const setDepartDate = (value: string) => setDepartDateOverride(value);
+  const setReturnDate = (value: string) => setReturnDateOverride(value);
   const [adults, setAdults] = useState(1);
   const [cabinClass, setCabinClass] = useState<FlightSearchCabinClass>("economy");
   const [searchContext, setSearchContext] = useState<FlightSearchContext | null>(
@@ -188,7 +195,7 @@ export function LiveSearchPanel() {
               <DateSearchField
                 label="Departure"
                 value={departDate}
-                min={todayIsoDate()}
+                min={clientDates.todayIso || undefined}
                 onChange={(isoDate) => {
                   setDepartDate(isoDate);
                   if (returnDate < isoDate) {
@@ -228,7 +235,7 @@ export function LiveSearchPanel() {
                 onClick={runSearch}
                 disabled={isPending}
               >
-                {isPending ? "Searching..." : `${liveLandingCopy.searchCta} →`}
+                {isPending ? "Searching..." : `${liveLandingCopy.searchCta} ?`}
               </button>
             </div>
           </div>
@@ -295,7 +302,7 @@ function MultiCityPanel() {
         </p>
         <p className="text-sm leading-relaxed text-secondary-text">
           You search, we ticket by phone. For three or more cities, stopovers,
-          or open-jaw routes, call our desk — 24/7 — and a specialist will
+          or open-jaw routes, call our desk � 24/7 � and a specialist will
           build and ticket the itinerary.
         </p>
       </div>
@@ -305,10 +312,6 @@ function MultiCityPanel() {
       />
     </div>
   );
-}
-
-function todayIsoDate(): string {
-  return new Date().toISOString().slice(0, 10);
 }
 
 function SwapIcon() {

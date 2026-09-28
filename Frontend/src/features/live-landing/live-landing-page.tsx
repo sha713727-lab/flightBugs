@@ -46,10 +46,16 @@ const LiveClose = dynamic(
     })),
 );
 
-export function LiveLandingPage() {
+import type { DestinationNavItem } from "@/types/destinations";
+
+export function LiveLandingPage({
+  destinationNav,
+}: {
+  readonly destinationNav: ReadonlyArray<DestinationNavItem>;
+}) {
   return (
     <LiveMotionRoot>
-      <LiveHeader />
+      <LiveHeader destinationNav={destinationNav} />
       <main>
         <LiveOpening />
         <LiveRitual />

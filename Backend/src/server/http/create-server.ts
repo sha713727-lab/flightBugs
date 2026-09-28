@@ -2,6 +2,7 @@ import http from "node:http";
 
 import { env } from "../config/env.js";
 import { pool } from "../database/pool.js";
+import { ensureBootstrapAdmin } from "../database/repositories/admin/sessions.js";
 import {
   startNoncePruneJob,
   stopNoncePruneJob,
@@ -13,12 +14,23 @@ const server = http.createServer((request, response) => {
   void dispatchRequest(request, response);
 });
 
-server.listen(env.PORT, env.HOST, () => {
-  startNoncePruneJob();
-  logger.info(
-    { host: env.HOST, port: env.PORT },
-    "Backend HTTP server listening",
+async function start(): Promise<void> {
+  await ensureBootstrapAdmin();
+  server.listen(env.PORT, env.HOST, () => {
+    startNoncePruneJob();
+    logger.info(
+      { host: env.HOST, port: env.PORT },
+      "Backend HTTP server listening",
+    );
+  });
+}
+
+void start().catch((error: unknown) => {
+  logger.error(
+    { err: error instanceof Error ? error.message : "unknown" },
+    "Backend failed to start",
   );
+  process.exit(1);
 });
 
 let shuttingDown = false;

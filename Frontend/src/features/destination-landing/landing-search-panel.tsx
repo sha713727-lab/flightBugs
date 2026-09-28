@@ -28,6 +28,7 @@ import {
 } from "@/constants/flightSearchTripTypes";
 import { findDestinationPlaceByIata } from "@/constants/homeContent";
 import { LandingResultsModal } from "@/features/destination-landing/landing-results-modal";
+import { useClientFlightSearchDates } from "@/hooks/use-client-flight-search-dates";
 import { trackFlightSearch } from "@/lib/analytics/track-flight-search";
 import { searchFlightsAction } from "@/server/actions/search-flights";
 import type {
@@ -35,16 +36,22 @@ import type {
   FlightSearchContext,
 } from "@/types/flights/search-response";
 import { cn } from "@/utils/cn";
-import { defaultFlightSearchDates } from "@/utils/default-flight-search-dates";
-
-const defaultDates = defaultFlightSearchDates();
 
 export function LandingSearchPanel() {
+  const clientDates = useClientFlightSearchDates();
   const [tripType, setTripType] = useState<FlightSearchTripType>("round_trip");
   const [from, setFrom] = useState<FlightSearchPlace>(europeLandingDefaultFrom);
   const [to, setTo] = useState<FlightSearchPlace>(europeLandingDefaultTo);
-  const [departDate, setDepartDate] = useState(defaultDates.departDate);
-  const [returnDate, setReturnDate] = useState(defaultDates.returnDate);
+  const [departDateOverride, setDepartDateOverride] = useState<string | null>(
+    null,
+  );
+  const [returnDateOverride, setReturnDateOverride] = useState<string | null>(
+    null,
+  );
+  const departDate = departDateOverride ?? clientDates.departDate;
+  const returnDate = returnDateOverride ?? clientDates.returnDate;
+  const setDepartDate = (value: string) => setDepartDateOverride(value);
+  const setReturnDate = (value: string) => setReturnDateOverride(value);
   const [adults, setAdults] = useState(1);
   const [cabinClass, setCabinClass] = useState<FlightSearchCabinClass>("economy");
   const [searchContext, setSearchContext] = useState<FlightSearchContext | null>(
@@ -187,7 +194,7 @@ export function LandingSearchPanel() {
               <DateSearchField
                 label="Departure"
                 value={departDate}
-                min={todayIsoDate()}
+                min={clientDates.todayIso || undefined}
                 onChange={(isoDate) => {
                   setDepartDate(isoDate);
                   if (returnDate < isoDate) {
@@ -304,10 +311,6 @@ function MultiCityPanel() {
         />
     </div>
   );
-}
-
-function todayIsoDate(): string {
-  return new Date().toISOString().slice(0, 10);
 }
 
 function SwapIcon() {

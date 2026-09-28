@@ -134,10 +134,7 @@ export function PopularDestinationsSlider() {
               return (
                 <div
                   key={`page-${String(pageIndex)}`}
-                  className="grid w-full min-w-full shrink-0 gap-4 px-0.5 sm:gap-5"
-                  style={{
-                    gridTemplateColumns: `repeat(${String(slice.length)}, minmax(0, 1fr))`,
-                  }}
+                  className="grid w-full min-w-full shrink-0 grid-cols-1 gap-4 px-0.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"
                 >
                   {slice.map((item) => (
                     <DestinationCard
@@ -208,7 +205,7 @@ function DestinationCard({
   const href = `/${DEFAULT_LOCALE}?to=${item.place.iata}#search`;
 
   return (
-    <article>
+    <article className="min-w-0">
       <Link
         href={href}
         className="group relative block aspect-[3/4] overflow-hidden rounded-[var(--radius-card)] shadow-card transition duration-500 hover:-translate-y-[6px] hover:shadow-float"
@@ -219,7 +216,10 @@ function DestinationCard({
           width={736}
           height={981}
           sizes={sizes}
-          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+          className={cn(
+            "absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105",
+            item.imageKey === "newYorkCity" && "object-[80%_center]",
+          )}
         />
         <div
           className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-dark-navy/90 via-dark-navy/35 to-transparent"

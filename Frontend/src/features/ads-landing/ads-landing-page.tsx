@@ -53,10 +53,16 @@ const AdsClose = dynamic(
     })),
 );
 
-export function AdsLandingPage() {
+import type { DestinationNavItem } from "@/types/destinations";
+
+export function AdsLandingPage({
+  destinationNav,
+}: {
+  readonly destinationNav: ReadonlyArray<DestinationNavItem>;
+}) {
   return (
     <div className="ads-landing flex min-h-full flex-1 flex-col bg-main-bg">
-      <AdsHeader />
+      <AdsHeader destinationNav={destinationNav} />
       <main>
         <AdsHero />
         <AdsTrust />

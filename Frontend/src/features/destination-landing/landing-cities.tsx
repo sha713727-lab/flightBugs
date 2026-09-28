@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { destinationImages } from "@/constants/brandAssets";
 import {
   europeLandingCities,
   europeLandingCopy,
   europeLandingPath,
 } from "@/constants/destinationLandingContent";
+import { cn } from "@/utils/cn";
 
 export function LandingCities() {
   return (
@@ -29,7 +31,11 @@ export function LandingCities() {
                   fill
                   loading="lazy"
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  className={cn(
+                    "object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+                    city.image.src === destinationImages.newYorkCity.src &&
+                      "object-[80%_center]",
+                  )}
                 />
                 <div
                   className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent transition-colors duration-[400ms] group-hover:from-black/80"

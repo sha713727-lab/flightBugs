@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
+import { destinationImages } from "@/constants/brandAssets";
 import {
   exploreCheapFlights,
   exploreLandingCopy,
@@ -13,6 +14,7 @@ import {
   exploreTrending,
 } from "@/constants/exploreLandingContent";
 import { ExploreReveal } from "@/features/explore-landing/explore-reveal";
+import { cn } from "@/utils/cn";
 
 export function ExploreTrending() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -98,7 +100,11 @@ export function ExploreTrending() {
                   fill
                   loading="lazy"
                   sizes="(max-width: 768px) 70vw, 25vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                  className={cn(
+                    "object-cover transition-transform duration-500 group-hover:scale-[1.05]",
+                    item.image.src === destinationImages.newYorkCity.src &&
+                      "object-[80%_center]",
+                  )}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5">

@@ -13,6 +13,19 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    localPatterns: [
+      {
+        pathname: "/media/file",
+      },
+      {
+        pathname: "/images/**",
+        search: "",
+      },
+      {
+        pathname: "/partners/**",
+        search: "",
+      },
+    ],
   },
   experimental: {
     optimizePackageImports: ["framer-motion", "gsap"],

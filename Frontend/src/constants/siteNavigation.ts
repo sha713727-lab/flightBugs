@@ -4,9 +4,21 @@ import { sitePageHref } from "@/constants/sitePages";
 const localeRoot = `/${DEFAULT_LOCALE}`;
 
 export const siteNavigation = [
-  { label: "Home", href: localeRoot },
-  { label: "Destinations", href: `${localeRoot}#destinations` },
-  { label: "About", href: sitePageHref("about", "home") },
-  { label: "Contact", href: sitePageHref("contact", "home") },
-  { label: "FAQ", href: `${localeRoot}#faq` },
+  { label: "Home", href: localeRoot, kind: "link" as const },
+  {
+    label: "Destinations",
+    href: `${localeRoot}/destinations`,
+    kind: "destinations" as const,
+  },
+  {
+    label: "About",
+    href: sitePageHref("about", "home"),
+    kind: "link" as const,
+  },
+  {
+    label: "Contact",
+    href: sitePageHref("contact", "home"),
+    kind: "link" as const,
+  },
+  { label: "FAQ", href: `${localeRoot}#faq`, kind: "link" as const },
 ] as const;
