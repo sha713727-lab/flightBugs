@@ -43,7 +43,6 @@ export default async function AdminLoginPage({
             name="password"
             type="password"
             required
-            minLength={12}
             className="mt-1 w-full rounded-[var(--radius-sm)] border border-border px-3 py-2"
           />
         </label>

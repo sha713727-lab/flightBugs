@@ -22,7 +22,7 @@ const envSchema = z
     DUFFEL_SUPPLIER_TIMEOUT_MS: z.coerce.number().int().min(2000).max(60000),
     UPLOAD_ROOT: z.string().min(1),
     ADMIN_BOOTSTRAP_EMAIL: z.string().email(),
-    ADMIN_BOOTSTRAP_PASSWORD: z.string().min(12),
+    ADMIN_BOOTSTRAP_PASSWORD: z.string().min(1),
   })
   .strict();
 
