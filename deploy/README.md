@@ -55,7 +55,7 @@ Required production values:
 - `ALLOWED_ORIGINS=https://flightbugs.com,https://www.flightbugs.com`
 - Strong `POSTGRES_PASSWORD` / `HMAC_SIGNING_SECRET`
 - Real `DUFFEL_API_TOKEN`
-- `ADMIN_BOOTSTRAP_EMAIL` / `ADMIN_BOOTSTRAP_PASSWORD` in the **root** `.env` (same values in `Backend/.env`)
+- `ADMIN_BOOTSTRAP_EMAIL` / `ADMIN_BOOTSTRAP_PASSWORD` in **`Backend/.env` only** (Docker does not use the root `.env` copies for admin login)
 
 ## 4) Go live (Avion only — does not wipe other sites)
 
