@@ -106,6 +106,6 @@ export const destinationUpdateSchema = destinationWriteSchema
 export const adminSessionCreateSchema = z
   .object({
     email: z.string().email(),
-    password: z.string().min(1).max(200),
+    password: z.string().min(8).max(200),
   })
   .strict();
