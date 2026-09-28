@@ -2,8 +2,13 @@ import type { MetadataRoute } from "next";
 
 import { DEFAULT_LOCALE } from "@/constants/locales";
 import { sitePagePaths } from "@/constants/sitePages";
-import { fetchPublishedDestinations } from "@/lib/destinations/fetch-destinations";
+import {
+  DestinationFetchError,
+  fetchPublishedDestinations,
+} from "@/lib/destinations/fetch-destinations";
 import { env } from "@/lib/env";
+
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = env.NEXT_PUBLIC_APP_URL;
@@ -26,7 +31,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: sitePagePaths.privacy, priority: 0.5, changeFrequency: "monthly" },
   ];
 
-  const destinations = await fetchPublishedDestinations();
+  let destinations: Awaited<ReturnType<typeof fetchPublishedDestinations>> =
+    [];
+  if (process.env.NEXT_PHASE !== "phase-production-build") {
+    try {
+      destinations = await fetchPublishedDestinations();
+    } catch (error) {
+      if (
+        !(error instanceof DestinationFetchError) ||
+        error.status !== 503
+      ) {
+        throw error;
+      }
+    }
+  }
   const destinationEntries = destinations.map((destination) => ({
     url: new URL(
       `/${DEFAULT_LOCALE}/destinations/${destination.slug}`,
