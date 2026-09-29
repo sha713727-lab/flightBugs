@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { headers } from "next/headers";
 
 import { siteBrand } from "@/constants/siteBrand";
@@ -11,11 +11,26 @@ import { GoogleAds } from "@/lib/google-ads/google-ads";
 import { GoogleTagManager } from "@/lib/google-tag-manager/google-tag-manager";
 import { MicrosoftClarity } from "@/lib/microsoft-clarity/microsoft-clarity";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const plusJakarta = localFont({
+  src: [
+    {
+      path: "../fonts/plus-jakarta-sans-latin-400.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/plus-jakarta-sans-latin-600.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/plus-jakarta-sans-latin-700.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-plus-jakarta",
-  subsets: ["latin"],
   display: "swap",
-  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
