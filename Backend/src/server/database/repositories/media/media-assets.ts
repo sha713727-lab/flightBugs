@@ -5,19 +5,15 @@ import { randomUUID } from "node:crypto";
 import { env } from "../../../config/env.js";
 import { pool } from "../../pool.js";
 
-const ALLOWED_MIME = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-]);
+const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 const EXT_BY_MIME: Readonly<Record<string, string>> = {
   "image/jpeg": "jpg",
   "image/png": "png",
   "image/webp": "webp",
-  "image/gif": "gif",
 };
+
+const FILENAME_PATTERN = /\.(jpe?g|png|webp)$/i;
 
 export type MediaAsset = {
   readonly id: string;
@@ -63,6 +59,24 @@ function sniffMime(buffer: Buffer): string | null {
   return null;
 }
 
+function filenameMatchesMime(filename: string, mime: string): boolean {
+  const match = FILENAME_PATTERN.exec(filename);
+  if (!match) {
+    return false;
+  }
+  const ext = match[0].toLowerCase();
+  if (mime === "image/jpeg") {
+    return ext === ".jpg" || ext === ".jpeg";
+  }
+  if (mime === "image/png") {
+    return ext === ".png";
+  }
+  if (mime === "image/webp") {
+    return ext === ".webp";
+  }
+  return false;
+}
+
 export async function createMediaAsset(input: {
   readonly buffer: Buffer;
   readonly originalFilename: string;
@@ -73,8 +87,16 @@ export async function createMediaAsset(input: {
     return { error: "empty" };
   }
 
+  if (!ALLOWED_MIME.has(input.declaredMime)) {
+    return { error: "invalid_type" };
+  }
+
   const sniffed = sniffMime(input.buffer);
-  if (!sniffed || !ALLOWED_MIME.has(sniffed) || sniffed !== input.declaredMime) {
+  if (!sniffed || sniffed !== input.declaredMime || !ALLOWED_MIME.has(sniffed)) {
+    return { error: "invalid_type" };
+  }
+
+  if (!filenameMatchesMime(input.originalFilename, sniffed)) {
     return { error: "invalid_type" };
   }
 

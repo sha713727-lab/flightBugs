@@ -45,12 +45,31 @@ export function MediaUploadField({
       ) : null}
       <input
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif"
+        accept="image/jpeg,image/png,image/webp"
         className="mt-1 w-full text-sm"
         onChange={(event) => {
           const file = event.target.files?.[0];
           event.target.value = "";
           if (!file) {
+            return;
+          }
+          const allowedMime = new Set([
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+          ]);
+          const filename = file.name.replace(/^.*[/\\]/, "");
+          if (
+            !allowedMime.has(file.type) ||
+            !/\.(jpe?g|png|webp)$/i.test(filename)
+          ) {
+            setError(
+              "Only JPEG, PNG, or WebP images are allowed. Videos are not accepted.",
+            );
+            return;
+          }
+          if (file.size > 5 * 1024 * 1024) {
+            setError("Image must be 5 MB or smaller");
             return;
           }
           const data = new FormData();

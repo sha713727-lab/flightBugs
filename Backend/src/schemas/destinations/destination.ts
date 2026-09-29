@@ -4,7 +4,12 @@ const slugSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "must be a URL-safe lowercase slug");
 
-const optionalUuid = z.string().uuid().nullable().optional();
+const optionalUuid = z.preprocess((value) => {
+  if (value === "" || value === undefined) {
+    return null;
+  }
+  return value;
+}, z.string().uuid().nullable());
 
 const childThingSchema = z
   .object({

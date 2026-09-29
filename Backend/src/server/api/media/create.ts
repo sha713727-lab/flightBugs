@@ -51,10 +51,23 @@ export async function handler(
   const mimeHeader = request.headers["x-mime-type"];
   const altHeader = request.headers["x-alt-text"];
   const originalFilename =
-    typeof filenameHeader === "string" ? filenameHeader : "upload.bin";
-  const declaredMime =
-    typeof mimeHeader === "string" ? mimeHeader : "application/octet-stream";
+    typeof filenameHeader === "string" ? filenameHeader : "";
+  const declaredMime = typeof mimeHeader === "string" ? mimeHeader : "";
   const altText = typeof altHeader === "string" ? altHeader : "";
+  const allowedMime = new Set(["image/jpeg", "image/png", "image/webp"]);
+
+  if (
+    !allowedMime.has(declaredMime) ||
+    !/\.(jpe?g|png|webp)$/i.test(originalFilename)
+  ) {
+    sendError(
+      response,
+      400,
+      "invalid_input",
+      "Only JPEG, PNG, or WebP images are allowed",
+    );
+    return;
+  }
 
   const created = await createUploadedMediaAsset({
     buffer: bodyResult.buffer,
@@ -64,7 +77,12 @@ export async function handler(
   });
 
   if ("error" in created) {
-    sendError(response, 400, "invalid_input", "Invalid image upload");
+    sendError(
+      response,
+      400,
+      "invalid_input",
+      "Only JPEG, PNG, or WebP images are allowed",
+    );
     return;
   }
 

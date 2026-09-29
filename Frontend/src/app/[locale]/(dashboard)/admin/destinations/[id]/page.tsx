@@ -73,7 +73,9 @@ export default async function AdminDestinationEditPage({
         ) : null}
         {query.error ? (
           <p className="mb-4 rounded-[var(--radius-sm)] bg-red-50 px-3 py-2 text-sm text-red-700">
-            Could not save. Check required fields and unique slug.
+            {query.error === "1"
+              ? "Could not save. Check required fields and unique slug."
+              : query.error}
           </p>
         ) : null}
 

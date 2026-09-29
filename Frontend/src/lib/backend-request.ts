@@ -3,9 +3,19 @@ import { createHash, createHmac, randomUUID } from "node:crypto";
 import { env } from "@/lib/env";
 import { serverEnv } from "@/lib/server-env";
 
-type BackendResult<T> =
+type BackendFieldError = {
+  readonly path: string;
+  readonly message: string;
+};
+
+export type BackendResult<T> =
   | { ok: true; data: T }
-  | { ok: false; status: number; message: string };
+  | {
+      ok: false;
+      status: number;
+      message: string;
+      fields?: ReadonlyArray<BackendFieldError>;
+    };
 
 export function createSignedBackendHeaders(
   method: string,
@@ -32,11 +42,23 @@ export function createSignedBackendHeaders(
 async function parseBackendResponse<T>(
   response: Response,
 ): Promise<BackendResult<T>> {
-  let payload: { data: T } | { error: { message: string } };
+  let payload:
+    | { data: T }
+    | {
+        error: {
+          message: string;
+          fields?: ReadonlyArray<BackendFieldError>;
+        };
+      };
   try {
     payload = (await response.json()) as
       | { data: T }
-      | { error: { message: string } };
+      | {
+          error: {
+            message: string;
+            fields?: ReadonlyArray<BackendFieldError>;
+          };
+        };
   } catch {
     return {
       ok: false,
@@ -48,7 +70,14 @@ async function parseBackendResponse<T>(
   if (!response.ok) {
     const message =
       "error" in payload ? payload.error.message : "Request failed";
-    return { ok: false, status: response.status, message };
+    const fields =
+      "error" in payload ? payload.error.fields : undefined;
+    return {
+      ok: false,
+      status: response.status,
+      message,
+      ...(fields ? { fields } : {}),
+    };
   }
 
   if (!("data" in payload)) {

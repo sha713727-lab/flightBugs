@@ -10,12 +10,30 @@ import {
   postSignedBackendBuffer,
   postSignedBackendWithSession,
   putSignedBackend,
+  type BackendResult,
 } from "@/lib/backend-request";
 import type {
   DestinationAirport,
   DestinationFaq,
   DestinationSeason,
 } from "@/types/destinations";
+
+class DestinationSaveValidationError extends Error {
+  constructor(detail: string) {
+    super(detail);
+    this.name = "DestinationSaveValidationError";
+  }
+}
+
+function formatBackendSaveError(result: Extract<BackendResult<unknown>, { ok: false }>): string {
+  if (result.fields && result.fields.length > 0) {
+    return result.fields
+      .map((field) => `${field.path}: ${field.message}`)
+      .join(" ")
+      .slice(0, 280);
+  }
+  return result.message.slice(0, 280);
+}
 
 function readIndexedRows(
   formData: FormData,
@@ -46,30 +64,50 @@ function parseThings(
   formData: FormData,
   prefix: string,
 ) {
-  return readIndexedRows(formData, prefix, [
+  const rows = readIndexedRows(formData, prefix, [
     "title",
     "description",
     "imageMediaAssetId",
     "imageAlt",
-  ]).map((row, index) => ({
-    title: row.title ?? "",
-    description: row.description ?? "",
-    imageMediaAssetId: row.imageMediaAssetId ? row.imageMediaAssetId : null,
-    imageAlt: row.imageAlt ?? "",
-    sortOrder: index + 1,
-  }));
+  ]);
+
+  if (
+    rows.some(
+      (row) =>
+        (row.imageMediaAssetId ?? "").length > 0 &&
+        (row.title ?? "").trim().length === 0,
+    )
+  ) {
+    throw new DestinationSaveValidationError(
+      "Each photo needs a title in that same row. Remove the extra blank photo row or add a title.",
+    );
+  }
+
+  return rows
+    .filter((row) => (row.title ?? "").trim().length > 0)
+    .map((row, index) => ({
+      title: row.title ?? "",
+      description: row.description ?? "",
+      imageMediaAssetId: row.imageMediaAssetId ? row.imageMediaAssetId : null,
+      imageAlt: row.imageAlt ?? "",
+      sortOrder: index + 1,
+    }));
 }
 
 function parseFaqs(
   formData: FormData,
 ): ReadonlyArray<Omit<DestinationFaq, "id">> {
-  return readIndexedRows(formData, "faq", ["question", "answer"]).map(
-    (row, index) => ({
+  return readIndexedRows(formData, "faq", ["question", "answer"])
+    .filter(
+      (row) =>
+        (row.question ?? "").trim().length > 0 &&
+        (row.answer ?? "").trim().length > 0,
+    )
+    .map((row, index) => ({
       question: row.question ?? "",
       answer: row.answer ?? "",
       sortOrder: index + 1,
-    }),
-  );
+    }));
 }
 
 function parseAirports(
@@ -81,14 +119,20 @@ function parseAirports(
     "description",
     "distanceOrArea",
     "airportLink",
-  ]).map((row, index) => ({
-    airportName: row.airportName ?? "",
-    airportCode: row.airportCode ?? "",
-    description: row.description ?? "",
-    distanceOrArea: row.distanceOrArea ?? "",
-    airportLink: row.airportLink ? row.airportLink : null,
-    sortOrder: index + 1,
-  }));
+  ])
+    .filter(
+      (row) =>
+        (row.airportName ?? "").trim().length > 0 &&
+        (row.airportCode ?? "").trim().length >= 3,
+    )
+    .map((row, index) => ({
+      airportName: row.airportName ?? "",
+      airportCode: row.airportCode ?? "",
+      description: row.description ?? "",
+      distanceOrArea: row.distanceOrArea ?? "",
+      airportLink: row.airportLink ? row.airportLink : null,
+      sortOrder: index + 1,
+    }));
 }
 
 function parseSeasons(
@@ -98,12 +142,14 @@ function parseSeasons(
     "season",
     "months",
     "description",
-  ]).map((row, index) => ({
-    season: row.season ?? "",
-    months: row.months ?? "",
-    description: row.description ?? "",
-    sortOrder: index + 1,
-  }));
+  ])
+    .filter((row) => (row.season ?? "").trim().length > 0)
+    .map((row, index) => ({
+      season: row.season ?? "",
+      months: row.months ?? "",
+      description: row.description ?? "",
+      sortOrder: index + 1,
+    }));
 }
 
 function parseGallery(formData: FormData) {
@@ -163,44 +209,55 @@ export async function saveDestinationAction(formData: FormData): Promise<void> {
   }
 
   const id = String(formData.get("id") ?? "");
+  const failPath = id
+    ? `/en/admin/destinations/${id}`
+    : "/en/admin/destinations/new";
 
-  const payload = {
-    destinationName: String(formData.get("destinationName") ?? ""),
-    slug: String(formData.get("slug") ?? ""),
-    state: String(formData.get("state") ?? ""),
-    country: String(formData.get("country") ?? "United States"),
-    shortDescription: String(formData.get("shortDescription") ?? ""),
-    fullDescription: String(formData.get("fullDescription") ?? ""),
-    published: formData.get("published") === "on",
-    featured: formData.get("featured") === "on",
-    showInNavigation: formData.get("showInNavigation") === "on",
-    navigationOrder: Number(formData.get("navigationOrder") ?? 0),
-    heroHeading: String(formData.get("heroHeading") ?? ""),
-    heroSubheading: String(formData.get("heroSubheading") ?? ""),
-    heroDescription: String(formData.get("heroDescription") ?? ""),
-    heroMediaAssetId: String(formData.get("heroMediaAssetId") ?? "") || null,
-    heroImageAlt: String(formData.get("heroImageAlt") ?? ""),
-    heroCtaText: String(formData.get("heroCtaText") ?? "") || null,
-    whyVisitHeading: String(formData.get("whyVisitHeading") ?? ""),
-    whyVisitDescription: String(formData.get("whyVisitDescription") ?? ""),
-    bestTimeHeading: String(formData.get("bestTimeHeading") ?? ""),
-    bestTimeSummary: String(formData.get("bestTimeSummary") ?? ""),
-    metaTitle: String(formData.get("metaTitle") ?? ""),
-    metaDescription: String(formData.get("metaDescription") ?? ""),
-    canonicalUrl: String(formData.get("canonicalUrl") ?? "") || null,
-    ogTitle: String(formData.get("ogTitle") ?? "") || null,
-    ogDescription: String(formData.get("ogDescription") ?? "") || null,
-    ogMediaAssetId: String(formData.get("ogMediaAssetId") ?? "") || null,
-    primaryKeyword: String(formData.get("primaryKeyword") ?? "") || null,
-    secondaryKeywords: String(formData.get("secondaryKeywords") ?? "") || null,
-    thingsToDo: parseThings(formData, "thing"),
-    experiences: parseThings(formData, "experience"),
-    culinaryItems: parseThings(formData, "culinary"),
-    airports: parseAirports(formData),
-    seasons: parseSeasons(formData),
-    faqs: parseFaqs(formData),
-    galleryImages: parseGallery(formData),
-  };
+  let payload;
+  try {
+    payload = {
+      destinationName: String(formData.get("destinationName") ?? ""),
+      slug: String(formData.get("slug") ?? ""),
+      state: String(formData.get("state") ?? ""),
+      country: String(formData.get("country") ?? "United States"),
+      shortDescription: String(formData.get("shortDescription") ?? ""),
+      fullDescription: String(formData.get("fullDescription") ?? ""),
+      published: formData.get("published") === "on",
+      featured: formData.get("featured") === "on",
+      showInNavigation: formData.get("showInNavigation") === "on",
+      navigationOrder: Number(formData.get("navigationOrder") ?? 0),
+      heroHeading: String(formData.get("heroHeading") ?? ""),
+      heroSubheading: String(formData.get("heroSubheading") ?? ""),
+      heroDescription: String(formData.get("heroDescription") ?? ""),
+      heroMediaAssetId: String(formData.get("heroMediaAssetId") ?? "") || null,
+      heroImageAlt: String(formData.get("heroImageAlt") ?? ""),
+      heroCtaText: String(formData.get("heroCtaText") ?? "") || null,
+      whyVisitHeading: String(formData.get("whyVisitHeading") ?? ""),
+      whyVisitDescription: String(formData.get("whyVisitDescription") ?? ""),
+      bestTimeHeading: String(formData.get("bestTimeHeading") ?? ""),
+      bestTimeSummary: String(formData.get("bestTimeSummary") ?? ""),
+      metaTitle: String(formData.get("metaTitle") ?? ""),
+      metaDescription: String(formData.get("metaDescription") ?? ""),
+      canonicalUrl: String(formData.get("canonicalUrl") ?? "") || null,
+      ogTitle: String(formData.get("ogTitle") ?? "") || null,
+      ogDescription: String(formData.get("ogDescription") ?? "") || null,
+      ogMediaAssetId: String(formData.get("ogMediaAssetId") ?? "") || null,
+      primaryKeyword: String(formData.get("primaryKeyword") ?? "") || null,
+      secondaryKeywords: String(formData.get("secondaryKeywords") ?? "") || null,
+      thingsToDo: parseThings(formData, "thing"),
+      experiences: parseThings(formData, "experience"),
+      culinaryItems: parseThings(formData, "culinary"),
+      airports: parseAirports(formData),
+      seasons: parseSeasons(formData),
+      faqs: parseFaqs(formData),
+      galleryImages: parseGallery(formData),
+    };
+  } catch (error) {
+    if (error instanceof DestinationSaveValidationError) {
+      redirect(`${failPath}?error=${encodeURIComponent(error.message)}`);
+    }
+    throw error;
+  }
 
   if (id) {
     const result = await putSignedBackend(
@@ -209,7 +266,8 @@ export async function saveDestinationAction(formData: FormData): Promise<void> {
       { adminSessionToken: token },
     );
     if (!result.ok) {
-      redirect(`/en/admin/destinations/${id}?error=1`);
+      const detail = formatBackendSaveError(result);
+      redirect(`${failPath}?error=${encodeURIComponent(detail)}`);
     }
     redirect(`/en/admin/destinations/${id}?saved=1`);
   }
@@ -220,7 +278,8 @@ export async function saveDestinationAction(formData: FormData): Promise<void> {
     token,
   );
   if (!created.ok) {
-    redirect("/en/admin/destinations/new?error=1");
+    const detail = formatBackendSaveError(created);
+    redirect(`${failPath}?error=${encodeURIComponent(detail)}`);
   }
 
   const destinationId = (
@@ -245,11 +304,22 @@ export async function uploadMediaAction(formData: FormData): Promise<
 
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) {
-    return { ok: false, message: "Choose an image" };
+    return { ok: false, message: "Choose a JPEG, PNG, or WebP image" };
+  }
+
+  const allowedMime = new Set(["image/jpeg", "image/png", "image/webp"]);
+  const filename = file.name.replace(/^.*[/\\]/, "").slice(0, 200);
+  if (!allowedMime.has(file.type) || !/\.(jpe?g|png|webp)$/i.test(filename)) {
+    return {
+      ok: false,
+      message: "Only JPEG, PNG, or WebP images are allowed. Videos are not accepted.",
+    };
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    return { ok: false, message: "Image must be 5 MB or smaller" };
   }
 
   const mime = file.type;
-  const filename = file.name.replace(/^.*[/\\]/, "").slice(0, 200);
   const altText = String(formData.get("alt") ?? "").slice(0, 300);
   const buffer = Buffer.from(await file.arrayBuffer());
 
