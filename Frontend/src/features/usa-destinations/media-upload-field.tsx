@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 
-import { uploadMediaAction } from "@/server/actions/admin-destinations";
 import type { DestinationMediaRef } from "@/types/destinations";
 
 type MediaUploadFieldProps = {
@@ -11,6 +10,40 @@ type MediaUploadFieldProps = {
   readonly label: string;
   readonly initial: DestinationMediaRef | null;
 };
+
+type UploadJson =
+  | {
+      readonly ok: true;
+      readonly mediaAssetId: string;
+      readonly publicPath: string;
+    }
+  | { readonly ok: false; readonly message: string };
+
+function parseUploadJson(value: unknown): UploadJson | null {
+  if (typeof value !== "object" || value === null || !("ok" in value)) {
+    return null;
+  }
+  if (value.ok === false) {
+    if (!("message" in value) || typeof value.message !== "string") {
+      return null;
+    }
+    return { ok: false, message: value.message };
+  }
+  if (
+    value.ok !== true ||
+    !("mediaAssetId" in value) ||
+    !("publicPath" in value) ||
+    typeof value.mediaAssetId !== "string" ||
+    typeof value.publicPath !== "string"
+  ) {
+    return null;
+  }
+  return {
+    ok: true,
+    mediaAssetId: value.mediaAssetId,
+    publicPath: value.publicPath,
+  };
+}
 
 export function MediaUploadField({
   name,
@@ -26,7 +59,7 @@ export function MediaUploadField({
       : null,
   );
   const [error, setError] = useState<string | null>(null);
-  const [pending, startTransition] = useTransition();
+  const [pending, setPending] = useState(false);
 
   return (
     <div className="block text-sm font-medium text-primary-text">
@@ -74,18 +107,34 @@ export function MediaUploadField({
           }
           const data = new FormData();
           data.set("file", file);
-          startTransition(async () => {
-            const result = await uploadMediaAction(data);
-            if (!result.ok) {
-              setError(result.message);
-              return;
-            }
-            setError(null);
-            setMedia({
-              id: result.mediaAssetId,
-              publicPath: result.publicPath,
+          setPending(true);
+          void fetch("/api/admin/media", {
+            method: "POST",
+            body: data,
+            credentials: "same-origin",
+          })
+            .then(async (response) => {
+              const result = parseUploadJson(await response.json());
+              if (!result) {
+                setError("Upload failed");
+                return;
+              }
+              if (!result.ok) {
+                setError(result.message);
+                return;
+              }
+              setError(null);
+              setMedia({
+                id: result.mediaAssetId,
+                publicPath: result.publicPath,
+              });
+            })
+            .catch(() => {
+              setError("Upload failed");
+            })
+            .finally(() => {
+              setPending(false);
             });
-          });
         }}
       />
       {media ? (

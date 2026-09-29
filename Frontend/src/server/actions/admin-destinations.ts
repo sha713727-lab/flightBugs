@@ -7,7 +7,6 @@ import { ADMIN_SESSION_COOKIE } from "@/lib/admin/session";
 import {
   deleteSignedBackend,
   postSignedBackend,
-  postSignedBackendBuffer,
   postSignedBackendWithSession,
   putSignedBackend,
   type BackendResult,
@@ -286,62 +285,6 @@ export async function saveDestinationAction(formData: FormData): Promise<void> {
     created.data as { destination: { id: string } }
   ).destination.id;
   redirect(`/en/admin/destinations/${destinationId}?saved=1`);
-}
-
-export async function uploadMediaAction(formData: FormData): Promise<
-  | {
-      readonly ok: true;
-      readonly mediaAssetId: string;
-      readonly publicPath: string;
-    }
-  | { readonly ok: false; readonly message: string }
-> {
-  const jar = await cookies();
-  const token = jar.get(ADMIN_SESSION_COOKIE)?.value;
-  if (!token) {
-    return { ok: false, message: "Not signed in" };
-  }
-
-  const file = formData.get("file");
-  if (!(file instanceof File) || file.size === 0) {
-    return { ok: false, message: "Choose a JPEG, PNG, or WebP image" };
-  }
-
-  const allowedMime = new Set(["image/jpeg", "image/png", "image/webp"]);
-  const filename = file.name.replace(/^.*[/\\]/, "").slice(0, 200);
-  if (!allowedMime.has(file.type) || !/\.(jpe?g|png|webp)$/i.test(filename)) {
-    return {
-      ok: false,
-      message: "Only JPEG, PNG, or WebP images are allowed. Videos are not accepted.",
-    };
-  }
-  if (file.size > 5 * 1024 * 1024) {
-    return { ok: false, message: "Image must be 5 MB or smaller" };
-  }
-
-  const mime = file.type;
-  const altText = String(formData.get("alt") ?? "").slice(0, 300);
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  const result = await postSignedBackendBuffer<{
-    media: { id: string; publicPath: string };
-  }>("/media", buffer, {
-    "Content-Type": "application/octet-stream",
-    "X-Filename": filename,
-    "X-Mime-Type": mime,
-    "X-Alt-Text": altText,
-    "X-Admin-Session": token,
-  });
-
-  if (!result.ok) {
-    return { ok: false, message: result.message };
-  }
-
-  return {
-    ok: true,
-    mediaAssetId: result.data.media.id,
-    publicPath: result.data.media.publicPath,
-  };
 }
 
 export async function deleteDestinationAction(formData: FormData): Promise<void> {
