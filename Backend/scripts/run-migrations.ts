@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 
 import { Pool } from "pg";
 
+import { importDestinationMasterContent } from "./import-destination-content.js";
+
 const backendRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const envPath = join(backendRoot, ".env");
 
@@ -64,6 +66,9 @@ try {
 
     try {
       await client.query("BEGIN");
+      if (version === "0007_destination_master_content") {
+        await importDestinationMasterContent(client);
+      }
       await client.query(sql);
       await client.query(
         `INSERT INTO schema_migrations (version) VALUES ($1)`,

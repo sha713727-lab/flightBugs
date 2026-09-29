@@ -13,6 +13,7 @@ COPY Backend/package.json Backend/package-lock.json ./Backend/
 COPY Backend/tsconfig.json ./Backend/
 COPY Backend/src ./Backend/src
 COPY Backend/scripts ./Backend/scripts
+COPY Backend/data ./Backend/data
 COPY Database ./Database
 WORKDIR /app/Backend
 EXPOSE 3001

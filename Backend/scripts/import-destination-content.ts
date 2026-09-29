@@ -2,52 +2,19 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { Pool } from "pg";
+import { Pool, type PoolClient } from "pg";
 
 import type { DestinationSeedRecord } from "./parse-destination-content-master.js";
 
 const backendRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const envPath = join(backendRoot, ".env");
 const seedPath = join(backendRoot, "data/destinations-content.seed.json");
-
-if (existsSync(envPath)) {
-  const lines = readFileSync(envPath, "utf8").split(/\r?\n/);
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#")) {
-      continue;
-    }
-    const separatorIndex = trimmed.indexOf("=");
-    if (separatorIndex === -1) {
-      continue;
-    }
-    const key = trimmed.slice(0, separatorIndex).trim();
-    const value = trimmed.slice(separatorIndex + 1).trim();
-    if (!(key in process.env)) {
-      process.env[key] = value;
-    }
-  }
-}
-
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is required");
-}
-
-if (!existsSync(seedPath)) {
-  throw new Error(
-    `Seed file missing at ${seedPath}. Run: npx tsx scripts/parse-destination-content-master.ts`,
-  );
-}
 
 type SeedFile = {
   readonly destinations: ReadonlyArray<DestinationSeedRecord>;
   readonly warnings?: ReadonlyArray<string>;
 };
 
-const seed = JSON.parse(readFileSync(seedPath, "utf8")) as SeedFile;
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-
-type Counts = {
+export type DestinationImportCounts = {
   created: number;
   updated: number;
   faqs: number;
@@ -57,13 +24,46 @@ type Counts = {
   culinaryItems: number;
 };
 
+type QueryClient = Pick<PoolClient, "query">;
+
+function loadSeedFile(): SeedFile {
+  if (!existsSync(seedPath)) {
+    throw new Error(
+      `Seed file missing at ${seedPath}. Run: npx tsx scripts/parse-destination-content-master.ts`,
+    );
+  }
+
+  return JSON.parse(readFileSync(seedPath, "utf8")) as SeedFile;
+}
+
+function loadEnvFile(): void {
+  const envPath = join(backendRoot, ".env");
+  if (!existsSync(envPath)) {
+    return;
+  }
+
+  const lines = readFileSync(envPath, "utf8").split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) {
+      continue;
+    }
+
+    const separatorIndex = trimmed.indexOf("=");
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = trimmed.slice(0, separatorIndex).trim();
+    const value = trimmed.slice(separatorIndex + 1).trim();
+    if (!(key in process.env)) {
+      process.env[key] = value;
+    }
+  }
+}
+
 async function replaceChildren(
-  client: {
-    query: (
-      text: string,
-      values?: ReadonlyArray<unknown>,
-    ) => Promise<unknown>;
-  },
+  client: QueryClient,
   destinationId: string,
   input: DestinationSeedRecord,
 ): Promise<void> {
@@ -183,26 +183,23 @@ async function replaceChildren(
       [destinationId, item.question, item.answer, item.sortOrder],
     );
   }
-
 }
 
 async function upsertDestination(
+  client: QueryClient,
   input: DestinationSeedRecord,
-  counts: Counts,
+  counts: DestinationImportCounts,
 ): Promise<void> {
-  const client = await pool.connect();
-  try {
-    await client.query("BEGIN");
-    const existing = await client.query<{
-      id: string;
-    }>(`SELECT id FROM destinations WHERE slug = $1 LIMIT 1`, [input.slug]);
+  const existing = await client.query<{
+    id: string;
+  }>(`SELECT id FROM destinations WHERE slug = $1 LIMIT 1`, [input.slug]);
 
-    const existingRow = existing.rows[0];
+  const existingRow = existing.rows[0];
+  let destinationId = existingRow?.id;
 
-    let destinationId = existingRow?.id;
-    if (destinationId) {
-      await client.query(
-        `UPDATE destinations SET
+  if (destinationId) {
+    await client.query(
+      `UPDATE destinations SET
           destination_name = $2, state = $3, country = $4,
           short_description = $5, full_description = $6,
           published = $7, featured = $8, show_in_navigation = $9, navigation_order = $10,
@@ -214,39 +211,39 @@ async function upsertDestination(
           og_title = $23, og_description = $24,
           primary_keyword = $25, secondary_keywords = $26
          WHERE id = $1`,
-        [
-          destinationId,
-          input.destinationName,
-          input.state,
-          input.country,
-          input.shortDescription,
-          input.fullDescription,
-          input.published,
-          input.featured,
-          input.showInNavigation,
-          input.navigationOrder,
-          input.heroHeading,
-          input.heroSubheading,
-          input.heroDescription,
-          input.heroImageAlt,
-          input.heroCtaText,
-          input.whyVisitHeading,
-          input.whyVisitDescription,
-          input.bestTimeHeading,
-          input.bestTimeSummary,
-          input.metaTitle,
-          input.metaDescription,
-          input.canonicalUrl,
-          input.ogTitle,
-          input.ogDescription,
-          input.primaryKeyword,
-          input.secondaryKeywords,
-        ],
-      );
-      counts.updated += 1;
-    } else {
-      const inserted = await client.query<{ id: string }>(
-        `INSERT INTO destinations (
+      [
+        destinationId,
+        input.destinationName,
+        input.state,
+        input.country,
+        input.shortDescription,
+        input.fullDescription,
+        input.published,
+        input.featured,
+        input.showInNavigation,
+        input.navigationOrder,
+        input.heroHeading,
+        input.heroSubheading,
+        input.heroDescription,
+        input.heroImageAlt,
+        input.heroCtaText,
+        input.whyVisitHeading,
+        input.whyVisitDescription,
+        input.bestTimeHeading,
+        input.bestTimeSummary,
+        input.metaTitle,
+        input.metaDescription,
+        input.canonicalUrl,
+        input.ogTitle,
+        input.ogDescription,
+        input.primaryKeyword,
+        input.secondaryKeywords,
+      ],
+    );
+    counts.updated += 1;
+  } else {
+    const inserted = await client.query<{ id: string }>(
+      `INSERT INTO destinations (
           destination_name, slug, state, country, short_description, full_description,
           published, featured, show_in_navigation, navigation_order,
           hero_heading, hero_subheading, hero_description, hero_image_alt, hero_cta_text,
@@ -256,102 +253,95 @@ async function upsertDestination(
         ) VALUES (
           $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26
         ) RETURNING id`,
-        [
-          input.destinationName,
-          input.slug,
-          input.state,
-          input.country,
-          input.shortDescription,
-          input.fullDescription,
-          input.published,
-          input.featured,
-          input.showInNavigation,
-          input.navigationOrder,
-          input.heroHeading,
-          input.heroSubheading,
-          input.heroDescription,
-          input.heroImageAlt,
-          input.heroCtaText,
-          input.whyVisitHeading,
-          input.whyVisitDescription,
-          input.bestTimeHeading,
-          input.bestTimeSummary,
-          input.metaTitle,
-          input.metaDescription,
-          input.canonicalUrl,
-          input.ogTitle,
-          input.ogDescription,
-          input.primaryKeyword,
-          input.secondaryKeywords,
-        ],
-      );
-      destinationId = inserted.rows[0]?.id;
-      if (!destinationId) {
-        throw new Error(`Insert failed for slug ${input.slug}`);
-      }
-      counts.created += 1;
+      [
+        input.destinationName,
+        input.slug,
+        input.state,
+        input.country,
+        input.shortDescription,
+        input.fullDescription,
+        input.published,
+        input.featured,
+        input.showInNavigation,
+        input.navigationOrder,
+        input.heroHeading,
+        input.heroSubheading,
+        input.heroDescription,
+        input.heroImageAlt,
+        input.heroCtaText,
+        input.whyVisitHeading,
+        input.whyVisitDescription,
+        input.bestTimeHeading,
+        input.bestTimeSummary,
+        input.metaTitle,
+        input.metaDescription,
+        input.canonicalUrl,
+        input.ogTitle,
+        input.ogDescription,
+        input.primaryKeyword,
+        input.secondaryKeywords,
+      ],
+    );
+    destinationId = inserted.rows[0]?.id;
+    if (!destinationId) {
+      throw new Error(`Insert failed for slug ${input.slug}`);
     }
+    counts.created += 1;
+  }
 
-    await replaceChildren(client, destinationId, input);
+  await replaceChildren(client, destinationId, input);
+  counts.faqs += input.faqs.length;
+  counts.airports += input.airports.length;
+  counts.thingsToDo += input.thingsToDo.length;
+  counts.experiences += input.experiences.length;
+  counts.culinaryItems += input.culinaryItems.length;
+}
+
+export async function importDestinationMasterContent(
+  client: QueryClient,
+): Promise<DestinationImportCounts> {
+  const seed = loadSeedFile();
+  const counts: DestinationImportCounts = {
+    created: 0,
+    updated: 0,
+    faqs: 0,
+    airports: 0,
+    thingsToDo: 0,
+    experiences: 0,
+    culinaryItems: 0,
+  };
+
+  for (const destination of seed.destinations) {
+    await upsertDestination(client, destination, counts);
+  }
+
+  return counts;
+}
+
+function invokedAsCli(): boolean {
+  return (process.argv[1] ?? "")
+    .replaceAll("\\", "/")
+    .includes("import-destination-content");
+}
+
+if (invokedAsCli()) {
+  loadEnvFile();
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is required");
+  }
+
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const counts = await importDestinationMasterContent(client);
     await client.query("COMMIT");
-
-    counts.faqs += input.faqs.length;
-    counts.airports += input.airports.length;
-    counts.thingsToDo += input.thingsToDo.length;
-    counts.experiences += input.experiences.length;
-    counts.culinaryItems += input.culinaryItems.length;
+    process.stdout.write(`${JSON.stringify(counts, null, 2)}\n`);
   } catch (error) {
     await client.query("ROLLBACK");
     throw error;
   } finally {
     client.release();
+    await pool.end();
   }
-}
-
-const counts: Counts = {
-  created: 0,
-  updated: 0,
-  faqs: 0,
-  airports: 0,
-  thingsToDo: 0,
-  experiences: 0,
-  culinaryItems: 0,
-};
-
-const failures: string[] = [];
-
-try {
-  for (const destination of seed.destinations) {
-    try {
-      await upsertDestination(destination, counts);
-    } catch (error) {
-      failures.push(
-        `${destination.slug}: ${error instanceof Error ? error.message : "unknown"}`,
-      );
-    }
-  }
-} finally {
-  await pool.end();
-}
-
-console.log(
-  JSON.stringify(
-    {
-      created: counts.created,
-      updated: counts.updated,
-      faqs: counts.faqs,
-      airports: counts.airports,
-      thingsToDo: counts.thingsToDo,
-      experiences: counts.experiences,
-      culinaryItems: counts.culinaryItems,
-      failures,
-      seedWarnings: seed.warnings ?? [],
-    },
-    null,
-    2,
-  ),
-);
-
-if (failures.length > 0) {
-  process.exitCode = 1;
 }
