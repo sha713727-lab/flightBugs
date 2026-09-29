@@ -1,0 +1,1 @@
+export const MAX_DESTINATION_IMAGE_BYTES = 50 * 1024 * 1024;

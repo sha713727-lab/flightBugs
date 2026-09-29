@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import { CallPhoneButton } from "@/components/call-phone-button";
 import { type LandingThemeId } from "@/constants/sitePages";
 import { supportPhone } from "@/constants/supportContact";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationDetail } from "@/types/destinations";
@@ -46,10 +45,9 @@ export function DestinationBookPage({ themeId, destination }: Props) {
       {destination.heroImage ? (
         <div className="container-avion px-6 py-8">
           <div className="relative aspect-[21/9] min-h-[240px] overflow-hidden rounded-[20px]">
-            <Image
+            <DestinationCmsImage
               src={destination.heroImage.publicPath}
               alt={destination.heroImage.alt || destination.destinationName}
-              fill
               priority
               className="object-cover"
               sizes="100vw"
@@ -79,10 +77,9 @@ export function DestinationBookPage({ themeId, destination }: Props) {
                 <article className="group relative overflow-hidden rounded-[20px]">
                   <div className="relative aspect-[3/4] min-h-[260px] bg-soft-section">
                     {item.image ? (
-                      <Image
+                      <DestinationCmsImage
                         src={item.image.publicPath}
                         alt={item.image.alt || item.title}
-                        fill
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                         sizes="(max-width: 1024px) 50vw, 25vw"
                       />
@@ -116,10 +113,9 @@ export function DestinationBookPage({ themeId, destination }: Props) {
                 key={image.id}
                 className="relative aspect-[3/4] overflow-hidden rounded-[20px]"
               >
-                <Image
+                <DestinationCmsImage
                   src={image.image.publicPath}
                   alt={image.image.alt || destination.destinationName}
-                  fill
                   className="object-cover"
                   sizes="25vw"
                 />

@@ -1,7 +1,6 @@
-import Image from "next/image";
-
 import { CallPhoneButton } from "@/components/call-phone-button";
 import { supportPhone } from "@/constants/supportContact";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationDetail } from "@/types/destinations";
 
@@ -30,10 +29,9 @@ export function DestinationBodySections({
                   >
                     {item.image ? (
                       <div className="relative aspect-[16/10]">
-                        <Image
+                        <DestinationCmsImage
                           src={item.image.publicPath}
                           alt={item.image.alt || item.title}
-                          fill
                           className="object-cover"
                           sizes="(max-width: 768px) 100vw, 33vw"
                         />
@@ -64,10 +62,9 @@ export function DestinationBodySections({
                 key={image.id}
                 className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)]"
               >
-                <Image
+                <DestinationCmsImage
                   src={image.image.publicPath}
                   alt={image.image.alt || destination.destinationName}
-                  fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
@@ -91,10 +88,9 @@ export function DestinationBodySections({
                 >
                   {item.image ? (
                     <div className="relative aspect-[16/10]">
-                      <Image
+                      <DestinationCmsImage
                         src={item.image.publicPath}
                         alt={item.image.alt || item.title}
-                        fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -128,10 +124,9 @@ export function DestinationBodySections({
                 >
                   {item.image ? (
                     <div className="relative aspect-[16/10]">
-                      <Image
+                      <DestinationCmsImage
                         src={item.image.publicPath}
                         alt={item.image.alt || item.title}
-                        fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />

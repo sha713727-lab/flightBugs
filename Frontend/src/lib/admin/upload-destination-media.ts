@@ -1,3 +1,4 @@
+import { MAX_DESTINATION_IMAGE_BYTES } from "@/constants/media-upload";
 import { getAdminSessionToken } from "@/lib/admin/session";
 import { postSignedBackendBuffer } from "@/lib/backend-request";
 
@@ -10,7 +11,6 @@ export type DestinationMediaUploadResult =
   | { readonly ok: false; readonly message: string };
 
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
-const MAX_BYTES = 5 * 1024 * 1024;
 
 export async function uploadDestinationMedia(
   formData: FormData,
@@ -33,8 +33,8 @@ export async function uploadDestinationMedia(
         "Only JPEG, PNG, or WebP images are allowed. Videos are not accepted.",
     };
   }
-  if (file.size > MAX_BYTES) {
-    return { ok: false, message: "Image must be 5 MB or smaller" };
+  if (file.size > MAX_DESTINATION_IMAGE_BYTES) {
+    return { ok: false, message: "Image must be 50 MB or smaller" };
   }
 
   const result = await postSignedBackendBuffer<{

@@ -1,13 +1,12 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
 import { sendError, sendSuccess } from "../../http/response.js";
+import { MAX_UPLOAD_BYTES } from "../../http/upload-limit.js";
 import { enforceAdminSession } from "../../middleware/admin-session.js";
 import { enforceHmacAuthentication } from "../../middleware/authenticate.js";
 import { readRequestBodyBuffer } from "../../middleware/read-body-buffer.js";
 import { enforceRateLimit } from "../../middleware/rate-limit.js";
 import { createUploadedMediaAsset } from "../../services/media/create-media-asset.js";
-
-const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 
 export async function handler(
   request: IncomingMessage,

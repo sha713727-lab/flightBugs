@@ -12,15 +12,16 @@ export async function GET(request: Request): Promise<Response> {
     { cache: "no-store" },
   );
 
-  if (!upstream.ok) {
-    return new Response("Not found", { status: upstream.status });
+  if (!upstream.ok || !upstream.body) {
+    return new Response("Not found", {
+      status: upstream.ok ? 404 : upstream.status,
+    });
   }
 
   const contentType =
     upstream.headers.get("Content-Type") ?? "application/octet-stream";
-  const body = await upstream.arrayBuffer();
 
-  return new Response(body, {
+  return new Response(upstream.body, {
     status: 200,
     headers: {
       "Content-Type": contentType,

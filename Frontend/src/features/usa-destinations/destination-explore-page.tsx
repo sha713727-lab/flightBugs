@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import { CallPhoneButton } from "@/components/call-phone-button";
 import { type LandingThemeId } from "@/constants/sitePages";
 import { supportPhone } from "@/constants/supportContact";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationDetail } from "@/types/destinations";
@@ -43,10 +42,9 @@ export function DestinationExplorePage({ themeId, destination }: Props) {
       {destination.heroImage ? (
         <div className="explore-container pb-10">
           <div className="relative aspect-[16/8] min-h-[240px] overflow-hidden rounded-[28px]">
-            <Image
+            <DestinationCmsImage
               src={destination.heroImage.publicPath}
               alt={destination.heroImage.alt || destination.destinationName}
-              fill
               priority
               className="object-cover"
               sizes="100vw"
@@ -80,10 +78,9 @@ export function DestinationExplorePage({ themeId, destination }: Props) {
             <article className="overflow-hidden rounded-[28px] border border-[var(--explore-border)] bg-[var(--explore-surface)]">
               {firstThing.image ? (
                 <div className="relative aspect-[16/10]">
-                  <Image
+                  <DestinationCmsImage
                     src={firstThing.image.publicPath}
                     alt={firstThing.image.alt || firstThing.title}
-                    fill
                     className="object-cover"
                     sizes="50vw"
                   />
@@ -121,10 +118,9 @@ export function DestinationExplorePage({ themeId, destination }: Props) {
               >
                 {item.image ? (
                   <div className="relative aspect-[16/10]">
-                    <Image
+                    <DestinationCmsImage
                       src={item.image.publicPath}
                       alt={item.image.alt || item.title}
-                      fill
                       className="object-cover"
                       sizes="33vw"
                     />
@@ -155,10 +151,9 @@ export function DestinationExplorePage({ themeId, destination }: Props) {
                   className="relative min-w-[70%] snap-center overflow-hidden rounded-[28px] md:min-w-0"
                 >
                   <div className="relative aspect-[4/5]">
-                    <Image
+                    <DestinationCmsImage
                       src={image.image.publicPath}
                       alt={image.image.alt || destination.destinationName}
-                      fill
                       className="object-cover"
                       sizes="25vw"
                     />

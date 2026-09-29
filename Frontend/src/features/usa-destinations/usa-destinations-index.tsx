@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { destinationSlugPath } from "@/constants/destinationPaths";
 import type { LandingThemeId } from "@/constants/sitePages";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationSummary } from "@/types/destinations";
 
@@ -50,12 +50,11 @@ export function UsaDestinationsIndex({
             >
               {destination.heroImage ? (
                 <div className="relative aspect-[16/10]">
-                  <Image
+                  <DestinationCmsImage
                     src={destination.heroImage.publicPath}
                     alt={
                       destination.heroImage.alt || destination.destinationName
                     }
-                    fill
                     className="object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />

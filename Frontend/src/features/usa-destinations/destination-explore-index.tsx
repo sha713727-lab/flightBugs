@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { destinationSlugPath } from "@/constants/destinationPaths";
 import { type LandingThemeId } from "@/constants/sitePages";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationSummary } from "@/types/destinations";
@@ -49,10 +49,9 @@ export function DestinationExploreIndex({ themeId, destinations }: Props) {
             >
               {featured.heroImage ? (
                 <div className="relative aspect-[16/10]">
-                  <Image
+                  <DestinationCmsImage
                     src={featured.heroImage.publicPath}
                     alt={featured.heroImage.alt || featured.destinationName}
-                    fill
                     className="object-cover opacity-80"
                     sizes="50vw"
                   />

@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import { CallPhoneButton } from "@/components/call-phone-button";
 import { type LandingThemeId } from "@/constants/sitePages";
 import { supportPhone } from "@/constants/supportContact";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationDetail } from "@/types/destinations";
@@ -17,10 +16,9 @@ export function DestinationLivePage({ themeId, destination }: Props) {
     <div className="bg-white text-primary-text">
       <section className="relative min-h-[480px] overflow-hidden bg-dark-navy text-white">
         {destination.heroImage ? (
-          <Image
+          <DestinationCmsImage
             src={destination.heroImage.publicPath}
             alt={destination.heroImage.alt || destination.destinationName}
-            fill
             priority
             className="object-cover opacity-40"
             sizes="100vw"
@@ -87,10 +85,9 @@ export function DestinationLivePage({ themeId, destination }: Props) {
                 </div>
                 {item.image ? (
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[4px]">
-                    <Image
+                    <DestinationCmsImage
                       src={item.image.publicPath}
                       alt={item.image.alt || item.title}
-                      fill
                       className="object-cover"
                       sizes="200px"
                     />
@@ -110,10 +107,9 @@ export function DestinationLivePage({ themeId, destination }: Props) {
                 key={image.id}
                 className="relative h-64 min-w-[70%] snap-center overflow-hidden sm:min-w-[40%] lg:min-w-[28%]"
               >
-                <Image
+                <DestinationCmsImage
                   src={image.image.publicPath}
                   alt={image.image.alt || destination.destinationName}
-                  fill
                   className="object-cover"
                   sizes="40vw"
                 />

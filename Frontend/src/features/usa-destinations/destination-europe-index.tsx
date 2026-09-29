@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { destinationSlugPath } from "@/constants/destinationPaths";
 import { type LandingThemeId } from "@/constants/sitePages";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationSummary } from "@/types/destinations";
@@ -50,12 +50,11 @@ export function DestinationEuropeIndex({ themeId, destinations }: Props) {
             >
               <div className="relative aspect-[4/5] min-h-[420px] bg-soft-section">
                 {destination.heroImage ? (
-                  <Image
+                  <DestinationCmsImage
                     src={destination.heroImage.publicPath}
                     alt={
                       destination.heroImage.alt || destination.destinationName
                     }
-                    fill
                     className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />

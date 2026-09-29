@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import { CallPhoneButton } from "@/components/call-phone-button";
 import { type LandingThemeId } from "@/constants/sitePages";
 import { supportPhone } from "@/constants/supportContact";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationDetail } from "@/types/destinations";
@@ -49,10 +48,9 @@ export function DestinationEuropePage({ themeId, destination }: Props) {
 
       {destination.heroImage ? (
         <div className="relative aspect-[21/9] min-h-[280px] w-full overflow-hidden">
-          <Image
+          <DestinationCmsImage
             src={destination.heroImage.publicPath}
             alt={destination.heroImage.alt || destination.destinationName}
-            fill
             priority
             className="object-cover"
             sizes="100vw"
@@ -91,10 +89,9 @@ export function DestinationEuropePage({ themeId, destination }: Props) {
                 >
                   <div className="relative aspect-[4/5] min-h-[320px] bg-soft-section">
                     {item.image ? (
-                      <Image
+                      <DestinationCmsImage
                         src={item.image.publicPath}
                         alt={item.image.alt || item.title}
-                        fill
                         className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
@@ -131,10 +128,9 @@ export function DestinationEuropePage({ themeId, destination }: Props) {
                   key={image.id}
                   className="relative aspect-[16/10] overflow-hidden rounded-[24px]"
                 >
-                  <Image
+                  <DestinationCmsImage
                     src={image.image.publicPath}
                     alt={image.image.alt || destination.destinationName}
-                    fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
@@ -160,10 +156,9 @@ export function DestinationEuropePage({ themeId, destination }: Props) {
               >
                 <div className="relative aspect-[3/4] bg-soft-section">
                   {item.image ? (
-                    <Image
+                    <DestinationCmsImage
                       src={item.image.publicPath}
                       alt={item.image.alt || item.title}
-                      fill
                       className="object-cover"
                       sizes="(max-width: 1280px) 78vw, 25vw"
                     />

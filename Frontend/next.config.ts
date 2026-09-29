@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    maximumResponseBody: 50 * 1024 * 1024,
     localPatterns: [
       {
         pathname: "/media/file",
@@ -29,6 +30,10 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ["framer-motion", "gsap"],
+    serverActions: {
+      bodySizeLimit: "50mb",
+    },
+    proxyClientMaxBodySize: "50mb",
   },
 };
 

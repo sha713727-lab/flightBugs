@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import { CallPhoneButton } from "@/components/call-phone-button";
 import { type LandingThemeId } from "@/constants/sitePages";
 import { DestinationBodySections } from "@/features/usa-destinations/destination-body-sections";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationDetail } from "@/types/destinations";
@@ -21,10 +20,9 @@ export function UsaDestinationPage({
       <section className="relative overflow-hidden">
         <div className="relative min-h-[420px] w-full bg-dark-navy">
           {destination.heroImage ? (
-            <Image
+            <DestinationCmsImage
               src={destination.heroImage.publicPath}
               alt={destination.heroImage.alt || destination.destinationName}
-              fill
               priority
               className="object-cover"
               sizes="100vw"

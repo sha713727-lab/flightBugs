@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { destinationSlugPath } from "@/constants/destinationPaths";
 import { type LandingThemeId } from "@/constants/sitePages";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import { DestinationCrumbs } from "@/features/usa-destinations/destination-crumbs";
 import { DestinationReveal } from "@/features/usa-destinations/destination-reveal";
 import type { DestinationSummary } from "@/types/destinations";
@@ -49,12 +49,11 @@ export function DestinationBookIndex({ themeId, destinations }: Props) {
             >
               <div className="relative aspect-[3/4] min-h-[280px] bg-soft-section">
                 {destination.heroImage ? (
-                  <Image
+                  <DestinationCmsImage
                     src={destination.heroImage.publicPath}
                     alt={
                       destination.heroImage.alt || destination.destinationName
                     }
-                    fill
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     sizes="(max-width: 1024px) 50vw, 25vw"
                   />

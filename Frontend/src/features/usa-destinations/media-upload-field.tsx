@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
+import { MAX_DESTINATION_IMAGE_BYTES } from "@/constants/media-upload";
+import { DestinationCmsImage } from "@/features/usa-destinations/destination-cms-image";
 import type { DestinationMediaRef } from "@/types/destinations";
 
 type MediaUploadFieldProps = {
@@ -67,10 +68,9 @@ export function MediaUploadField({
       <input type="hidden" name={name} value={media?.id ?? ""} />
       {media ? (
         <div className="relative mt-1 h-32 w-full overflow-hidden rounded-[var(--radius-sm)] border border-border">
-          <Image
+          <DestinationCmsImage
             src={media.publicPath}
             alt=""
-            fill
             className="object-cover"
             sizes="400px"
           />
@@ -101,8 +101,8 @@ export function MediaUploadField({
             );
             return;
           }
-          if (file.size > 5 * 1024 * 1024) {
-            setError("Image must be 5 MB or smaller");
+          if (file.size > MAX_DESTINATION_IMAGE_BYTES) {
+            setError("Image must be 50 MB or smaller");
             return;
           }
           const data = new FormData();

@@ -3,6 +3,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { destinationUpdateSchema } from "../../../schemas/destinations/destination.js";
 import { updateDestination } from "../../database/repositories/destinations/destinations.js";
 import { sendError, sendSuccess } from "../../http/response.js";
+import { MAX_UPLOAD_BYTES } from "../../http/upload-limit.js";
 import { enforceAdminSession } from "../../middleware/admin-session.js";
 import { enforceHmacAuthentication } from "../../middleware/authenticate.js";
 import { readRequestBody } from "../../middleware/read-body.js";
@@ -26,7 +27,7 @@ export async function handler(
     return;
   }
 
-  const bodyResult = await readRequestBody(request);
+  const bodyResult = await readRequestBody(request, MAX_UPLOAD_BYTES);
   if (!bodyResult.ok) {
     sendError(response, 413, bodyResult.code, bodyResult.message);
     return;
