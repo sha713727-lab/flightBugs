@@ -135,25 +135,37 @@ export function AirportSearchField({
       setLoading(true);
       setSearchError(null);
 
-      void suggestPlacesAction(trimmed).then((result) => {
-        if (requestVersionRef.current !== version) {
-          return;
-        }
+      void suggestPlacesAction(trimmed)
+        .then((result) => {
+          if (requestVersionRef.current !== version) {
+            return;
+          }
 
-        setLoading(false);
+          setLoading(false);
 
-        if (!result.ok) {
+          if (!result.ok) {
+            setResults([]);
+            setSearchError(result.message);
+            return;
+          }
+
+          setResults(
+            result.data.places.filter(
+              (place) => place.iata.toUpperCase() !== excludeIata?.toUpperCase(),
+            ),
+          );
+        })
+        .catch(() => {
+          if (requestVersionRef.current !== version) {
+            return;
+          }
+
+          setLoading(false);
           setResults([]);
-          setSearchError(result.message);
-          return;
-        }
-
-        setResults(
-          result.data.places.filter(
-            (place) => place.iata.toUpperCase() !== excludeIata?.toUpperCase(),
-          ),
-        );
-      });
+          setSearchError(
+            "Airport search is unavailable right now. Please try again.",
+          );
+        });
     }, placeSearchDebounceMs);
 
     return () => window.clearTimeout(timeout);

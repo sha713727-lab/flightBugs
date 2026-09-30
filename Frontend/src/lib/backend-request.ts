@@ -94,9 +94,8 @@ async function signedBackendFetch<T>(
   extraHeaders?: Record<string, string>,
   requestBody?: Buffer,
 ): Promise<BackendResult<T>> {
-  const signPath = path.split("?")[0] ?? path;
   const headers = {
-    ...createSignedBackendHeaders(method, signPath, rawBody),
+    ...createSignedBackendHeaders(method, path, rawBody),
     ...extraHeaders,
   };
 
