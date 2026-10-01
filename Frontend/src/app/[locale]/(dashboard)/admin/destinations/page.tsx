@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { DeleteDestinationButton } from "@/features/usa-destinations/delete-destination-button";
 import { getAdminSessionToken } from "@/lib/admin/session";
 import { getSignedBackend } from "@/lib/backend-request";
-import { DestinationFetchError } from "@/lib/destinations/fetch-destinations";
 import { adminLogoutAction } from "@/server/actions/admin-destinations";
 import type { DestinationSummary } from "@/types/destinations";
 
@@ -26,7 +25,33 @@ export default async function AdminDestinationsListPage({
   }>("/destinations/list?scope=admin", { adminSessionToken: token });
 
   if (!result.ok) {
-    throw new DestinationFetchError(result.message, result.status);
+    return (
+      <main className="min-h-screen bg-soft-section px-6 py-10">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-primary-text">
+                Destinations
+              </h1>
+              <p className="mt-2 text-sm text-secondary-text">
+                Create and publish USA destination pages.
+              </p>
+            </div>
+            <form action={adminLogoutAction}>
+              <button
+                type="submit"
+                className="rounded-full border border-border px-4 py-2 text-sm font-medium text-primary-text"
+              >
+                Log out
+              </button>
+            </form>
+          </div>
+          <p className="mt-8 rounded-[var(--radius-sm)] bg-red-50 px-3 py-2 text-sm text-red-700">
+            Destinations could not be loaded. Reload to try again.
+          </p>
+        </div>
+      </main>
+    );
   }
 
   const destinations = result.data.destinations;

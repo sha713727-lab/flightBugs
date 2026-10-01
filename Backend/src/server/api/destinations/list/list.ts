@@ -10,7 +10,8 @@ export async function handler(
   request: IncomingMessage,
   response: ServerResponse,
 ): Promise<void> {
-  const path = "/destinations/list";
+  const url = new URL(request.url ?? "/", "http://localhost");
+  const path = `${url.pathname}${url.search}`;
 
   const allowed = await enforceRateLimit(
     request,
@@ -33,7 +34,6 @@ export async function handler(
     return;
   }
 
-  const url = new URL(request.url ?? "/", "http://localhost");
   const scope = url.searchParams.get("scope");
   const publishedOnly = scope !== "admin";
 

@@ -13,7 +13,8 @@ export async function handler(
   request: IncomingMessage,
   response: ServerResponse,
 ): Promise<void> {
-  const path = "/destinations/details";
+  const url = new URL(request.url ?? "/", "http://localhost");
+  const path = `${url.pathname}${url.search}`;
 
   const allowed = await enforceRateLimit(
     request,
@@ -36,7 +37,6 @@ export async function handler(
     return;
   }
 
-  const url = new URL(request.url ?? "/", "http://localhost");
   const slug = url.searchParams.get("slug");
   const id = url.searchParams.get("id");
   const scope = url.searchParams.get("scope");
